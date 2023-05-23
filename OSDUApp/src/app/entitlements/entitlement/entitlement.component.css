@@ -1,0 +1,15 @@
+thead {
+  background: rgb(0 153 89 / 1);
+}
+th {
+  color: white;
+}
+
+.tab_header {
+  color: black;
+}
+
+.container {
+  margin-left: 1%;
+  width: 100%;
+}

@@ -1,0 +1,277 @@
+<div class="col-sm-6 col-lg-4">
+  <div class="container1 cont_router1">
+    <div class="card text-white bg-flat-color-2" style="height: 404px">
+      <div class="card-body pb-0">
+        <div class="text-light">
+          <i class="fa fa-sitemap" aria-hidden="true"></i>&nbsp;<span>
+            Manage Groups & Legal Tags</span
+          >
+          <div class="tool-tip" style="left: -7px">
+            <i
+              style="color: white"
+              class="fa fa-info-circle"
+              aria-hidden="true"
+            ></i>
+            <p class="tool-tip__info">
+              <span class="info">{{ entitlements_helptext }}</span>
+            </p>
+          </div>
+          <!-- <div class="tool-tip" style=" left: -7px;">          
+                            <i style="color: white;" class="fa fa-info-circle " aria-hidden="true"></i>           
+                            <p class="tool-tip__info tooltip_right">
+                              <span class="info">{{entitlements_helptext}}</span>              
+                            </p>
+                          </div> -->
+        </div>
+
+        <div
+          class="chart-wrapper px-3"
+          style="margin-top: 15%; margin-bottom: 15%; text-align: center"
+          height="70"
+        >
+          <div>
+            <img
+              src="../../../assets/images/settings.png"
+              height="70"
+              style="height: 90px; margin-bottom: 5%"
+            />
+          </div>
+
+          <button
+            class="btn btn-success"
+            type="button"
+            routerLink="/entitlement/manage-groups"
+            style="
+              width: 200px;
+              margin-left: 2%;
+              padding: 2%;
+              margin-bottom: 2%;
+            "
+          >
+            Manage Groups<i class="icon-material-outline-arrow-right-alt"></i>
+          </button>
+          <button
+            class="btn btn-success"
+            type="button"
+            routerLink="/entitlement/manage-usersgroup"
+            style="
+              width: 200px;
+              padding: 2%;
+              margin-bottom: 2%;
+              margin-left: 2%;
+            "
+          >
+            Manage Group Members<i
+              class="icon-material-outline-arrow-right-alt"
+            ></i>
+          </button>
+          <button
+            *ngIf="this.cmnSrc.booleanModuleManageMember"
+            class="btn btn-success"
+            type="button"
+            routerLink="/entitlement/manage-users"
+            style="
+              width: 200px;
+              padding: 2%;
+              margin-bottom: 2%;
+              margin-left: 2%;
+            "
+          >
+            Manage Members<i class="icon-material-outline-arrow-right-alt"></i>
+          </button>
+          <button
+            class="btn btn-success"
+            type="button"
+            routerLink="/legal-tags"
+            style="
+              width: 200px;
+              padding: 2%;
+              margin-bottom: 2%;
+              margin-left: 2%;
+            "
+          >
+            Manage Legal Tags<i
+              class="icon-material-outline-arrow-right-alt"
+            ></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-sm-6 col-lg-8">
+  <div class="row">
+    <div class="col-sm-6 col-lg-6">
+      <div class="container1 cont_router" routerLink="/data-platform">
+        <div class="card text-white bg-flat-color-2">
+          <div class="card-body pb-0">
+            <div class="text-light">
+              <i class="fa fa-database" aria-hidden="true"></i>&nbsp; Search for
+              Data
+              <div class="tool-tip">
+                <i
+                  style="color: white"
+                  class="fa fa-info-circle"
+                  aria-hidden="true"
+                ></i>
+                <p class="tool-tip__info tooltip_right">
+                  <span class="info">{{ searchdata_helptext }}</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="chart-wrapper px-0" style="height: 70px" height="70">
+              <div
+                class="chart-wrapper px-0"
+                style="height: 70px; text-align: center"
+                height="70"
+              >
+                <img
+                  src="../../../assets/images/dataPlatform.png"
+                  height="70"
+                  style="height: 90px"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-6">
+      <!-- routerLink="/data-ingestion/workflow"(click)="navigateToWorkFlow()" -->
+      <div class="container1 cont_router1">
+        <div class="card text-white bg-flat-color-1">
+          <div class="card-body pb-0">
+            <div class="text-light">
+              <i class="fa fa-paper-plane" aria-hidden="true"></i>&nbsp;
+              WorkFlow Service(Coming Soon!)
+              <div class="tool-tip" style="left: -7px">
+                <i
+                  style="color: white"
+                  class="fa fa-info-circle"
+                  aria-hidden="true"
+                ></i>
+                <p class="tool-tip__info tooltip_right">
+                  <span class="info">{{ workflow_helptext }}</span>
+                </p>
+              </div>
+            </div>
+            <div
+              class="chart-wrapper px-0"
+              style="height: 70px; text-align: center"
+              height="70"
+            >
+              <img
+                src="../../../assets/images/data_ingestion.png"
+                height="70"
+                style="height: 90px"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-lg-6">
+      <div class="container1 cont_router" routerLink="/EDS/source">
+        <div class="card text-white bg-flat-color-1">
+          <div class="card-body pb-0">
+            <div class="text-light">
+              <i class="fa fa-arrows" aria-hidden="true"></i>&nbsp; External
+              Data Source(Coming Soon!)
+              <div class="tool-tip" style="left: -7px">
+                <i
+                  style="color: white"
+                  class="fa fa-info-circle"
+                  aria-hidden="true"
+                ></i>
+                <p class="tool-tip__info tooltip_right">
+                  <span class="info">{{ eds_helptext }}</span>
+                </p>
+              </div>
+            </div>
+            <div
+              class="chart-wrapper px-0"
+              style="height: 70px; text-align: center"
+              height="70"
+            >
+              <img src="../../../assets/images/icons8-combo-chart-80.png" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+
+    <div class="col-sm-6 col-lg-6">
+      <div class="container1 cont_router1">
+        <div class="card text-white bg-flat-color-2">
+          <div class="card-body pb-0">
+            <div class="text-light">
+              <i class="fa fa-object-group" aria-hidden="true"></i>&nbsp; Data
+              Loading(Coming Soon!)
+              <div class="tool-tip" style="left: -7px">
+                <i
+                  style="color: white"
+                  class="fa fa-info-circle"
+                  aria-hidden="true"
+                ></i>
+                <p class="tool-tip__info tooltip_right" style="top: 4px">
+                  <span class="info">{{ dataloading_helptext }}</span>
+                </p>
+              </div>
+            </div>
+            <div
+              class="chart-wrapper px-0"
+              style="height: 70px; text-align: center"
+              height="70"
+            >
+              <img
+                src="../../../assets/images/data_loading.png"
+                height="70"
+                style="height: 90px"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="center-div">
+        <div class="col-md-12">
+            <p><a style="
+                font-size: medium;                
+                color: #e59034;" href="https://community.opengroup.org/osdu/ui/admin-ui/-/wikis/Admin-UI-User-Guide" target="_blank">Click here </a> for User Guide</p>
+    
+        </div>
+        
+    </div> -->
+
+<!--/.col-->
+
+<!--/.col-->
+
+<!--/.col-->
+
+<!--/.col-->
+
+<!--/.col-->
+<!-- <div class="col-sm-6 col-lg-4">
+    <div class="container1 cont_router" routerLink="/EDS">
+        <div class="card text-white bg-flat-color-1">
+            <div class="card-body pb-0">                       
+              
+                <p class="text-light"><i class="fa fa-object-group" aria-hidden="true"></i>&nbsp; External Data Sources</p>
+
+                <div class="chart-wrapper px-0" style="height:70px;text-align: center;" height="70">
+                    <img src="../../../assets/images/data_loading.png" height="70" style="height: 90px;">
+                </div>
+
+            </div>
+        </div>
+       
+    </div>
+   
+</div> -->

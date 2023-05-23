@@ -1,0 +1,24 @@
+<ng-container *ngIf="mergedProperty && propertiesKeys">
+  <div class="d-flex justify-content-end">
+    <app-add-field
+      [missingValues]="objectValuesMissing"
+      [objectProperties]="mergedProperty"
+      [definitions]="definitions"
+      (added)="fieldAdded($event)"
+      *ngIf="!readonly"
+    ></app-add-field>
+  </div>
+
+  <ng-container *ngFor="let key of propertiesKeys">
+    <app-edit-object-property
+      [property]="mergedProperty[key]"
+      [definitions]="definitions"
+      [(value)]="value[key]"
+      [valueName]="key"
+      [readonly]="readonly"
+      (valueChange)="valueChanged($event, key)"
+      *ngIf="value[key]"
+    >
+    </app-edit-object-property>
+  </ng-container>
+</ng-container>

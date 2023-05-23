@@ -1,0 +1,122 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.4)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  ><p style="color: white">Loading...</p></ngx-spinner
+>
+<div>
+  <div class="row">
+    <div class="col-xs-6 col-md-3">
+      <button
+        type="button"
+        class="btn btn-success openAddWorkFlowModal"
+        (click)="openModalCreate()"
+        style="
+          background: rgb(0 124 102 / 1) !important;
+          border-color: rgb(0 124 102 / 1) !important;
+          margin-bottom: 1%;
+        "
+      >
+        <i class="fa fa-plus"></i>&nbsp; Create WorkFlow
+      </button>
+    </div>
+    <div class="col-xs-6 col-md-9">
+      <input
+        id="myInput"
+        type="text"
+        placeholder="Search.."
+        name="myInput"
+        [(ngModel)]="myInput"
+        (keyup)="searchFilter($event.target.value)"
+      />
+    </div>
+  </div>
+
+  <p style="color: red">{{ error_Message_Div }}</p>
+  <table id="tblUserDetails" class="table table-striped">
+    <thead>
+      <th></th>
+      <th class="thHover" (click)="sort('workflowName')">
+        workflowName
+        <div class="tool-tip" style="margin-left: 0%">
+          <i
+            style="color: white"
+            class="fa fa-info-circle"
+            aria-hidden="true"
+          ></i>
+          <p class="tool-tip__info">
+            <span style="text-transform: none" class="info"
+              >Click on Workflow Name to view all the available Run's for the
+              selected workflow.</span
+            >
+          </p>
+        </div>
+      </th>
+      <th class="thHover" (click)="sort('workflowId')">workflowId</th>
+      <th class="thHover" (click)="sort('createdBy')">createdBy</th>
+      <th
+        class="thHover"
+        style="width: 18%"
+        (click)="sort('creationTimestamp')"
+      >
+        creationTime
+      </th>
+      <th class="thHover" (click)="sort('description')">Description</th>
+      <!-- <th class="thHover" style="width: 15%;" (click)="sort('workflowId')">workflowId<span style="float: right;" [ngClass]="istoggle ? 'fa fa-toggle-down' : 'fa fa-toggle-up'"></span></th>
+            <th class="thHover" style="width: 14%;" (click)="sort('workflowName')">workflowName<span style="float: right;" [ngClass]="istoggle ? 'fa fa-toggle-down' : 'fa fa-toggle-up'"></span></th>           
+            <th class="thHover" style="width: 22%;" (click)="sort('createdBy')">createdBy<span style="float: right;" [ngClass]="istoggle ? 'fa fa-toggle-down' : 'fa fa-toggle-up'"></span></th>
+            <th class="thHover" (click)="sort('creationTimestamp')">creationTime<span style="float: right;" [ngClass]="istoggle ? 'fa fa-toggle-down' : 'fa fa-toggle-up'"></span></th>
+            <th class="thHover" (click)="sort('description')">Description<span style="float: right;" [ngClass]="istoggle ? 'fa fa-toggle-down' : 'fa fa-toggle-up'"></span></th>      -->
+    </thead>
+    <tbody id="myTableUsers">
+      <tr
+        *ngFor="
+          let workflow of workFlowList
+            | slice : (page - 1) * pageSize : (page - 1) * pageSize + pageSize
+        "
+      >
+        <td (click)="deleteFunc(workflow.workflowName)">
+          <i class="fa fa-trash-o"></i>
+        </td>
+        <td>
+          <a
+            href="javascript:void(0);"
+            (click)="openWorkFlowRun(workflow)"
+            class="editUserhref"
+          >
+            {{ workflow.workflowName }}
+          </a>
+        </td>
+        <td>{{ workflow.workflowId }}</td>
+        <td>{{ workflow.createdBy }}</td>
+        <td>{{ workflow.creationTimestamp | date : "medium" }}</td>
+        <td>{{ workflow.description }}</td>
+        <!-- <td>
+                    <a href="javascript:void(0);" (click)="openManageMembers(user)"
+                        class="editUserhref">
+                        {{user.name}}        
+                    </a>   
+                    <div class="tool-tip">
+                        <i class="fa fa-info-circle " aria-hidden="true"></i>
+                        <p class="tool-tip__info">
+                            <span class="info">Click here to manage / view all the members of group {{user.name}}</span>
+                        </p>
+                    </div>     
+                </td>
+                <td>{{user.email}}</td>
+                <td>{{user.description}}</td> -->
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="workFlowList.length > 0">
+    <ngb-pagination
+      [collectionSize]="workFlowList.length"
+      [(page)]="page"
+      [maxSize]="5"
+      [rotate]="true"
+      [ellipses]="false"
+      [boundaryLinks]="true"
+    ></ngb-pagination>
+  </div>
+</div>

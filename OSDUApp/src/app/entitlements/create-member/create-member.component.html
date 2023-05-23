@@ -1,0 +1,51 @@
+<h1 mat-dialog-title>Create member</h1>
+
+<div mat-dialog-content class="d-flex flex-column">
+  <app-user-autocomplete
+    (selectedChange)="selectUser($event)"
+  ></app-user-autocomplete>
+
+  <ng-container *ngIf="selectedUser">
+    <div class="d-flex">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput [ngModel]="selectedUser.displayName" readonly
+      /></mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput [ngModel]="selectedUser.mail" readonly
+      /></mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <label>ID</label>
+      <input matInput [ngModel]="selectedUser.id" readonly
+    /></mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Role</mat-label>
+      <mat-select [(ngModel)]="selectedLevel">
+        <mat-option *ngFor="let level of privilegeLevel" [value]="level">
+          {{ level.name }}
+        </mat-option>
+      </mat-select>
+      <mat-icon matSuffix color="primary" [matTooltip]="tooltipLevelMessage"
+        >info</mat-icon
+      >
+    </mat-form-field>
+  </ng-container>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" [mat-dialog-close]="false">
+    <mat-icon>cancel</mat-icon>Cancel
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="!canSave"
+    (click)="requestSubmit()"
+  >
+    <mat-icon>add</mat-icon>Create
+  </button>
+</div>

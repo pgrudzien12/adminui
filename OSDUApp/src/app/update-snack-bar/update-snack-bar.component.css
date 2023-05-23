@@ -1,0 +1,8 @@
+::ng-deep .snackPanel {
+  background-color: var(--primary-color) !important;
+}
+
+::ng-deep .mat-simple-snackbar,
+::ng-deep .mat-simple-snackbar .mat-button {
+  color: white !important;
+}

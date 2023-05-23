@@ -1,0 +1,59 @@
+<div class="modal-header" style="padding: 4px 20px" id="videoTitle">
+  <h4 class="modal-title" id="videoTitle1" style="width: 100%">
+    Add ACL
+    <button
+      style="float: right"
+      type="button"
+      (click)="closePopup()"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+    >
+      &times;
+    </button>
+  </h4>
+</div>
+<div class="modal-body" style="padding-top: 0%; height: auto">
+  <form #myForm id="myForm">
+    <h5 style="margin-top: 0.5cm"><b>Selected objects :</b></h5>
+    <ul>
+      <li *ngFor="let obj of this.cmnSrvc.selectedObjects">
+        {{ obj }}
+      </li>
+    </ul>
+
+    <div class="row">
+      <h6 style="margin-top: 0.5cm">
+        Select <b>group</b> emails to share selected objects :
+      </h6>
+      <div class="col-md-12">
+        <ng-select
+          [items]="groupListData"
+          [multiple]="true"
+          bindLabel="name"
+          name="selectedGroups"
+          bindValue="id"
+          placeholder="Please select Group emails"
+          [(ngModel)]="selectedGroups"
+        >
+        </ng-select>
+      </div>
+    </div>
+  </form>
+
+  <div style="text-align: center">
+    <p *ngIf="isSuccess" style="color: green">{{ successMessge }}</p>
+    <p *ngIf="isError" style="color: red">{{ errorMessge }}</p>
+  </div>
+  <div class="row" style="justify-content: center; margin-top: 1%">
+    <button
+      class="btn btn-success"
+      form="login-form"
+      type="submit"
+      style="width: 150px"
+      (click)="addViewerACLToObjects()"
+    >
+      Add<i class="icon-material-outline-arrow-right-alt"></i>
+    </button>
+  </div>
+</div>

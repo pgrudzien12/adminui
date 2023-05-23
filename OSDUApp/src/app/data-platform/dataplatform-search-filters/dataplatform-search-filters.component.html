@@ -1,0 +1,54 @@
+<ng-container *ngIf="wellDetails.length > 0">
+  <ng-container
+    *ngFor="let element of filtersElements; let i = index; let last = last"
+  >
+    <app-data-platform-filter-element
+      [fullResult]="wellDetails"
+      [(filters)]="filtersElements[i]"
+      (filtersChange)="filtersChanged()"
+    ></app-data-platform-filter-element>
+    <mat-form-field *ngIf="!last" appearance="outline">
+      <mat-select
+        [(ngModel)]="followingOperators[i]"
+        (ngModelChange)="operatorsChanged()"
+      >
+        <mat-label></mat-label>
+        <mat-option *ngFor="let op of operators" [value]="op"
+          >{{ op }}
+        </mat-option>
+      </mat-select>
+      <mat-icon color="primary" matSuffix [matTooltip]="operatorTooltip"
+        >info</mat-icon
+      >
+    </mat-form-field>
+  </ng-container>
+
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Limit</mat-label>
+      <mat-select [(value)]="limit" (valueChange)="limitChanged()">
+        <mat-option *ngFor="let l of limitList" [value]="l">{{ l }}</mat-option>
+      </mat-select>
+      <mat-icon matSuffix color="primary" [matTooltip]="tooltipLimit"
+        >info</mat-icon
+      >
+    </mat-form-field>
+  </div>
+
+  <div class="d-flex actions justify-content-center">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="filterData.emit()"
+      [disabled]="!canValidate"
+    >
+      <mat-icon>filter_alt</mat-icon> Apply filters
+    </button>
+    <button mat-raised-button color="warn" (click)="clear.emit()">
+      <mat-icon>filter_alt_off</mat-icon> Clear filters
+    </button>
+  </div>
+</ng-container>
+<div class="d-flex justify-content-center">
+  <mat-spinner *ngIf="wellDetails.length === 0"></mat-spinner>
+</div>

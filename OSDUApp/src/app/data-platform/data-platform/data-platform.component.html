@@ -1,0 +1,55 @@
+<mat-card>
+  <div class="d-flex align-items-center header-container">
+    <app-kind-autocomplete
+      class="search-field"
+      [(selected)]="selectedStorageKind"
+      (selectedChange)="selectedKindChange()"
+    ></app-kind-autocomplete>
+  </div>
+
+  <mat-accordion *ngIf="isDisabled || selectedStorageKind">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Modify Query FIlter </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <mat-checkbox
+        [(ngModel)]="isUserOwned"
+        (ngModelChange)="userOwnedSearch()"
+        [checked]="isUserOwned"
+        color="primary"
+        [disabled]="!selectedStorageKindId"
+        class="checkbox-container"
+        >User Owned data
+        <mat-icon
+          color="primary"
+          matTooltip="If checkbox is selected, the result only contains the records that
+          the user owns. If unchecked, the result contains all records that
+          the user is entitled to see. By default checkbox is disabled. It
+          gets enabled only when data is available."
+          >info</mat-icon
+        >
+      </mat-checkbox>
+      <app-dataplatform-search-filters
+        [selectedKind]="selectedStorageKindId"
+        (filterData)="launchSearch()"
+        [(followingOperators)]="followingOperators"
+        [(limit)]="limit"
+        [(filtersElements)]="filtersElements"
+        (clear)="clearFilters()"
+      ></app-dataplatform-search-filters>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <div class="d-flex justify-content-center mt-2">
+    <app-osdu-object-list [objectList]="objectList"></app-osdu-object-list>
+  </div>
+</mat-card>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.4)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  ><p style="color: white">Loading...</p></ngx-spinner
+>

@@ -1,0 +1,145 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.4)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  ><p style="color: white">Loading...</p></ngx-spinner
+>
+
+<div class="modal-header" style="padding: 4px 20px" id="videoTitle">
+  <h4 class="modal-title" id="videoTitle1" style="width: 100%">
+    {{ runID }}
+    <button
+      style="float: right"
+      type="button"
+      (click)="closePopup()"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+    >
+      &times;
+    </button>
+  </h4>
+</div>
+<div class="modal-body" style="height: auto">
+  <form #myForm id="myForm">
+    <table>
+      <tr>
+        <td>
+          <label>Run Id:&nbsp; </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            disabled="disabled"
+            contenteditable="false"
+            placeholder="Run Id"
+            value="{{ runID }}"
+            name="ngWorkflowName"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Workflow Id:&nbsp; </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            disabled="disabled"
+            contenteditable="false"
+            placeholder="Workflow Id"
+            value="{{ workFlowId }}"
+            name="ngWorkflowName"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Submitted By: </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            disabled="disabled"
+            contenteditable="false"
+            placeholder="Submitted By"
+            value="{{ submittedBy }}"
+            name="ngDescription"
+          />
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <label>Start Time:&nbsp; </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            disabled="disabled"
+            contenteditable="false"
+            placeholder="Start Time"
+            value="{{ startTimeStamp | date : 'short' }}"
+            name="ngWorkflowName"
+          />
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <label>End Time: </label>
+        </td>
+        <td>
+          <input
+            *ngIf="endTimeStamp === 0"
+            type="text"
+            disabled="disabled"
+            contenteditable="false"
+            placeholder="End Time"
+            value="{{ endTimeStamp }}"
+            name="ngDagName"
+          />
+          <input
+            *ngIf="endTimeStamp !== 0"
+            type="text"
+            disabled="disabled"
+            contenteditable="false"
+            placeholder="End Time"
+            value="{{ endTimeStamp | date : 'short' }}"
+            name="ngDagName"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Status: </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            placeholder="Status"
+            value=""
+            [(ngModel)]="status"
+            name="status"
+          />
+        </td>
+      </tr>
+    </table>
+  </form>
+  <div style="text-align: center">
+    <p *ngIf="isSuccess" style="color: green">{{ successMessge }}</p>
+    <p *ngIf="isError" style="color: red">{{ errorMessge }}</p>
+  </div>
+  <div class="row" style="justify-content: center">
+    <button
+      class="btn btn-success"
+      form="login-form"
+      type="submit"
+      style="width: 150px"
+      (click)="requestSubmit()"
+    >
+      Update Status<i class="icon-material-outline-arrow-right-alt"></i>
+    </button>
+  </div>
+</div>

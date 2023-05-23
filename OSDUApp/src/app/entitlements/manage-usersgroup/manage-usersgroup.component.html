@@ -1,0 +1,49 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.4)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  ><p style="color: white">Loading...</p></ngx-spinner
+>
+
+<mat-card>
+  <app-group-autocomplete
+    [selected]="selectedGroup"
+    (selectedChange)="selectedChange($event)"
+  ></app-group-autocomplete>
+
+  <div class="d-flex justify-content-between mb-2 align-items-center">
+    <mat-form-field appearance="outline">
+      <mat-label>Search for a member</mat-label>
+      <input
+        matInput
+        name="myInput"
+        [formControl]="searchControl"
+        [disabled]="!selectedGroupType"
+      />
+      <mat-icon color="primary" matPrefix>badge</mat-icon>
+    </mat-form-field>
+    <div>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="openModalCreate()"
+        [disabled]="!selectedGroupType"
+      >
+        <mat-icon>add</mat-icon> Add Member
+      </button>
+    </div>
+  </div>
+
+  <app-user-list
+    [osduMembers]="memberList"
+    [editRole]="true"
+    [group]="selectedGroup"
+  >
+    <ng-template let-element>
+      <button mat-icon-button color="warn" (click)="deleteFunc(element.email)">
+        <mat-icon>delete_forever</mat-icon>
+      </button>
+    </ng-template>
+  </app-user-list>
+</mat-card>

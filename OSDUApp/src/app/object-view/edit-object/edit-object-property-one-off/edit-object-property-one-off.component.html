@@ -1,0 +1,16 @@
+<app-one-of-select
+  [selection]="selectedType"
+  (selectionChange)="selectionChange($event)"
+  [oneOfArray]="oneOfArray"
+></app-one-of-select>
+
+<app-edit-object-property
+  [property]="selectedType"
+  [definitions]="definitions"
+  [(value)]="value"
+  [valueName]="valueName"
+  [readonly]="readonly"
+  (valueChange)="valueChanged($event)"
+  *ngIf="selectedType"
+>
+</app-edit-object-property>

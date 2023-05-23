@@ -1,0 +1,14 @@
+<button mat-icon-button color="accent" (click)="openDialog()">
+  <mat-icon>data_object</mat-icon>
+</button>
+
+<ng-template #modal>
+  <h1 mat-dialog-title>{{ objectParent }}</h1>
+  <div mat-dialog-content>
+    <ngx-json-viewer [json]="object"></ngx-json-viewer>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-raised-button color="primary" [mat-dialog-close]>Close</button>
+  </div>
+</ng-template>

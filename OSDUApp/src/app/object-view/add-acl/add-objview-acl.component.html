@@ -1,0 +1,88 @@
+<h1 mat-dialog-title>Add ACL</h1>
+
+<div mat-dialog-content>
+  <mat-radio-group
+    aria-label="Select an option"
+    class="d-flex flex-column"
+    [(ngModel)]="selectedAssociatedOption"
+  >
+    <mat-radio-button [value]="selectedAssocitedOptions.objectAndAssociated"
+      >Select the <b>object and its associated object</b>:
+      <pre>
+This option must be chosen if you want this data to become visible and downloadable (e.g. Sharing Tool)</pre
+      >
+
+      <mat-list role="list">
+        <mat-list-item role="listitem"
+          ><mat-icon color="primary" matListItemIcon class="mr-2"
+            >data_object</mat-icon
+          >{{ objectId }}</mat-list-item
+        >
+        <mat-list-item role="listitem" *ngFor="let object of listAssociated">
+          <mat-icon color="primary" matListItemIcon class="mr-2"
+            >add_link</mat-icon
+          >
+          {{ object }}
+        </mat-list-item>
+      </mat-list>
+    </mat-radio-button>
+    <mat-divider class="mb-3 mt-3"></mat-divider>
+    <mat-radio-button [value]="selectedAssocitedOptions.onlyObject"
+      ><b>Only</b> the selected object :
+      <mat-list role="list">
+        <mat-list-item role="listitem"
+          ><mat-icon color="primary" matListItemIcon class="mr-2"
+            >data_object</mat-icon
+          >{{ objectId }}</mat-list-item
+        >
+      </mat-list>
+    </mat-radio-button>
+  </mat-radio-group>
+
+  <mat-form-field appearance="outline" class="w-100 mt-2">
+    <mat-label> Select group to share selected objects</mat-label>
+    <mat-chip-list #chipList>
+      <mat-chip
+        *ngFor="let group of selectedGroups"
+        (removed)="remove(group)"
+        color="primary"
+      >
+        {{ group }}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input
+        placeholder="New group..."
+        #groupInput
+        [formControl]="groupCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)"
+      />
+    </mat-chip-list>
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="selected($event)"
+    >
+      <mat-option *ngFor="let group of filteredGroups | async" [value]="group">
+        {{ group }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="!selectedAssociatedOption || !selectedGroups.length"
+    (click)="addViewerACLToObjects()"
+  >
+    <mat-icon>add</mat-icon>Add
+  </button>
+  <button mat-raised-button color="warn" [mat-dialog-close]="false">
+    <mat-icon>cancel</mat-icon> Cancel
+  </button>
+</div>

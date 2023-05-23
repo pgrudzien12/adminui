@@ -1,0 +1,24 @@
+table {
+  margin: 0 auto;
+}
+
+select.form-control {
+  width: 235px;
+}
+
+input,
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+textarea,
+select {
+  margin: 4px 0 5px 0;
+}
+
+.tblScheme {
+  text-align: right;
+}
+.td_left {
+  padding-right: 5%;
+}

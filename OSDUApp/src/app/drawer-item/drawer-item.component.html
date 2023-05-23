@@ -1,0 +1,13 @@
+<div class="itemDrawer">
+  <div>
+    <mat-icon
+      mat-list-icon
+      [matTooltip]="item.label"
+      [matTooltipDisabled]="linkText"
+      >{{ item.icon }}</mat-icon
+    >
+  </div>
+  <span [@animateText]="linkText ? 'show' : 'hide'" class="ml-2">{{
+    item.label
+  }}</span>
+</div>

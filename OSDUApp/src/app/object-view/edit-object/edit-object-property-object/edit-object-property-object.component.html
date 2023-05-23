@@ -1,0 +1,21 @@
+<div class="d-flex justify-content-end">
+  <app-add-field
+    [missingValues]="objectValuesMissing"
+    [objectProperties]="property.properties"
+    [definitions]="definitions"
+    (added)="fieldAdded($event)"
+    *ngIf="!readonly"
+  ></app-add-field>
+</div>
+<ng-container *ngFor="let property of objectProperties; let i = index">
+  <app-edit-object-property
+    [property]="property"
+    [definitions]="definitions"
+    [(value)]="value[objectPropertiesKeys[i]]"
+    [valueName]="objectPropertiesKeys[i]"
+    [readonly]="readonly"
+    (valueChange)="valueChanged($event, objectPropertiesKeys[i])"
+    *ngIf="value !== undefined"
+  >
+  </app-edit-object-property>
+</ng-container>

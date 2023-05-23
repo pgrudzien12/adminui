@@ -1,0 +1,78 @@
+<div>
+  <div class="row" style="margin-bottom: 1%">
+    <div class="col-xs-12 col-md-3">
+      <ng-select
+        [items]="searchObjectArr"
+        (change)="populateKindValues(ngselectedField)"
+        placeholder="Select a Field"
+        [(ngModel)]="ngselectedField"
+        bindLabel="name"
+        bindValue="name"
+      >
+        <ng-template ng-option-tmp let-item="item" title="item">
+          <div title="{{ item }}">{{ item }}</div>
+        </ng-template>
+      </ng-select>
+    </div>
+    <div class="col-xs-12 col-md-6">
+      <ng-select
+        [items]="fieldValueList"
+        (change)="populateKindValues(ngselectedField)"
+        placeholder="Select a Field"
+        [(ngModel)]="ngselectedFieldValue"
+        bindLabel="name"
+        bindValue="name"
+      >
+        <ng-template ng-option-tmp let-item="item" title="item">
+          <div title="{{ item }}">{{ item }}</div>
+        </ng-template>
+      </ng-select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-md-1">
+      <select
+        style="padding-left: 0px; padding-right: 4px"
+        [(ngModel)]="ngLimit"
+      >
+        <option value="0" disabled="disabled">Limit</option>
+        <option value="{{ val }}" *ngFor="let val of limitList">
+          {{ val }}
+        </option>
+      </select>
+      <div class="tool-tip" style="top: -45px; margin-left: 100%">
+        <i class="fa fa-info-circle" aria-hidden="true"></i>
+        <p class="tool-tip__info">
+          <span class="info"
+            ><span class="info__title">Limit:</span
+            >{{ search_filter_limit }}</span
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isError">
+    <p style="color: red">{{ errorMessge }}</p>
+  </div>
+  <div class="row">
+    <!-- [disabled]="((ngselectedShemaKind==undefined && ngEditableselectedKindValues=='') || (ngselectedShemaKind==null && ngEditableselectedKindValues==null) || (ngselectedShemaKind==undefined && ngEditableselectedKindValues==undefined) || (ngselectedShemaKind=='' && ngEditableselectedKindValues=='')" -->
+    <button
+      class="btn btn-success"
+      form="login-form"
+      type="submit"
+      style="width: 150px; margin-left: 1%"
+      (click)="requestSubmit()"
+    >
+      Search<i class="icon-material-outline-arrow-right-alt"></i>
+    </button>
+    <button
+      class="btn btn-success"
+      form="login-form"
+      type="submit"
+      style="width: 150px; margin-left: 1%"
+      (click)="resetForm()"
+    >
+      Clear<i class="icon-material-outline-arrow-right-alt"></i>
+    </button>
+  </div>
+</div>

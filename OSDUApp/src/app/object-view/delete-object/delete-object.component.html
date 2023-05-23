@@ -1,0 +1,10 @@
+<button
+  mat-raised-button
+  color="warn"
+  matTooltip="Delete object"
+  [disabled]="!id"
+  [swal]="dialogParameters"
+  (confirm)="delete()"
+>
+  <i class="fa fa-trash"></i>&nbsp; Delete
+</button>

@@ -1,0 +1,9 @@
+<div class="d-flex align-center">
+  <label class="mr-2">{{ label }}</label>
+  <mat-radio-group [(ngModel)]="selectedGroup" (change)="selected($event)">
+    <mat-radio-button value="none">All</mat-radio-button>
+    <mat-radio-button *ngFor="let group of groupList" [value]="group">{{
+      group
+    }}</mat-radio-button>
+  </mat-radio-group>
+</div>

@@ -1,0 +1,30 @@
+<!-- 
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.4)" size = "medium" color = "#fff" type = "ball-scale-multiple" ><p style="color: white" > Loading... </p></ngx-spinner>
+<div class="container">
+
+   
+    <ngb-tabset [destroyOnHide]="false">
+  
+        <ngb-tab>
+          <ng-template  ngbTabTitle>
+            <div class="tab_header"> Manage Groups</div></ng-template>
+
+          <ng-template ngbTabContent>
+            <app-manage-groups></app-manage-groups>
+             
+          </ng-template>
+        </ngb-tab>
+         
+        <ngb-tab>
+          <ng-template  ngbTabTitle>
+            <div class="tab_header" (click)="onTabSelect()">Manage Members</div></ng-template>
+          <ng-template ngbTabContent>
+         
+            <app-manage-users></app-manage-users>
+          </ng-template>
+        </ngb-tab>
+        
+      </ngb-tabset>
+
+</div> -->
+<router-outlet></router-outlet>

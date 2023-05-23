@@ -1,0 +1,42 @@
+<div
+  class="d-flex align-items-center flex-gap"
+  *ngIf="loggedIn"
+  [matMenuTriggerFor]="menu"
+>
+  <img
+    class="user-avatar pointer"
+    [src]="userPhoto"
+    alt="User Avatar"
+    *ngIf="userPhoto"
+  />
+</div>
+
+<mat-menu #menu="matMenu" xPosition="before">
+  <div
+    class="d-flex flex-column justify-content-center align-items-center flex-gap ml-3 mr-3"
+    (click)="$event.stopPropagation()"
+  >
+    <img
+      class="user-avatar-menu"
+      [src]="userPhoto"
+      alt="User Avatar"
+      *ngIf="userPhoto"
+    />
+    <div class="d-flex justify-content-center align-items-center flex-column">
+      <span class="mat-body-2">
+        {{ username }}
+      </span>
+
+      <span class="mat-caption">
+        {{ email }}
+      </span>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="logout()">
+      <mat-icon>logout</mat-icon>Logout
+    </button>
+    <span class="mat-caption">
+      AdminUi v{{ applicationVersion }} {{ env }}</span
+    >
+  </div>
+</mat-menu>

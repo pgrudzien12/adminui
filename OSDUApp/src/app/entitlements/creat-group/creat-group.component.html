@@ -1,0 +1,185 @@
+<div class="modal-header" style="padding: 4px 20px" id="videoTitle">
+  <h4 class="modal-title" id="videoTitle1" style="width: 100%">
+    Create Group
+    <button
+      style="float: right"
+      type="button"
+      (click)="closePopup()"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+    >
+      &times;
+    </button>
+  </h4>
+</div>
+<div class="modal-body" style="padding-top: 0%; height: auto">
+  <form #myForm id="myForm">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="tool-tip" style="left: -24px; top: 30px">
+          <i class="fa fa-info-circle" aria-hidden="true"></i>
+          <p class="tool-tip__info">
+            <span class="info"
+              >Select a group type to be created :
+              <ul>
+                <li>
+                  <b>Data groups</b> used for data authorization e.g.
+                  <i>data.welldb.viewers, data.welldb.owners</i>
+                </li>
+                <li>
+                  <b>Service groups</b> used for service authorization e.g.
+                  <i>service.storage.user, service.storage.admin</i>
+                </li>
+                <li>
+                  <b>User groups</b> used for hierarchical grouping of user and
+                  service identities e.g.
+                  <i>users.datalake.viewers, users.datalake.editors</i>
+                </li>
+              </ul>
+            </span>
+          </p>
+        </div>
+        <select
+          class="form-control"
+          [(ngModel)]="selectedGroupType"
+          (change)="selParam('Group', $event.target.value)"
+          name="selectedGroupType"
+        >
+          <option value="0" selected="selected">
+            Please select a Group Type
+          </option>
+          <option value="{{ group.group }}" *ngFor="let group of groupListNew">
+            {{ group.group }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <div class="tool-tip" style="left: -24px; top: 30px">
+          <i class="fa fa-info-circle" aria-hidden="true"></i>
+          <p class="tool-tip__info">
+            <span class="info"
+              >Select a Permission level for the selected group. Each group type
+              has different permission levels.</span
+            >
+          </p>
+        </div>
+        <select
+          class="form-control"
+          [(ngModel)]="selectedPermissionLevel"
+          name="selectedPermissionLevel"
+          (change)="selParam('Permission', $event.target.value)"
+        >
+          <option value="0" selected="selected">
+            Please select a Permission Level
+          </option>
+          <option
+            value="{{ access.perm }}"
+            *ngFor="let access of permissionLevel"
+          >
+            {{ access.perm }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tool-tip" style="left: -24px; top: 30px">
+          <i class="fa fa-info-circle" aria-hidden="true"></i>
+          <p class="tool-tip__info">
+            <span class="info">Enter Resource Name/ Service Name here</span>
+          </p>
+        </div>
+        <input
+          type="text"
+          value=""
+          id="resourceName"
+          (input)="selParam('Resource', $event.target.value)"
+          [(ngModel)]="selectedresourceName"
+          name="selectedresourceName"
+          placeholder="Resource Name or Service Name"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tool-tip" style="left: -24px; top: 30px">
+          <i class="fa fa-info-circle" aria-hidden="true"></i>
+          <p class="tool-tip__info">
+            <span class="info"
+              >Group Name naming convention is {{ "{" }}groupType{{ "}" }}.{{
+                "{"
+              }}serviceName|resourceName{{ "}" }}.{{ "{" }}permissionLevel{{
+                "}"
+              }}. As soon as the group type & permission level dropdown value is
+              selected, and rersource/service name is entered in the above
+              textbox, those values get populated here. These values can e
+              further edited from the textbox if required.</span
+            >
+          </p>
+        </div>
+        <input
+          type="text"
+          value="{{
+            selectedGroupType +
+              '.' +
+              selectedresourceName +
+              '.' +
+              selectedPermissionLevel
+          }}"
+          id="groupName"
+          [(ngModel)]="selectedgroupName"
+          name="selectedgroupName"
+          placeholder="Group Name ({{ '{' }}groupType{{ '}' }}.{{
+            '{'
+          }}serviceName|resourceName{{ '}' }}.{{ '{' }}permissionLevel{{
+            '}'
+          }})"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tool-tip" style="left: -24px; top: 30px">
+          <i class="fa fa-info-circle" aria-hidden="true"></i>
+          <p class="tool-tip__info">
+            <span class="info">Enter the description for the group.</span>
+          </p>
+        </div>
+        <textarea
+          placeholder="Description..."
+          [(ngModel)]="selecteddescription"
+          value=""
+          id="description"
+          name="selecteddescription"
+        ></textarea>
+      </div>
+    </div>
+  </form>
+
+  <div style="text-align: center">
+    <p *ngIf="isSuccess" style="color: green">{{ successMessge }}</p>
+    <p *ngIf="isError" style="color: red">{{ errorMessge }}</p>
+  </div>
+  <div class="row" style="justify-content: center">
+    <button
+      class="btn btn-success"
+      form="login-form"
+      type="submit"
+      style="width: 150px"
+      (click)="requestSubmit()"
+    >
+      Create<i class="icon-material-outline-arrow-right-alt"></i>
+    </button>
+    <button
+      class="btn btn-success"
+      form="login-form"
+      type="submit"
+      style="width: 150px; margin-left: 1%"
+      (click)="myFormreset()"
+    >
+      Clear<i class="icon-material-outline-arrow-right-alt"></i>
+    </button>
+  </div>
+</div>

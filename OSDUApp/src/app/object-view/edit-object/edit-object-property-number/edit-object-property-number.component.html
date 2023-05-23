@@ -1,0 +1,20 @@
+<mat-form-field appearance="outline" class="w-100">
+  <mat-label>{{ valueName }}</mat-label>
+  <input
+    matInput
+    type="number"
+    [formControl]="formControl"
+    [pattern]="property.pattern"
+    [readonly]="readonly"
+  />
+  <mat-icon
+    matSuffix
+    [matTooltip]="property.description"
+    *ngIf="property.description"
+    color="primary"
+    >info</mat-icon
+  >
+  <mat-error *ngIf="formControl.invalid"
+    >Should be {{ property.pattern }}</mat-error
+  >
+</mat-form-field>

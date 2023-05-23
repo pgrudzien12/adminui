@@ -1,0 +1,23 @@
+[data-hidden="true"] {
+  display: none !important;
+}
+
+.title-version1 {
+  text-align: center;
+  width: 50%;
+  float: left;
+}
+
+.title-version2 {
+  text-align: center;
+  width: 50%;
+  float: right;
+}
+
+ng-star-inserted {
+  overflow-y: auto;
+}
+
+.search-container {
+  flex: 1;
+}

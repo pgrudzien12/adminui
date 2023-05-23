@@ -1,0 +1,67 @@
+.widget-title {
+  color: #e59034;
+  margin-bottom: 1%;
+}
+
+.inner {
+  padding-top: 1%;
+  padding: 1%;
+  border: 1px solid #ddd;
+  box-shadow: 2px 2px 20px 9px #ddd;
+}
+
+button.btn.btn-success.openAddGroupModal {
+  background-color: #00667f !important;
+  border-color: #00667f !important;
+  cursor: pointer;
+}
+.inner-table {
+  margin-top: 1%;
+}
+
+input,
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+textarea,
+select {
+  color: black;
+}
+
+input:disabled {
+  color: grey;
+}
+
+thead th {
+  color: white !important;
+}
+
+.container {
+  padding: 3%;
+  box-shadow: 2px 2px 20px 0px grey;
+  margin-bottom: 1%;
+}
+
+h4 {
+  color: #009959;
+}
+.active .bs-stepper-circle {
+  background-color: #00a6de;
+}
+
+input[type="checkbox"] {
+  height: 15px;
+  box-shadow: none;
+  text-align: left !important;
+  justify-content: left !important;
+  width: 5%;
+}
+
+.table td {
+  word-break: break-word;
+}
+ol,
+ul {
+  padding-left: 10px !important;
+}

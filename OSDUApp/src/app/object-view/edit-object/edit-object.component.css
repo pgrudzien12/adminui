@@ -1,0 +1,13 @@
+.flex-full {
+  flex: 1;
+}
+
+.flex-container {
+  gap: 5px;
+}
+
+.comparison-container {
+  overflow: auto;
+  max-height: 50vh;
+  text-align: left;
+}

@@ -1,0 +1,8 @@
+<app-auto-complete
+  icon="badge"
+  [label]="label"
+  [getSuggestions]="refreshedList$.bind(this)"
+  [displayFn]="displayFn"
+  (selectedChange)="optionSelected($event)"
+  [selected]="selected"
+></app-auto-complete>

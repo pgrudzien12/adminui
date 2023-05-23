@@ -1,0 +1,17 @@
+mat-drawer-content {
+  padding: 1rem;
+}
+
+.mat-sidenav-container {
+  flex: 1;
+  height: 100%;
+}
+
+::ng-deep .mat-drawer-inner-container .mat-list-text {
+  color: var(--primary-color);
+  padding-left: 0 !important;
+}
+
+::ng-deep .mat-drawer-inner-container .mat-icon {
+  color: var(--primary-color);
+}

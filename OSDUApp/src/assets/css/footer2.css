@@ -1,0 +1,54 @@
+.fadeIn2 {
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    /* bottom: 0; */
+    width: 100%;
+}
+.container-fluid1 {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    font-size: 0.875rem;
+    color: var(--main-forground-color);
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    align-items: center;
+    background-color: rgb(0 166 222 / 1) !important;
+}
+.footerLinks {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+footer ul li {
+    list-style: none;
+    display: inline;
+    padding: 0 15px;
+    border-right: 1px solid white;
+}
+.fnet {
+    text-align: center;
+}
+.fnet a {
+    color: white;
+    font-family: 'Lato', sans-serif;
+    font-size: 22px;
+    margin: 0 8px;
+}
+footer a {
+    color: white;
+    font-size: large;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.flinks {
+  
+    padding-top: 1%;
+}

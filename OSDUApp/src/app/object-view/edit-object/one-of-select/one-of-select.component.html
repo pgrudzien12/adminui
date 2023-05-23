@@ -1,0 +1,8 @@
+<mat-form-field appearance="outline" class="w-100">
+  <mat-label>Select type</mat-label>
+  <mat-select [value]="selection" (selectionChange)="selectionChanged($event)">
+    <mat-option *ngFor="let type of oneOfArray" [value]="type">
+      {{ getTypeName(type) }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

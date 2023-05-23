@@ -1,0 +1,79 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.4)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  ><p style="color: white">Loading...</p></ngx-spinner
+>
+
+<div class="modal-header" style="padding: 4px 20px" id="videoTitle">
+  <h4 class="modal-title" id="videoTitle1" style="width: 100%">
+    Create Workflow
+    <button
+      style="float: right"
+      type="button"
+      (click)="closePopup()"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+    >
+      &times;
+    </button>
+  </h4>
+</div>
+<div class="modal-body" style="height: auto">
+  <form #myForm id="myForm">
+    <table>
+      <tr>
+        <td>
+          <label>Workflow Name:&nbsp; </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            placeholder="Workflow Name"
+            [(ngModel)]="ngWorkflowName"
+            name="ngWorkflowName"
+          />
+        </td>
+      </tr>
+
+      <!-- <tr>
+               <td>
+                   <label>Dag Name: </label>
+               </td>
+               <td>
+                 <input type="text" placeholder="Dag Name" [(ngModel)]="ngDagName"  name="ngDagName">
+              </td>
+           </tr> -->
+      <tr>
+        <td>
+          <label>Description: </label>
+        </td>
+        <td>
+          <textarea
+            placeholder="Description..."
+            [(ngModel)]="ngDescription"
+            value=""
+            name="ngDescription"
+          ></textarea>
+        </td>
+      </tr>
+    </table>
+  </form>
+  <div style="text-align: center">
+    <p *ngIf="isSuccess" style="color: green">{{ successMessge }}</p>
+    <p *ngIf="isError" style="color: red">{{ errorMessge }}</p>
+  </div>
+  <div class="row" style="justify-content: center">
+    <button
+      class="btn btn-success"
+      form="login-form"
+      type="submit"
+      style="width: 150px"
+      (click)="requestSubmit()"
+    >
+      Create<i class="icon-material-outline-arrow-right-alt"></i>
+    </button>
+  </div>
+</div>

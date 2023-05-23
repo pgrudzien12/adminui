@@ -1,0 +1,64 @@
+<mat-card>
+  <ng-container *ngIf="!loading && objectJsonEditing && schema">
+    <mat-card-header>
+      <mat-card-title>{{ objectTypeView }} - {{ objectIDView }}</mat-card-title>
+    </mat-card-header>
+
+    <ng-container *ngIf="loading && !objectJsonEditing">
+      <div class="d-flex justify-content-center">
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-container>
+
+    <app-edit-object-container label="Metadata - not editable" icon="sell">
+      <ng-container *ngFor="let property of metaDataProperties">
+        <app-edit-object-property
+          [property]="schema.properties[property]"
+          [value]="objectJson[property]"
+          [definitions]="schema.definitions"
+          [valueName]="property"
+          [readonly]="true"
+        ></app-edit-object-property>
+      </ng-container>
+    </app-edit-object-container>
+
+    <div class="d-flex justify-content-end mb-2 flex-container">
+      <button mat-raised-button color="warn" (click)="reset()">
+        <mat-icon>restart_alt</mat-icon>Reset
+      </button>
+      <button mat-raised-button color="primary" (click)="pushEditing()">
+        <mat-icon>rocket_launch</mat-icon>Commit
+      </button>
+    </div>
+
+    <app-edit-object-property
+      [property]="schema.properties['data']"
+      [(value)]="objectJsonEditing"
+      [definitions]="schema.definitions"
+      valueName="Attributes"
+      [expanded]="true"
+    ></app-edit-object-property>
+  </ng-container>
+</mat-card>
+
+<swal #confirmSwal [swalOptions]="confirmOptions">
+  <ng-container *swalPortal>
+    Are you sure you want to commit your modification to this object ?
+    <p>Please check your modification before saving :</p>
+
+    <div>
+      <button mat-raised-button color="primary" (click)="compare()">
+        <mat-icon>difference</mat-icon>
+        Click to get comparaison
+      </button>
+    </div>
+    <div class="comparison-container">
+      <app-json-comparison
+        [leftTree]="objectJson.data"
+        [rightTree]="objectJsonEditing"
+        [hideInitialStep]="true"
+        [hideReport]="true"
+      ></app-json-comparison>
+    </div>
+  </ng-container>
+</swal>

@@ -1,0 +1,30 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.4)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  ><p style="color: white">Loading...</p></ngx-spinner
+>
+<mat-card>
+  <div class="d-flex w-100 justify-content-between align-items-center">
+    <mat-form-field appearance="outline">
+      <mat-label> Search for member </mat-label>
+      <input matInput [formControl]="searchControl" />
+      <mat-icon color="primary" matPrefix>badge</mat-icon>
+    </mat-form-field>
+
+    <div>
+      <button mat-raised-button color="primary" (click)="openModalCreateUser()">
+        <mat-icon>add</mat-icon> Create Member
+      </button>
+    </div>
+  </div>
+
+  <app-user-list [osduMembers]="memberList">
+    <ng-template let-element>
+      <button mat-icon-button color="warn" (click)="deleteFunc(element.email)">
+        <mat-icon>delete_forever</mat-icon>
+      </button>
+    </ng-template>
+  </app-user-list>
+</mat-card>

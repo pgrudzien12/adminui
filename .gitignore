@@ -1,0 +1,4 @@
+OSDUApp/src/assets/config/config.prod.json
+OSDUApp/src/assets/config/config.dev.json
+.idea
+.vscode

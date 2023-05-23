@@ -1,0 +1,80 @@
+.widget-title {
+  color: #e59034;
+}
+
+.inner {
+  padding-top: 1%;
+  padding: 1%;
+  border: 1px solid #ddd;
+  box-shadow: 2px 2px 20px 9px #ddd;
+  margin-top: 1%;
+}
+
+button.btn.btn-success.openAddGroupModal {
+  background-color: #00667f !important;
+  border-color: #00667f !important;
+  cursor: pointer;
+  border-radius: 0px !important;
+}
+
+button.btn.btn-success {
+  border-radius: 0px !important;
+}
+
+input,
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+textarea,
+select {
+  color: black;
+}
+
+input:disabled {
+  color: grey;
+}
+
+thead th {
+  color: white !important;
+}
+
+.container {
+  padding: 3%;
+  box-shadow: 2px 2px 20px 0px grey;
+  margin-bottom: 1%;
+}
+
+h4 {
+  color: #009959;
+}
+.active .bs-stepper-circle {
+  background-color: #00a6de;
+}
+
+i.fa.fa-trash {
+  font-size: 18px;
+}
+
+th {
+  text-align: left;
+}
+
+.multiselect-dropdown .dropdown-btn {
+  border: 0px solid #fff !important;
+  padding: 0px 4px !important;
+
+  line-height: 1 !important;
+}
+.multidpd {
+  padding: 0%;
+}
+
+.multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret {
+  line-height: 15px !important;
+  width: 25px !important;
+  height: 38px !important;
+  right: 0px !important;
+  top: 0 !important;
+  padding: 2px 8px !important;
+}

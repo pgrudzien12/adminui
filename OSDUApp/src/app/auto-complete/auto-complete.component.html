@@ -1,0 +1,23 @@
+<mat-form-field appearance="outline" class="w-100">
+  <mat-label>{{ label }}</mat-label>
+  <input
+    matInput
+    [formControl]="formControl"
+    [matAutocomplete]="auto"
+    [required]="required"
+  />
+  <mat-icon color="primary" matPrefix>{{ icon }}</mat-icon>
+  <button mat-icon-button color="warn" (click)="clear()" matSuffix>
+    <mat-icon>clear</mat-icon>
+  </button>
+  <mat-autocomplete
+    autoActiveFirstOption
+    #auto="matAutocomplete"
+    [displayWith]="displayFn"
+    (optionSelected)="optionSelected($event)"
+  >
+    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+      {{ displayFn(option) }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

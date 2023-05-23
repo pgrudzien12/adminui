@@ -1,0 +1,77 @@
+<div class="modal-header" style="padding: 4px 20px" id="videoTitle">
+  <h4 class="modal-title" id="videoTitle1" style="width: 100%">
+    Download
+    <button
+      style="float: right"
+      type="button"
+      (click)="closePopup()"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+    >
+      &times;
+    </button>
+  </h4>
+</div>
+<div class="modal-body" style="padding-top: 0%; height: auto">
+  <form #myForm id="myForm">
+    <h5 style="margin-top: 0.5cm"><b>Download associated files :</b></h5>
+
+    <h6 style="margin-top: 0.5cm">
+      Select the files you want to download in the zip :
+    </h6>
+    <br />
+
+    <div
+      *ngFor="
+        let object of this.cmnSrvc.tabObjectFilesAssociated.names;
+        let i = index
+      "
+    >
+      <label>
+        <input
+          id="checkbox{{ i }}"
+          name="checkbox{{ i }}"
+          type="checkbox"
+          [(ngModel)]="tabSelectedChoices[i]"
+          (change)="calculateAttributesFileSize()"
+          style="width: 20px"
+        />
+        {{ object }}
+        {{
+          this.cmnSrvc.calculateAttributeFileSize(
+            this.cmnSrvc.tabObjectFilesAssociated.filesSize[i]
+          )
+        }}
+      </label>
+    </div>
+  </form>
+
+  <br />
+  Total size of the package : {{ calculateAttributesFileSize() }}
+  <br />
+
+  <div style="text-align: center">
+    <p *ngIf="isSuccess" style="color: green">{{ successMessge }}</p>
+    <p *ngIf="isError" style="color: red">{{ errorMessge }}</p>
+  </div>
+  <div class="row" style="justify-content: center; margin-top: 1%">
+    <button
+      class="btn btn-success"
+      form="login-form"
+      type="submit"
+      style="width: 150px"
+      (click)="downloadAssociatedFiles()"
+    >
+      Download<i class="icon-material-outline-arrow-right-alt"></i>
+    </button>
+  </div>
+</div>
+
+<div *ngIf="this.cmnSrvc.progressionBarDownloadText !== ''">
+  <mat-progress-bar
+    mode="determinate"
+    [value]="this.cmnSrvc.progressionBarDownloadValue"
+  ></mat-progress-bar>
+  <a>{{ this.cmnSrvc.progressionBarDownloadText }}</a>
+</div>

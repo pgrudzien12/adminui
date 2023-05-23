@@ -1,0 +1,45 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>ACLs of {{ objectName }}</mat-card-title>
+  </mat-card-header>
+
+  <mat-card>
+    <mat-card-header class="d-flex justify-content-between align-items-center">
+      <button mat-raised-button color="primary" (click)="openModalAddACL()">
+        <mat-icon>add</mat-icon> Add ACL</button
+      ><mat-card-title>Viewers</mat-card-title></mat-card-header
+    >
+    <mat-card-content>
+      <app-acl-list [acl]="record.acl.viewers">
+        <ng-template let-element>
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="deleteAcl(element, 'viewers')"
+            [disabled]="record.acl.viewers.length <= 1"
+          >
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+        </ng-template>
+      </app-acl-list>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="mt-2">
+    <mat-card-header><mat-card-title>Owners</mat-card-title></mat-card-header>
+    <mat-card-content>
+      <app-acl-list [acl]="record.acl.owners">
+        <ng-template let-element>
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="deleteAcl(element, 'owners')"
+            [disabled]="record.acl.owners.length <= 1"
+          >
+            <mat-icon>delete_forever</mat-icon>
+          </button></ng-template
+        ></app-acl-list
+      >
+    </mat-card-content>
+  </mat-card>
+</mat-card>

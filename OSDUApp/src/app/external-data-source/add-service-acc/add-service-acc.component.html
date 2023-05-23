@@ -1,0 +1,329 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.4)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  ><p style="color: white">Loading...</p></ngx-spinner
+>
+
+<div class="modal-header" style="padding: 4px 20px" id="videoTitle">
+  <h4 class="modal-title" id="videoTitle1" style="width: 100%">
+    Security Scheme
+    <button
+      style="float: right"
+      type="button"
+      (click)="closePopup()"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+    >
+      &times;
+    </button>
+  </h4>
+</div>
+<div class="modal-body" style="height: auto">
+  <form #myForm id="myForm">
+    <table class="tblScheme">
+      <tr>
+        <td class="td_left" style="width: 44.5%">
+          <label> Security Scheme Name:&nbsp; </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            placeholder="Security Scheme Name"
+            [(ngModel)]="ngAuthProfileName"
+            name="ngAuthProfileName"
+          />
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="td_left">
+          <label>OAuth Grant Type: </label>
+        </td>
+        <td>
+          <select
+            class="form-control"
+            [(ngModel)]="ngAuthType"
+            (change)="onAuthTypeChange($event.target.value)"
+            name="ngAuthType"
+          >
+            <option value="0" disabled="disabled" selected="selected">
+              Scheme Type
+            </option>
+            <option value="{{ type.id }}" *ngFor="let type of schemetype_list">
+              {{ type.data.Name }}
+            </option>
+          </select>
+        </td>
+        <td></td>
+      </tr>
+    </table>
+    <table class="tblScheme" *ngIf="isAuthTypeSelected && isAuthType">
+      <tr>
+        <td class="td_left" style="width: 46.5%">
+          <label>Flow: </label>
+        </td>
+        <td>
+          <select
+            class="form-control"
+            [(ngModel)]="ngFlow"
+            (change)="onFlowChange($event.target.value)"
+            name="ngFlow"
+          >
+            <option value="0" disabled="disabled" selected="selected">
+              Flow Type &nbsp;&nbsp;&nbsp;&nbsp;
+            </option>
+            <option value="{{ type.id }}" *ngFor="let type of flowtype_list">
+              {{ type.data.Name }}
+            </option>
+          </select>
+        </td>
+        <td></td>
+      </tr>
+      <tr *ngIf="isFlowTypeSelected && isFlowAuthCode && !isFlowPassword">
+        <td class="td_left">
+          <label>Callback Url: </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            placeholder="Callback Url"
+            [(ngModel)]="ngCallbackUrl"
+            name="ngCallbackUrl"
+          />
+        </td>
+        <td></td>
+      </tr>
+      <tr *ngIf="isFlowTypeSelected && isFlowAuthCode && !isFlowPassword">
+        <td class="td_left">
+          <label>Authorization URL: </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            placeholder="Authorization URL"
+            [(ngModel)]="ngAuthEndpoints"
+            name="ngAuthEndpoints"
+          />
+        </td>
+        <td></td>
+      </tr>
+      <tr *ngIf="isFlowTypeSelected">
+        <td class="td_left">
+          <label>Token URL: </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            placeholder="Token URL"
+            [(ngModel)]="ngTokenEndpoints"
+            name="ngTokenEndpoints"
+          />
+        </td>
+        <td></td>
+      </tr>
+      <tr *ngIf="isFlowTypeSelected">
+        <td class="td_left">
+          <label>Client Id: </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            placeholder="Client Id"
+            [(ngModel)]="ngClientId"
+            name="ngClientId"
+          />
+        </td>
+        <td></td>
+      </tr>
+      <tr *ngIf="isFlowTypeSelected">
+        <td class="td_left">
+          <label>Client Secret: </label>
+        </td>
+        <td>
+          <input
+            *ngIf="(Type === 'edit' && isClientSecret) || Type === 'add'"
+            type="text"
+            placeholder="Client Secret"
+            [(ngModel)]="ngClientSecret"
+            name="ngClientSecret"
+          />
+          <input
+            *ngIf="Type === 'edit' && !isClientSecret"
+            type="password"
+            disabled="disabled"
+            placeholder="Client Secret"
+            [(ngModel)]="ngClientSecret"
+            name="ngClientSecret"
+          />
+        </td>
+        <td *ngIf="Type === 'edit'">
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="editSecretKeys('ClientSecret')"
+            style="margin-left: 3%"
+          >
+            <i class="fa fa-eye"></i>&nbsp;View / Edit
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="isFlowTypeSelected">
+        <td class="td_left">
+          <label>Scopes: </label>
+        </td>
+        <td>
+          <input
+            *ngIf="(Type === 'edit' && isScopes) || Type === 'add'"
+            type="text"
+            placeholder="Scopes"
+            [(ngModel)]="ngScope"
+            name="ngScope"
+          />
+          <input
+            *ngIf="Type === 'edit' && !isScopes"
+            type="password"
+            disabled="disabled"
+            placeholder="Scopes"
+            [(ngModel)]="ngScope"
+            name="ngScope"
+          />
+        </td>
+        <td *ngIf="Type === 'edit'">
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="editSecretKeys('Scopes')"
+            style="margin-left: 3%"
+          >
+            <i class="fa fa-eye"></i>&nbsp;View / Edit
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="isFlowTypeSelected && isFlowPassword">
+        <td class="td_left">
+          <label>Username: </label>
+        </td>
+        <td>
+          <input
+            *ngIf="(Type === 'edit' && isUsername) || Type === 'add'"
+            type="text"
+            placeholder="Username"
+            [(ngModel)]="ngUsername"
+            name="ngUsername"
+          />
+          <input
+            *ngIf="Type === 'edit' && !isUsername"
+            type="password"
+            disabled="disabled"
+            placeholder="Username"
+            [(ngModel)]="ngUsername"
+            name="ngUsername"
+          />
+        </td>
+        <td *ngIf="Type === 'edit'">
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="editSecretKeys('Username')"
+            style="margin-left: 3%"
+          >
+            <i class="fa fa-eye"></i>&nbsp;View / Edit
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="isFlowTypeSelected && isFlowPassword">
+        <td class="td_left">
+          <label>Password: </label>
+        </td>
+        <td>
+          <input
+            type="password"
+            placeholder="Password"
+            [(ngModel)]="ngPassword"
+            name="ngPassword"
+          />
+        </td>
+        <td></td>
+      </tr>
+      <tr *ngIf="isFlowTypeSelected && !isFlowAuthCode && !isFlowPassword">
+        <td class="td_left">
+          <label>Audience: </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            placeholder="Audience"
+            [(ngModel)]="ngAudience"
+            name="ngAudience"
+          />
+        </td>
+        <td></td>
+      </tr>
+    </table>
+    <table></table>
+    <table class="tblScheme" *ngIf="isAuthTypeSelected && isBearerToken">
+      <tr>
+        <td class="td_left" style="width: 45%">
+          <label>Access Token: </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            placeholder="Access Token"
+            [(ngModel)]="ngAccToken"
+            name="ngAccToken"
+          />
+        </td>
+      </tr>
+    </table>
+    <table class="tblScheme" *ngIf="isAuthTypeSelected && isAPIKey">
+      <tr>
+        <td class="td_left" style="width: 45%">
+          <label>API Key: </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            placeholder="API Key"
+            [(ngModel)]="ngAPIKey"
+            name="ngAPIKey"
+          />
+        </td>
+      </tr>
+    </table>
+    <table class="tblScheme">
+      <tr>
+        <td class="td_left" style="width: 45%">
+          <label>Secret Repository URL: </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            placeholder="Secret Repository URL"
+            [(ngModel)]="ngSecretRepoUrl"
+            name="ngSecretRepoUrl"
+          />
+        </td>
+      </tr>
+    </table>
+  </form>
+  <br />
+  <div style="text-align: center">
+    <p *ngIf="isSuccess" style="color: green">{{ successMessge }}</p>
+    <p *ngIf="isError" style="color: red">{{ errorMessge }}</p>
+  </div>
+  <div class="row" style="justify-content: center">
+    <button
+      class="btn btn-success"
+      form="login-form"
+      type="submit"
+      style="width: 150px"
+      (click)="requestSubmit()"
+    >
+      {{ btnLabel }}<i class="icon-material-outline-arrow-right-alt"></i>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+.autocomplete-field {
+  flex: 1;
+}
+
+.operator-field {
+  flex-shrink: 1;
+  max-width: 100px;
+}
+
+.filter-element-container {
+  gap: 10px;
+}

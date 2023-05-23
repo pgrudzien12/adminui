@@ -1,0 +1,17 @@
+textarea {
+  height: 100px;
+  line-height: 22px;
+  padding-top: 10px;
+}
+label {
+  text-transform: capitalize;
+}
+input,
+input[type="text"],
+textarea,
+select {
+  color: black;
+}
+input:disabled {
+  color: grey;
+}

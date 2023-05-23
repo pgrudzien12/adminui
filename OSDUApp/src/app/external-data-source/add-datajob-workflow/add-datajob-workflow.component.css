@@ -1,0 +1,15 @@
+table {
+  margin: 0 auto;
+}
+input,
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+textarea,
+select {
+  color: black;
+}
+input:disabled {
+  color: grey;
+}

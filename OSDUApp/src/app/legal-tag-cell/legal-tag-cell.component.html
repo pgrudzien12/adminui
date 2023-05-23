@@ -1,0 +1,6 @@
+<ng-container *ngFor="let tag of legal.legaltags; let last = last">
+  <a href="javascript:void(0)" (click)="navigate(tag)" class="editUserhref">{{
+    tag
+  }}</a>
+  <br *ngIf="!last" />
+</ng-container>

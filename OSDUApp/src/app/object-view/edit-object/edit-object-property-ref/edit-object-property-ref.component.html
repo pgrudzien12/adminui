@@ -1,0 +1,10 @@
+<app-edit-object-property
+  *ngIf="propertyRef"
+  [property]="propertyRef"
+  [definitions]="definitions"
+  [(value)]="value"
+  [valueName]="valueName"
+  [readonly]="readonly"
+  (valueChange)="valueChanged($event)"
+>
+</app-edit-object-property>

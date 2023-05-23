@@ -1,0 +1,36 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.4)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  ><p style="color: white">Loading...</p></ngx-spinner
+>
+<mat-card>
+  <div class="d-flex justify-content-between align-items-center">
+    <mat-form-field appearance="outline">
+      <mat-label>Search for a group</mat-label>
+      <input
+        matInput
+        name="myInput"
+        [(ngModel)]="myInput"
+        (keyup)="searchFilter($event.target.value)"
+      />
+      <mat-icon color="primary" matPrefix>group</mat-icon>
+    </mat-form-field>
+    <div>
+      <button mat-raised-button color="primary" (click)="openModalCreate()">
+        <mat-icon>add</mat-icon> Create Group
+      </button>
+    </div>
+  </div>
+
+  <app-group-list [groups]="UserList">
+    <ng-template let-element>
+      <button mat-icon-button color="warn" (click)="deleteFunc(element.email)">
+        <mat-icon>delete_forever</mat-icon>
+      </button>
+    </ng-template>
+  </app-group-list>
+
+  <p style="color: red">{{ error_Message_Div }}</p>
+</mat-card>

@@ -1,0 +1,33 @@
+label {
+  text-transform: capitalize;
+}
+.modal-content {
+  width: 160% !important;
+  margin-left: -16%;
+}
+textarea {
+  height: 100px;
+  line-height: 22px;
+  padding-top: 10px;
+}
+
+.emailCheckIcon {
+  font-size: 25px;
+  color: #05ad12;
+  font-weight: bolder;
+}
+
+.dropdown-list {
+  position: relative !important;
+}
+li.multiselect-item-checkbox {
+  list-style: initial !important;
+}
+
+:host
+  ::ng-deep
+  .multiselect-item-checkbox[_ngcontent-gdv-c109]
+  input[type="checkbox"][_ngcontent-gdv-c109]
+  + div[_ngcontent-gdv-c109] {
+  font-size: 14px !important;
+}

@@ -1,0 +1,62 @@
+<h1 mat-dialog-title>Add member to {{ groupName }}</h1>
+<div mat-dialog-content class="d-flex flex-column">
+  <app-member-autocomplete
+    (selectedChange)="selectedChange($event)"
+  ></app-member-autocomplete>
+  <ng-container *ngIf="selectedMember">
+    <ng-container *ngIf="selectedMember.azureUser">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          [(ngModel)]="selectedMember.azureUser.displayName"
+          readonly
+        />
+        <mat-icon
+          color="primary"
+          matPrefix
+          *ngIf="selectedMember.azureUser.type === 'user'"
+          >person</mat-icon
+        >
+        <mat-icon
+          color="primary"
+          matPrefix
+          *ngIf="selectedMember.azureUser.type === 'application'"
+          >manage_accounts</mat-icon
+        >
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>ID</mat-label>
+        <input matInput [(ngModel)]="selectedMember.azureUser.id" readonly />
+      </mat-form-field>
+    </ng-container>
+    <mat-form-field *ngIf="!selectedMember.azureUser" appearance="outline">
+      <mat-label>Group Name</mat-label>
+      <input matInput [(ngModel)]="selectedMember.email" readonly />
+      <mat-icon color="primary" matPrefix>group</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Role</mat-label>
+      <mat-select [(ngModel)]="selectedRole">
+        <mat-option *ngFor="let role of roleList" [value]="role">
+          {{ role.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" [mat-dialog-close]="false">
+    <mat-icon>cancel</mat-icon> Cancel
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="!selectedMember || !selectedRole"
+    (click)="requestSubmit()"
+  >
+    <mat-icon>add</mat-icon> Add member
+  </button>
+</div>

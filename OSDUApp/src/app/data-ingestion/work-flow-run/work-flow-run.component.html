@@ -1,0 +1,141 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.4)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  ><p style="color: white">Loading...</p></ngx-spinner
+>
+<div class="tab_div">
+  <div class="row" style="padding-bottom: 0px; margin-left: 0%">
+    <div class="col-xs-6 col-md-1">
+      <label style="width: 160%; margin-top: 8%">WorkFlow</label>
+      <div class="tool-tip" style="top: -30px; left: 77px">
+        <i class="fa fa-info-circle" aria-hidden="true"></i>
+        <p class="tool-tip__info">
+          <span class="info"
+            >Select a WorkFlow Name to view all the workflow runs in the
+            selected workflow.
+          </span>
+        </p>
+      </div>
+    </div>
+    <div class="col-xs-6 col-md-4">
+      <ng-select
+        [items]="workFlowNameList"
+        bindLabel="name"
+        placeholder="Select a group email"
+        [(ngModel)]="ngselectedWorkFlowName"
+      >
+      </ng-select>
+    </div>
+    <div class="col-xs-6 col-md-4">
+      <button
+        type="button"
+        class="btn btn-success openAddGroupModal"
+        [disabled]="
+          ngselectedWorkFlowName === '0' || ngselectedWorkFlowName === undefined
+        "
+        (click)="showDataWorkFlow(ngselectedWorkFlowName)"
+      >
+        <i class="fa fa-search"></i>&nbsp; Search
+      </button>
+      <button
+        type="button"
+        class="btn btn-success openAddGroupModal"
+        (click)="triggerRun()"
+        style="
+          margin-left: 1%;
+          background: rgb(0 124 102 / 1) !important;
+          border-color: rgb(0 124 102 / 1) !important;
+        "
+      >
+        &nbsp; Trigger Workflow Run
+      </button>
+    </div>
+    <div class="col-xs-6 col-md-3">
+      <input
+        id="myInput"
+        type="text"
+        placeholder="Search.."
+        name="myInput"
+        [(ngModel)]="myInput"
+        (keyup)="searchFilter($event.target.value)"
+      />
+    </div>
+  </div>
+</div>
+<p style="color: red">{{ error_Message_Div }}</p>
+<div *ngIf="workFlowRunList.length > 0" style="margin-left: 1%">
+  <div class="row" style="margin-top: -1%">
+    <div class="col-xs-12 col-md-6 col-lg-6">
+      <label>WorkFlow Name: </label> {{ currentWorkFlow }}
+    </div>
+    <div class="col-xs-12 col-md-6 col-lg-6">
+      <label>WorkFlow Id: </label> {{ currentWorkFlowID }}
+    </div>
+  </div>
+  <table id="tblMemeberDetails" class="table table-striped">
+    <thead>
+      <th class="thHover" (click)="sort('runId')">
+        runId
+        <div class="tool-tip" style="margin-left: 0%">
+          <i
+            style="color: white"
+            class="fa fa-info-circle"
+            aria-hidden="true"
+          ></i>
+          <p class="tool-tip__info">
+            <span style="text-transform: none" class="info"
+              >Click on Run Id's to view Run Details or to update the
+              status.</span
+            >
+          </p>
+        </div>
+      </th>
+      <th class="thHover" (click)="sort('submittedBy')">submittedBy</th>
+      <th class="thHover" (click)="sort('startTimeStamp')">StartTime</th>
+      <th class="thHover" (click)="sort('endTimeStamp')">EndTime</th>
+      <th class="thHover" (click)="sort('status')">status</th>
+    </thead>
+    <tbody id="myTableUsers">
+      <tr
+        *ngFor="
+          let run of workFlowRunList
+            | slice : (page - 1) * pageSize : (page - 1) * pageSize + pageSize
+        "
+      >
+        <td>
+          <a
+            href="javascript:void(0);"
+            (click)="openModalRun(run)"
+            class="editUserhref"
+          >
+            {{ run.runId }}
+          </a>
+          <!-- {{run.runId}} -->
+        </td>
+        <td>{{ run.submittedBy }}</td>
+        <td>{{ run.startTimeStamp | date : "short" }}</td>
+        <td *ngIf="run.endTimeStamp === 0">{{ run.endTimeStamp }}</td>
+        <td *ngIf="run.endTimeStamp !== 0">
+          {{ run.endTimeStamp | date : "short" }}
+        </td>
+        <td>
+          <span [ngStyle]="{ color: styleStatus(run.status) }"
+            ><b>{{ run.status }}</b>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="workFlowRunList.length > 10">
+  <ngb-pagination
+    [collectionSize]="workFlowRunList.length"
+    [(page)]="page"
+    [maxSize]="5"
+    [rotate]="true"
+    [ellipses]="false"
+    [boundaryLinks]="true"
+  ></ngb-pagination>
+</div>

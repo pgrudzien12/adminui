@@ -1,0 +1,55 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.4)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  ><p style="color: white">Loading...</p></ngx-spinner
+>
+
+<div class="modal-header" style="padding: 4px 20px" id="videoTitle">
+  <h4 class="modal-title" id="videoTitle1" style="width: 100%">
+    Edit External Registration Source
+    <button
+      style="float: right"
+      type="button"
+      (click)="closePopup()"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+    >
+      &times;
+    </button>
+  </h4>
+</div>
+<div class="modal-body" style="height: auto">
+  <div class="container">
+    <form #myForm id="myForm">
+      <div class="row">
+        <div class="col-md-4">
+          <label>Name :</label>
+        </div>
+        <div class="col-md-8">
+          <input
+            type="text"
+            value=""
+            id="username"
+            name="username"
+            placeholder="Registration Source Name"
+          />
+        </div>
+      </div>
+    </form>
+
+    <div class="row" style="justify-content: center">
+      <button
+        class="btn btn-success"
+        form="login-form"
+        type="submit"
+        style="width: 150px"
+        (click)="requestSubmit()"
+      >
+        Update<i class="icon-material-outline-arrow-right-alt"></i>
+      </button>
+    </div>
+  </div>
+</div>

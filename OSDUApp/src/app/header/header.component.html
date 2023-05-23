@@ -1,0 +1,21 @@
+<mat-toolbar>
+  <div class="d-flex align-items-center flex-gap">
+    <button mat-icon-button color="primary" (click)="toggleSidenav()">
+      <mat-icon>{{ sidenavService.isOpened ? "menu_open" : "menu" }}</mat-icon>
+    </button>
+    <img
+      src="../../assets/images/osdu_logo.png"
+      alt="Logo"
+      class="app-logo"
+      (click)="goHome()"
+    />
+    <h5>
+      Admin Ui
+      <ng-container *ngIf="headerService.pageTitle">
+        - {{ headerService.pageTitle }}
+      </ng-container>
+    </h5>
+  </div>
+  <span class="toolbar-spacer"></span>
+  <app-user-menu></app-user-menu>
+</mat-toolbar>

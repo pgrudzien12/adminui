@@ -1,0 +1,177 @@
+<!-- <ngx-spinner bdColor = "rgba(0, 0, 0, 0.4)" size = "medium" color = "#fff" type = "ball-scale-multiple" ><p style="color: white" > Loading... </p></ngx-spinner> -->
+
+<div class="modal-header" style="padding: 4px 20px" id="videoTitle">
+  <h4 class="modal-title" id="videoTitle1" style="width: 100%">
+    {{ legalDetails.name }}
+    <button
+      style="float: right"
+      type="button"
+      (click)="closePopup()"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+    >
+      &times;
+    </button>
+  </h4>
+</div>
+<div class="modal-body" style="height: auto">
+  <form #myForm id="myForm">
+    <div class="row">
+      <div class="col-md-3">
+        <label>Contract ID :</label>
+      </div>
+      <div class="col-md-3">
+        <input
+          type="text"
+          value="{{ legalDetails.properties.contractId }}"
+          id="contractid"
+          name="contractid"
+          placeholder="contractid"
+        />
+      </div>
+      <div class="col-md-3">
+        <label>expiration Date :</label>
+      </div>
+      <div class="col-md-3">
+        <input
+          (click)="d.toggle()"
+          class="form-control"
+          autocomplete="off"
+          placeholder="{{ legalDetails.properties.expirationDate }}"
+          name="dp"
+          [(ngModel)]="selectedexpirationDate"
+          [startDate]="selectedexpirationDate"
+          ngbDatepicker
+          #d="ngbDatepicker"
+        />
+
+        <!-- <input type="text" value="{{legalDetails.properties.expirationDate}}" id="expirationDate" name="expirationDate" placeholder="yyyy-mm-dd"/> -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <label>Originator :</label>
+      </div>
+      <div class="col-md-3">
+        <!-- <label>{{legalDetails.properties.originator}}</label>   -->
+        <input
+          type="text"
+          disabled="disabled"
+          contenteditable="false"
+          value="{{ legalDetails.properties.originator }}"
+          id="dataType"
+          name="dataType"
+        />
+        <!-- <input type="text" placeholder="originator" [(ngModel)]="selectedoriginator"  value="" id="originator" name="originator"/> -->
+      </div>
+      <div class="col-md-3">
+        <label>personal Data :</label>
+      </div>
+      <div class="col-md-3">
+        <input
+          type="text"
+          disabled="disabled"
+          contenteditable="false"
+          value="{{ legalDetails.properties.personalData }}"
+          id="dataType"
+          name="dataType"
+        />
+        <!-- <input type="text" placeholder="personal data"  value="" id="personalData" name="personalData"/> -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <label>security Classification :</label>
+      </div>
+      <div class="col-md-3">
+        <input
+          type="text"
+          disabled="disabled"
+          contenteditable="false"
+          value="{{ legalDetails.properties.securityClassification }}"
+          id="dataType"
+          name="dataType"
+        />
+        <!-- <input type="text" placeholder="security classification"  value="" id="securityClassification" name="securityClassification"/> -->
+      </div>
+      <div class="col-md-3">
+        <label>country Of Origin :</label>
+      </div>
+      <div class="col-md-3">
+        <input
+          type="text"
+          disabled="disabled"
+          contenteditable="false"
+          value="{{ legalDetails.properties.countryOfOrigin }}"
+          id="dataType"
+          name="dataType"
+        />
+        <!-- <ng-multiselect-dropdown style=" list-style: initial !important;" [placeholder]="'select country'" [data]="cities" 
+                [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+            </ng-multiselect-dropdown> -->
+        <!-- <input type="text" placeholder="country of origin"  value="" id="countryOfOrigin" name="countryOfOrigin"/> -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <label>Data Type :</label>
+      </div>
+      <div class="col-md-3">
+        <!-- <label>{{legalDetails.properties.dataType}}</label>                    -->
+        <input
+          type="text"
+          disabled="disabled"
+          contenteditable="false"
+          value="{{ legalDetails.properties.dataType }}"
+          id="dataType"
+          name="dataType"
+        />
+      </div>
+
+      <div class="col-md-3">
+        <label>export Classification :</label>
+      </div>
+      <div class="col-md-3">
+        <input
+          type="text"
+          disabled="disabled"
+          contenteditable="false"
+          value="{{ legalDetails.properties.exportClassification }}"
+          id="dataType"
+          name="dataType"
+        />
+        <!-- <input type="text" value="" id="export classification"  name="exportClassification" placeholder="exportClassification"/> -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <label>Description :</label>
+      </div>
+      <div class="col-md-9">
+        <textarea
+          placeholder="description..."
+          value="{{ legalDetails.description }}"
+          id="description"
+          name="description"
+        ></textarea>
+      </div>
+    </div>
+  </form>
+
+  <div style="text-align: center">
+    <p *ngIf="isSuccess" style="color: green">{{ successMessge }}</p>
+    <p *ngIf="isError" style="color: red">{{ errorMessge }}</p>
+  </div>
+  <div class="row" style="justify-content: center">
+    <button
+      class="btn btn-success"
+      form="login-form"
+      type="submit"
+      style="width: 150px"
+      (click)="requestSubmit()"
+    >
+      Update<i class="icon-material-outline-arrow-right-alt"></i>
+    </button>
+  </div>
+</div>

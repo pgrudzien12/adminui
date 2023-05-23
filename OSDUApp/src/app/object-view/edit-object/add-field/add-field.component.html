@@ -1,0 +1,40 @@
+<button
+  mat-icon-button
+  color="primary"
+  (click)="add()"
+  *ngIf="missingValues && missingValues.length > 0"
+>
+  <mat-icon>add</mat-icon>
+</button>
+
+<ng-template #dialog>
+  <h1 mat-dialog-title>Add field</h1>
+  <div mat-dialog-content>
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Select field</mat-label>
+      <mat-select [(ngModel)]="selectedField">
+        <mat-option *ngFor="let missing of missingValues" [value]="missing">{{
+          missing
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <ng-container
+      *ngIf="
+        objectProperties[selectedField] &&
+        objectProperties[selectedField].description
+      "
+    >
+      <span>{{ objectProperties[selectedField].description }}</span>
+    </ng-container>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-raised-button color="primary" [matDialogClose]="true">
+      OK
+    </button>
+    <button mat-raised-button [matDialogClose]="false" color="warn">
+      Cancel
+    </button>
+  </div>
+</ng-template>

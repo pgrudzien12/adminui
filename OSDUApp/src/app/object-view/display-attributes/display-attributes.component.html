@@ -1,0 +1,41 @@
+<div class="d-flex justify-content-end flex-gap">
+  <button mat-raised-button color="primary" (click)="expandAll()">
+    <mat-icon>unfold_more</mat-icon>
+    Expand all
+  </button>
+  <button mat-raised-button color="primary" (click)="collapseAll()">
+    <mat-icon>unfold_less</mat-icon>
+    Collapse all
+  </button>
+</div>
+
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+    <button mat-icon-button disabled></button>
+    <div>
+      <span class="attribute-name mr-2">{{ node.name }}:</span>
+
+      <a
+        [routerLink]="navigateTo(node.value)"
+        class="editUserhref"
+        *ngIf="isRegexIDWithIndent(node.value)"
+        title="Click here to view object Details"
+      >
+        {{ cleanAttributeID(node.value) }}
+      </a>
+      <span *ngIf="!isRegexIDWithIndent(node.value)">{{ node.value }}</span>
+    </div>
+  </mat-tree-node>
+  <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+    <button
+      mat-icon-button
+      matTreeNodeToggle
+      [attr.aria-label]="'Toggle ' + node.name"
+    >
+      <mat-icon class="mat-icon-rtl-mirror">
+        {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
+      </mat-icon>
+    </button>
+    <span class="attribute-name">{{ node.name }}</span>
+  </mat-tree-node>
+</mat-tree>

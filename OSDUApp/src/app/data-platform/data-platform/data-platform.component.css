@@ -1,0 +1,48 @@
+a.search_href {
+  text-decoration: underline;
+  font-weight: 600;
+  font-size: 17px;
+  color: #e59034;
+}
+a.search_href:hover {
+  color: black;
+}
+a.search_href_diabled {
+  color: #c3c2c2;
+}
+
+input[type="checkbox"] {
+  height: 15px;
+  box-shadow: none;
+}
+
+.table-container {
+  overflow-x: visible;
+  max-width: 100%;
+}
+
+.page-container {
+  overflow: hidden;
+}
+
+app-osdu-object-list {
+  width: 86vw;
+}
+
+.search-field {
+  flex: 1;
+}
+
+.checkbox-container {
+  min-width: 200px;
+}
+
+.header-container {
+  gap: 10px;
+}
+
+::ng-deep .checkbox-container .mat-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

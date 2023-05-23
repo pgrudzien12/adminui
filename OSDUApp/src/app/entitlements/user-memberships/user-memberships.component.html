@@ -1,0 +1,16 @@
+<div class="d-flex justify-content-between align-items-center">
+  <mat-form-field appearance="outline">
+    <mat-label>Search for group</mat-label>
+    <input matInput [formControl]="searchControl" />
+    <mat-icon color="primary" matPrefix>group</mat-icon>
+  </mat-form-field>
+  <app-groupe-type-radio-button
+    label="Filter by group type"
+    (selectedGroupChange)="selectedGroupChange($event)"
+  ></app-groupe-type-radio-button>
+</div>
+<app-user-list
+  [osduMembers]="filteredGroups"
+  [displayedColumns]="displayedColumns"
+>
+</app-user-list>

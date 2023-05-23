@@ -1,0 +1,11 @@
+.checkbox {
+  width: 200px;
+  background-color: #098043;
+  color: #fff;
+  margin: auto;
+}
+input {
+  margin: auto;
+  /*setting margin to auto of the cheeckbox*/
+  display: flex; /*Flex box property*/
+}

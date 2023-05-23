@@ -1,0 +1,144 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.4)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  ><p style="color: white">Loading...</p></ngx-spinner
+>
+
+<div class="modal-header" style="padding: 4px 20px" id="videoTitle">
+  <h4 class="modal-title" id="videoTitle1" style="width: 100%">
+    Workflow
+    <button
+      style="float: right"
+      type="button"
+      (click)="closePopup()"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+    >
+      &times;
+    </button>
+  </h4>
+</div>
+<div class="modal-body" style="height: auto">
+  <form #myForm id="myForm">
+    <table>
+      <tr>
+        <td>
+          <label>Tag<span class="asterix">*</span> </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            placeholder="Tag"
+            [(ngModel)]="ngSelectedTag"
+            name="ngSelectedTag"
+          />
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <label>Handler : </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            placeholder="Handler"
+            [(ngModel)]="ngSelectedHandler"
+            name="ngSelectedHandler"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Parameters : </label>
+        </td>
+        <td>
+          <select
+            class="form-control"
+            [(ngModel)]="ngParameters"
+            name="ngParameters"
+          >
+            <option value="0" selected="selected">Parameters</option>
+            <option value="{{ para.Name }}" *ngFor="let para of ParameterList">
+              {{ para.Name }}
+            </option>
+          </select>
+        </td>
+        <td>
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="openModalAddParameter('add')"
+            style="margin-left: 5px; margin-bottom: 14px"
+          >
+            <i class="fa fa-plus"></i>&nbsp;Add
+          </button>
+        </td>
+        <td>
+          <button
+            type="button"
+            class="btn btn-success"
+            [disabled]="ngParameters === '0'"
+            (click)="openModalAddParameter('edit')"
+            style="margin-bottom: 15px; margin-left: 1%"
+          >
+            <i class="fa fa-eye"></i>&nbsp; Edit
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>URL: </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            placeholder="URL"
+            [(ngModel)]="ngSelectedURL"
+            name="ngSelectedURL"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Service Account Name<span class="asterix">*</span> </label>
+        </td>
+        <td>
+          <select
+            class="form-control"
+            [(ngModel)]="ngSelectedAccountName"
+            name="ngSelectedAccountName"
+          >
+            <option value="0" selected="selected">
+              Select Service Account Name
+            </option>
+            <option
+              value="{{ acc }}"
+              *ngFor="let acc of serviceAccountNameList"
+            >
+              {{ acc }}
+            </option>
+          </select>
+        </td>
+      </tr>
+    </table>
+  </form>
+  <div style="text-align: center">
+    <p *ngIf="isSuccess" style="color: green">{{ successMessge }}</p>
+    <p *ngIf="isError" style="color: red">{{ errorMessge }}</p>
+  </div>
+  <div class="row" style="justify-content: center">
+    <button
+      class="btn btn-success"
+      form="login-form"
+      type="submit"
+      style="width: 150px"
+      (click)="requestSubmit()"
+    >
+      {{ btnLabel }}<i class="icon-material-outline-arrow-right-alt"></i>
+    </button>
+  </div>
+</div>

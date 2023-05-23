@@ -1,0 +1,17 @@
+<mat-accordion>
+  <mat-expansion-panel [expanded]="expanded">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="d-flex align-items-center">
+        <mat-icon *ngIf="icon" color="primary" class="mr-2">{{
+          icon
+        }}</mat-icon>
+        {{ label }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent>
+      <ng-content> </ng-content>
+    </ng-template>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<div class="mb-2"></div>

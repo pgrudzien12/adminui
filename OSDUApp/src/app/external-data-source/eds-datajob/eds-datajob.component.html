@@ -1,0 +1,294 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.4)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  ><p style="color: white">Loading...</p></ngx-spinner
+>
+<div class="outer-div">
+  <h4 class="widget-title">External Source Data Jobs</h4>
+
+  <div class="inner" style="padding-bottom: 0%; margin-bottom: 1%">
+    <div class="row">
+      <div class="col-md-2">
+        <label class="label">Registered Sources : </label>
+      </div>
+      <div class="col-md-4">
+        <select
+          class="form-control"
+          [(ngModel)]="ngRegSource"
+          name="platform"
+          (change)="viewDataJob()"
+        >
+          <option value="0" selected="selected">
+            Select Registered Sources
+          </option>
+          <option
+            value="{{ source.id }}"
+            *ngFor="let source of eds_connectionsource_list"
+          >
+            {{ source["data"]["Name"] }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <button
+          type="button"
+          class="btn btn-success"
+          [disabled]="ngRegSource === '0'"
+          (click)="viewDataJob()"
+        >
+          <i class="fa fa-eye"></i>&nbsp;View
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="inner" *ngIf="isViewDataJob">
+    <div class="row">
+      <div class="col-md-2">
+        <label class="label">Data Jobs : </label>
+      </div>
+      <div class="col-md-4">
+        <select
+          class="form-control"
+          [(ngModel)]="ngDataJob"
+          name="platform"
+          (change)="openModalEdit('edit', ngDataJob)"
+        >
+          <option value="0" selected="selected">Select a Data Job</option>
+          <option value="{{ job.id }}" *ngFor="let job of EDSDataJobFullList">
+            {{ job.data.Name }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="openModalEdit('add', 0)"
+        >
+          <i class="fa fa-plus"></i>&nbsp;Add
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          style="margin-left: 1%"
+          [disabled]="ngDataJob === '0'"
+          (click)="openModalEdit('edit', ngDataJob)"
+        >
+          <i class="fa fa-eye"></i>&nbsp;View / Edit
+        </button>
+      </div>
+    </div>
+    <hr />
+    <div *ngIf="isViewSelected" class="inner-table" style="padding-right: 6%">
+      <div class="row">
+        <div class="col-md-2">
+          <label>ID <span class="asterix">*</span> </label>
+        </div>
+        <div class="col-md-4">
+          <input
+            placeholder="ID"
+            contenteditable="false"
+            disabled="disabled"
+            [(ngModel)]="ngSelectedJobID"
+            value="{{ ngSelectedJobID }}"
+            type="text"
+          />
+        </div>
+        <div class="col-md-2">
+          <label>Name <span class="asterix">*</span></label>
+        </div>
+        <div class="col-md-4">
+          <input
+            placeholder="Name"
+            [(ngModel)]="ngSelectedJobName"
+            value="{{ ngSelectedJobName }}"
+            type="text"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label>Fetch Kind </label>
+        </div>
+        <div class="col-md-4">
+          <input
+            placeholder="Fetch kind"
+            [(ngModel)]="ngSelectedFetchKind"
+            value="{{ ngSelectedFetchKind }}"
+            type="text"
+          />
+        </div>
+        <div class="col-md-2">
+          <label>Fetch Data Filter </label>
+        </div>
+        <div class="col-md-4">
+          <input
+            placeholder="Fetch Filter"
+            [(ngModel)]="ngFetchFilter"
+            value="{{ ngFetchFilter }}"
+            type="text"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label>Schedule UTC </label>
+        </div>
+        <div class="col-md-4">
+          <input
+            placeholder="Schedule UTC (CRON format)"
+            [(ngModel)]="ngSelectedUTC"
+            value="{{ ngSelectedUTC }}"
+            type="text"
+          />
+        </div>
+        <div class="col-md-2">
+          <label>Job Active<span class="asterix">*</span></label>
+        </div>
+        <div class="col-md-4">
+          <input
+            placeholder="Fetch Filter"
+            [(ngModel)]="ngJobActive"
+            value="{{ ngJobActive }}"
+            type="checkbox"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label>Source Partition ID </label>
+        </div>
+        <div class="col-md-4">
+          <input
+            placeholder="Source Partition ID"
+            (keyup)="nameValidation($event.target.value, 'source')"
+            title="ID of the external partition containing the desired data"
+            [(ngModel)]="ngSelectedSourcePartition"
+            value="{{ ngSelectedSourcePartition }}"
+            type="text"
+          />
+          <p *ngIf="isSrcNameError" style="color: red">
+            Name should contain no special characters other than dashes or
+            underscores.
+          </p>
+        </div>
+        <div class="col-md-2">
+          <label>Ingestion Partition ID </label>
+        </div>
+        <div class="col-md-4">
+          <input
+            placeholder="Ingestion Partition ID"
+            (keyup)="nameValidation($event.target.value, 'ingestion')"
+            title="Consumer partition the incoming data will be placed in."
+            [(ngModel)]="ngSelectedIngestionPartition"
+            value="{{ ngSelectedIngestionPartition }}"
+            type="text"
+          />
+          <p *ngIf="isIngNameError" style="color: red">
+            Name should contain no special characters other than dashes or
+            underscores.
+          </p>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-xs-12 col-md-6">
+          <h4>WorkFlow</h4>
+        </div>
+        <div class="col-xs-12 col-md-6">
+          <button
+            type="button"
+            class="btn btn-success btnGreen"
+            (click)="openModalAddWorkFlow('add')"
+            style="margin-bottom: 14px; float: right"
+          >
+            <i class="fa fa-plus"></i>&nbsp;Add WorkFlow
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th rowspan="2"></th>
+                <th rowspan="2">Tag</th>
+                <th rowspan="2">Handler</th>
+                <th rowspan="2">URL</th>
+                <th rowspan="2">SecuritySchemeName</th>
+                <th colspan="2">Parameters</th>
+              </tr>
+              <tr>
+                <th>Name</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let wflow of EDSWorkFlowList">
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-success btnPencilOrange"
+                    (click)="openModalEditWorkFlow(wflow)"
+                  >
+                    <i class="fa fa-pencil"></i>
+                  </button>
+                </td>
+                <td>{{ wflow.Tag }}</td>
+                <td>{{ wflow.Handler }}</td>
+                <td>{{ wflow.Url }}</td>
+                <td>{{ wflow.SecuritySchemeName }}</td>
+                <td>
+                  <ul>
+                    <li *ngFor="let para of wflow.Parameters">
+                      {{ para.Name }}
+                    </li>
+                  </ul>
+                </td>
+                <td>
+                  <ul>
+                    <li *ngFor="let para of wflow.Parameters">
+                      {{ para.Value }}
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div style="margin-top: 2%">
+        <p *ngIf="isSuccess" style="color: green">{{ successMessge }}</p>
+        <p *ngIf="isError" style="color: red">{{ errorMessge }}</p>
+      </div>
+      <div>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="previewDataJobRegistry()"
+          style="
+            background: rgb(0 124 102 / 1) !important;
+            border-color: rgb(0 124 102 / 1) !important;
+          "
+        >
+          Save
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="resetForm('full')"
+          style="
+            background: rgb(0 124 102 / 1) !important;
+            border-color: rgb(0 124 102 / 1) !important;
+            margin-left: 1%;
+          "
+        >
+          Clear
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

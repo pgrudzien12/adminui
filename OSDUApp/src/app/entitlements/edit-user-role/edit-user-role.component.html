@@ -1,0 +1,7 @@
+<mat-form-field *ngIf="member">
+  <mat-select [(ngModel)]="member.role" (selectionChange)="changeRole()">
+    <mat-option *ngFor="let role of roleList" [value]="role.name">
+      {{ role.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

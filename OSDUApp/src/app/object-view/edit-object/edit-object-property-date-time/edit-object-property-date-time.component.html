@@ -1,0 +1,16 @@
+<mat-form-field appearance="outline" class="w-100">
+  <mat-label>{{ valueName }}</mat-label>
+  <input
+    matInput
+    [ngxMatDatetimePicker]="picker"
+    placeholder="Choose a date"
+    [formControl]="formControl"
+    [readonly]="readonly"
+  />
+  <mat-datepicker-toggle
+    matSuffix
+    [for]="picker"
+    *ngIf="!readonly"
+  ></mat-datepicker-toggle>
+  <ngx-mat-datetime-picker #picker> </ngx-mat-datetime-picker>
+</mat-form-field>

@@ -1,0 +1,45 @@
+<div class="d-flex align-items-center">
+  <div class="flex-full">
+    <mat-form-field appearance="outline" class="w-100" *ngIf="displayInput">
+      <mat-label>Select columns to display</mat-label>
+      <mat-chip-list #chipList>
+        <mat-chip
+          *ngFor="let col of displayedColumns"
+          (removed)="remove(col)"
+          class="mat-chip-selected"
+        >
+          {{ col }}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <input
+          placeholder="Add column..."
+          #colInput
+          [formControl]="colCtrl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="add($event)"
+        />
+      </mat-chip-list>
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="selected($event)"
+      >
+        <mat-option *ngFor="let col of filteredCols | async" [value]="col">
+          {{ col }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <button
+    mat-icon-button
+    [color]="displayInput ? 'accent' : 'primary'"
+    (click)="displayInput = !displayInput"
+    [matTooltip]="displayInput ? 'Hide column filter' : 'Show column filter'"
+  >
+    <mat-icon>view_column</mat-icon>
+  </button>
+</div>

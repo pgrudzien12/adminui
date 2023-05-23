@@ -1,0 +1,116 @@
+<table mat-table [dataSource]="dataSource" class="w-100">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>ID</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.email }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="type">
+    <th mat-header-cell *matHeaderCellDef>Type</th>
+    <td mat-cell *matCellDef="let element; let i = index">
+      <mat-icon color="primary" *ngIf="isGroup(element)" matTooltip="Group"
+        >group</mat-icon
+      >
+
+      <ng-container *ngIf="!isGroup(element) && azureUsers[i]">
+        <ng-container *ngIf="azureUsers[i].id !== 'unknown'">
+          <mat-icon
+            color="primary"
+            matTooltip="User"
+            *ngIf="azureUsers[i].type === 'user'"
+            >person</mat-icon
+          >
+          <mat-icon
+            color="primary"
+            *ngIf="azureUsers[i].type === 'application'"
+            matTooltip="Application"
+            >manage_accounts</mat-icon
+          >
+        </ng-container>
+
+        <mat-icon
+          color="primary"
+          *ngIf="azureUsers[i].id === 'unknown'"
+          matTooltip="Unknown"
+          >question_mark</mat-icon
+        >
+      </ng-container>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="displayName">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let element; let i = index">
+      <a
+        *ngIf="!isGroup(element) && azureUsers[i]"
+        class="editUserhref"
+        [routerLink]="'/entitlement/user-profile/' + element.email"
+        >{{ azureUsers[i].displayName }}</a
+      >
+      <a
+        class="editUserhref"
+        (click)="navigateToGroup(element)"
+        href="javascript:void(0);"
+        *ngIf="isGroup(element)"
+        >{{ element.email }}</a
+      >
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="mail">
+    <th mat-header-cell *matHeaderCellDef>Email</th>
+    <td mat-cell *matCellDef="let element; let i = index">
+      <span *ngIf="!isGroup(element) && azureUsers[i]">{{
+        azureUsers[i].mail
+      }}</span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="role">
+    <th mat-header-cell *matHeaderCellDef>Role</th>
+    <td mat-cell *matCellDef="let element">
+      <app-edit-user-role
+        [member]="element"
+        [group]="group"
+        *ngIf="editRole && !isGroup(element)"
+      ></app-edit-user-role>
+      <ng-container *ngIf="!editRole || isGroup(element)">
+        {{ element.role }}
+      </ng-container>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let element">
+      <ng-template
+        [ngTemplateOutlet]="templateRef"
+        [ngTemplateOutletContext]="{ $implicit: element }"
+      ></ng-template>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayedColumns; let even = even"
+    [ngClass]="{ strippedRow: even }"
+  ></tr>
+</table>
+
+<app-empty-state
+  icon="person_search"
+  text="No member to display"
+  *ngIf="dataSource.data.length === 0"
+>
+</app-empty-state>
+
+<mat-paginator
+  #paginator
+  [pageSize]="10"
+  [pageSizeOptions]="[5, 10, 25, 100]"
+  aria-label="Select page"
+  (page)="provideAzureUser()"
+  [hidden]="dataSource.data.length === 0"
+>
+</mat-paginator>

@@ -1,0 +1,19 @@
+.empty-state {
+  width: 100%;
+  margin-top: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.mat-icon {
+  transform: scale(9);
+  color: var(--blur-color);
+}
+
+span {
+  margin-top: 100px;
+  text-align: center;
+  color: var(--blur-color);
+}

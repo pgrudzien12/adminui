@@ -1,0 +1,168 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.4)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  ><p style="color: white">Loading...</p></ngx-spinner
+>
+<mat-card>
+  <div class="d-flex flex-column">
+    <div>
+      <div class="col-xs-6 col-md-3 col-lg-3">
+        <button
+          type="button"
+          class="btn btn-success openAddGroupModal"
+          (click)="openModalCreate()"
+          style="
+            background: rgb(0 124 102 / 1) !important;
+            border-color: rgb(0 124 102 / 1) !important;
+            margin-bottom: 1%;
+          "
+        >
+          <i class="fa fa-plus"></i>&nbsp; Create Legal Tag
+        </button>
+      </div>
+      <div class="col-xs-6 col-md-3 col-lg-3">
+        <input
+          id="myInput"
+          type="text"
+          placeholder="Search..."
+          name="myInput"
+          [(ngModel)]="myInput"
+          (keyup)="searchFilter($event.target.value)"
+        />
+        <div class="tool-tip" style="top: -53%; left: -11%">
+          <i class="fa fa-info-circle" aria-hidden="true"></i>
+          <p class="tool-tip__info">
+            <span class="info"
+              >To filter data based on Legal Tag Name or Description
+            </span>
+          </p>
+        </div>
+      </div>
+      <div class="col-xs-6 col-md-4 col-lg-4">
+        <ng-multiselect-dropdown
+          [placeholder]="'Please select Tags to Filter'"
+          [settings]="dropdownSettings"
+          [data]="legalTagNameList"
+          [(ngModel)]="selectedLegalTagNames"
+          name="countryOfOrigin"
+          (onSelect)="onItemSelect($event)"
+          (onSelectAll)="onSelectAll($event)"
+        >
+        </ng-multiselect-dropdown>
+      </div>
+      <div class="col-xs-6 col-md-2 col-lg-2">
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="searchLegalTag()"
+          style="
+            background: rgb(0 124 102 / 1) !important;
+            border-color: rgb(0 124 102 / 1) !important;
+            margin-bottom: 1%;
+          "
+        >
+          <i class="fa fa-filter"></i>&nbsp; Filter
+        </button>
+        <div class="tool-tip">
+          <i class="fa fa-info-circle" aria-hidden="true"></i>
+          <p class="tool-tip__info tooltip_right">
+            <span class="info">{{ legat_filter }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <p style="color: red">{{ error_Message_Div }}</p>
+    <div style="width: 83wv !important">
+      <div class="col-xs-12 col-md-12 col-lg-12" style="overflow-x: auto">
+        <table id="tbllegalDetails" class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th class="thHover" (click)="sort('name')" rowspan="2">
+                Name
+                <div class="tool-tip" style="margin-left: 0%">
+                  <i
+                    style="color: white"
+                    class="fa fa-info-circle"
+                    aria-hidden="true"
+                  ></i>
+                  <p class="tool-tip__info">
+                    <span style="text-transform: none" class="info"
+                      >Click on legal tag names to edit its details.</span
+                    >
+                  </p>
+                </div>
+              </th>
+              <th class="thHover" (click)="sort('description')" rowspan="2">
+                Description
+              </th>
+              <th colspan="8">Properties</th>
+            </tr>
+            <tr>
+              <th
+                class="thHover"
+                (click)="sort(hp.name)"
+                *ngFor="let hp of header_properties"
+              >
+                {{ hp.name }}
+              </th>
+            </tr>
+          </thead>
+          <tbody id="myTableLegal">
+            <tr
+              *ngFor="
+                let tags of LegalTagList
+                  | slice
+                    : (page - 1) * pageSize
+                    : (page - 1) * pageSize + pageSize
+              "
+            >
+              <td>
+                <a
+                  href="javascript:void(0);"
+                  title="Click here to edit Legal Details"
+                  (click)="openModal(tags)"
+                  class="editUserhref"
+                >
+                  {{ tags.name }}
+                </a>
+              </td>
+              <td>{{ tags.description }}</td>
+              <td>{{ tags.properties.countryOfOrigin }}</td>
+              <td>{{ tags.properties.contractId }}</td>
+              <td>{{ tags.properties.expirationDate }}</td>
+              <td>{{ tags.properties.originator }}</td>
+              <td>{{ tags.properties.dataType }}</td>
+              <td>{{ tags.properties.securityClassification }}</td>
+              <td>{{ tags.properties.personalData }}</td>
+              <td>{{ tags.properties.exportClassification }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="LegalTagList.length > 0">
+    <ngb-pagination
+      [collectionSize]="LegalTagList.length"
+      [(page)]="page"
+      [maxSize]="pageCalculation(LegalTagList, pageSize)"
+      [rotate]="true"
+      [ellipses]="false"
+      [boundaryLinks]="true"
+    ></ngb-pagination>
+    <div class="pageNum">
+      <input
+        id="pageNum"
+        type="number"
+        min="10"
+        max="50"
+        placeholder="pageSize"
+        name="myInput"
+        [(ngModel)]="pageSizeWanted"
+        (keydown.enter)="pageSwitch(pageSizeWanted)"
+      />
+    </div>
+  </div>
+</mat-card>

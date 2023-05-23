@@ -1,0 +1,120 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.4)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  ><p style="color: white">Loading...</p></ngx-spinner
+>
+
+<div class="modal-header" style="padding: 4px 20px" id="videoTitle">
+  <h4 class="modal-title" id="videoTitle1" style="width: 100%">
+    Preview
+    <button
+      style="float: right"
+      type="button"
+      (click)="closePopup()"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+    >
+      &times;
+    </button>
+  </h4>
+</div>
+<div class="modal-body" style="height: auto">
+  <div class="container">
+    <form #myForm id="myForm">
+      <div class="row">
+        <div class="col-md-3">
+          <label>ID : </label>
+        </div>
+        <div class="col-md-9">
+          <input
+            placeholder="ID"
+            contenteditable="false"
+            disabled="disabled"
+            value="{{ SourceRegDetail.ID }}"
+            type="text"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <label>Name : </label>
+        </div>
+        <div class="col-md-9">
+          <input
+            placeholder="Name"
+            contenteditable="false"
+            disabled="disabled"
+            value="{{ SourceRegDetail.data.Name }}"
+            type="text"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <label>Description : </label>
+        </div>
+        <div class="col-md-3">
+          <input
+            placeholder="Description"
+            contenteditable="false"
+            disabled="disabled"
+            value="{{ SourceRegDetail.data.Name }}"
+            type="text"
+          />
+        </div>
+        <div class="col-md-3">
+          <label>OSDU Platform Implementation : </label>
+        </div>
+        <div class="col-md-3">
+          <input
+            placeholder="OSDU Platform Implementation"
+            contenteditable="false"
+            disabled="disabled"
+            value="{{ SourceRegDetail.data.FullOSDUImplementationIndicator }}"
+            type="text"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label>Agreement IDs</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <ul>
+            <li *ngFor="let agrrement of SourceRegDetail.data.AgreementIDs">
+              {{ agrrement }}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <label>Service Accounts</label>
+        </div>
+      </div>
+      <div class="row">
+        <table class="table">
+          <thead>
+            <th *ngFor="let accHeader of ServiceAccountHeader">
+              {{ accHeader }}
+            </th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let acc of SourceRegDetail.data.ServiceAccounts">
+              <td>{{ acc.ServiceAccountName }}</td>
+              <td>{{ acc.AccountName }}</td>
+              <td>{{ acc.SecretManagerKey }}</td>
+              <td>{{ acc.TokenURL }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+  </div>
+</div>

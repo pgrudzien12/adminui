@@ -1,0 +1,26 @@
+<ng-container *ngIf="value && propertyArray">
+  <div class="d-flex justify-content-end" *ngIf="!readonly">
+    <app-add-array-element
+      [property]="property"
+      [definitions]="definitions"
+      (added)="addElement($event)"
+    ></app-add-array-element>
+  </div>
+  <ng-container *ngFor="let element of valueArray; let i = index">
+    <app-edit-object-property
+      [property]="propertyArray"
+      [definitions]="definitions"
+      [value]="element.value"
+      [readonly]="readonly"
+      (valueChange)="valueChanged($event, i)"
+      valueName="{{ valueName + ' ' + i }}"
+    >
+    </app-edit-object-property>
+  </ng-container>
+  <app-empty-state
+    *ngIf="value && value.length === 0"
+    icon="data_array"
+    text="Empty array"
+  >
+  </app-empty-state>
+</ng-container>

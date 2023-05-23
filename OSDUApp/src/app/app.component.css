@@ -1,0 +1,16 @@
+.page-container {
+  display: flex;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  flex-direction: column;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}

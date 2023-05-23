@@ -1,0 +1,51 @@
+<div [@onSideNavChange]="sideNavState ? 'open' : 'close'">
+  <mat-accordion #accordion>
+    <ng-container *ngFor="let item of items">
+      <app-drawer-item
+        [item]="item"
+        [linkText]="linkText"
+        *ngIf="!item.children?.length"
+        [ngClass]="{
+          'mat-expansion-panel-header': true,
+          'list-entry': true,
+          'list-entry-selected': selected?.value === item.value,
+          'icon-alone': true
+        }"
+        (click)="selectionChange(item)"
+      ></app-drawer-item>
+      <mat-expansion-panel hideToggle *ngIf="item.children?.length">
+        <mat-expansion-panel-header
+          [ngClass]="{
+            'list-entry': true,
+            'list-entry-selected': isChildSelected(item)
+          }"
+        >
+          <mat-panel-title>
+            <app-drawer-item
+              [item]="item"
+              [linkText]="linkText"
+            ></app-drawer-item>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-container *ngFor="let child of item.children">
+          <app-drawer-item
+            [item]="child"
+            [linkText]="linkText"
+            [ngClass]="{
+              'mat-expansion-panel-header': true,
+              'list-entry': true,
+              'list-entry-selected': selected?.value === child.value
+            }"
+            class="mat-expansion-panel-header list-entry"
+            (click)="selectionChange(child)"
+          ></app-drawer-item>
+        </ng-container>
+      </mat-expansion-panel>
+    </ng-container>
+    <mat-expansion-panel class="hidden-panel">
+      <mat-expansion-panel-header
+        ><mat-panel-title></mat-panel-title>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
