@@ -80,13 +80,5 @@ export class SidenavComponent {
       openInTab: false,
       children: [],
     },
-    {
-      icon: 'help',
-      label: 'User documentation',
-      value:
-        'https://totalworkplace.sharepoint.com/sites/TTEUganda-TilengaDataPlatform-03AdminUI/Documents%20partages/Forms/AllItems.aspx?id=%2Fsites%2FTTEUganda%2DTilengaDataPlatform%2D03AdminUI%2FDocuments%20partages%2F03%20AdminUI%2Fdocumentation%2Fuser%20documentation%2FAdmin%5FUI%5FUser%5FGuide%2Epdf&parent=%2Fsites%2FTTEUganda%2DTilengaDataPlatform%2D03AdminUI%2FDocuments%20partages%2F03%20AdminUI%2Fdocumentation%2Fuser%20documentation',
-      openInTab: true,
-      children: [],
-    },
   ];
 }
