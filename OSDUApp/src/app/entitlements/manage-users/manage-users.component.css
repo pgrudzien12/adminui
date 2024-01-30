@@ -58,17 +58,16 @@ th {
   text-align: left;
   cursor: pointer;
 }
-th.thHover:hover {
-  color: black !important;
-}
+
 
 button:disabled {
   background-color: grey !important;
   border-color: grey !important;
   color: lightgray !important;
 }
-/* .btn.btn-success, .btn.btn-register{
-   
-    color: #fff;
-    border-radius: 0px !important   
-} */
+
+.manage-users-buttons-container {
+  display: flex;
+  gap: 10px;
+}
+

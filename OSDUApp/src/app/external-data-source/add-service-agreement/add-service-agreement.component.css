@@ -1,3 +1,30 @@
 table {
   margin: 0 auto;
 }
+
+.add-service-agreement {
+  display: flex;
+  padding: 30px 0 15px;
+  align-items: center;
+}
+
+.add-service-agreement input {
+  flex-grow: 2;
+}
+
+.add-message {
+  position: absolute;
+  top: 10px;
+  left: 50px;
+}
+
+.add-message p {
+  font-style: italic;
+  font-size: 14px;
+}
+
+.btn-success {
+  margin-right: 15px;
+    float: right;
+    margin-bottom: 30px;
+}

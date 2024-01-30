@@ -26,7 +26,7 @@ input[type="checkbox"] {
 }
 
 app-osdu-object-list {
-  width: 86vw;
+  width: 100%;
 }
 
 .search-field {
@@ -45,4 +45,22 @@ app-osdu-object-list {
   display: flex;
   align-items: center;
   gap: 5px;
+}
+
+
+.mat-expansion-panel-header-title {
+  font-weight: 400 !important;
+  text-transform: uppercase !important;
+}
+
+.mat-expansion-panel-header.mat-expanded {
+  border-radius: 0;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 25px;
+}
+
+.mat-icon-smaller {
+  font-size: 16px;
+  position: relative;
+  top: 4px;
 }

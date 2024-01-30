@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CreatGroupComponent } from './creat-group/creat-group.component';
 import { AddMemberComponent } from './add-member/add-member.component';
+import { AddToGroupComponent } from './add-to-group/add-to-group.component';
 import { CreateMemberComponent } from './create-member/create-member.component';
 import { UserAutocompleteComponent } from './user-autocomplete/user-autocomplete.component';
 import { MatInputModule } from '@angular/material/input';
@@ -32,6 +33,9 @@ import { MatCardModule } from '@angular/material/card';
 import { UserMembershipsComponent } from './user-memberships/user-memberships.component';
 import { EditUserRoleComponent } from './edit-user-role/edit-user-role.component';
 import { GroupListComponent } from './group-list/group-list.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -42,6 +46,7 @@ import { GroupListComponent } from './group-list/group-list.component';
     EditUserComponent,
     CreatGroupComponent,
     AddMemberComponent,
+    AddToGroupComponent,
     CreateMemberComponent,
     UserAutocompleteComponent,
     UserListComponent,
@@ -71,6 +76,9 @@ import { GroupListComponent } from './group-list/group-list.component';
     MatSnackBarModule,
     MatCardModule,
     AppCommonModule,
+    MatExpansionModule,
+    MatCheckboxModule,
+    MatSortModule,
   ],
 })
 export class EntitlementsModule {}

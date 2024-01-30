@@ -13,6 +13,7 @@ import { map, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-add-member',
   templateUrl: './add-member.component.html',
+  styleUrls: ['./add-member.component.css'],
 })
 export class AddMemberComponent {
   selectedRole = roleList[0];

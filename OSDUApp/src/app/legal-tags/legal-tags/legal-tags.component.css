@@ -5,9 +5,7 @@ th {
   cursor: pointer;
   vertical-align: middle;
 }
-th.thHover:hover {
-  color: black !important;
-}
+
 .multiselect-dropdown {
   background-color: white !important;
 }
@@ -129,7 +127,7 @@ th.thHover:hover {
 p.tool-tip__info.tooltip_right {
   left: 50%;
   transform: translate(-50%, calc(15% + 8px));
-  transform: translate(-50%, calc(100%+1px));
+  transform: translate(-50%, calc(100% + 1px));
 }
 
 p.tool-tip__info.tooltip_right:after {
@@ -177,3 +175,47 @@ p.tool-tip__info.tooltip_right {
 
   max-width: 80px;
 }
+
+
+#myInput {
+  width: 300px;
+  display: inline-block;
+}
+
+.legal-tags-flex-div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+
+.filter-section {
+  display: flex;
+  gap: 20px;
+  padding: 0 20px;
+}
+
+.filter-section .selected-item a {
+  margin-left: 20px;
+}
+
+.filter-section .selected-item span {
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: 12px;
+}
+
+.filter-section .multiselect-dropdown .dropdown-btn .selected-item:hover {
+  box-shadow: none!important;
+  background-color: #069!important;
+}
+
+.filter-button-container {
+  flex-grow: 0;
+  min-width: 80px;
+}
+
+.filter-control {
+  flex-grow: 1;
+}
+

@@ -10,6 +10,8 @@ import { AddLegalTagComponent } from './add-legal-tag/add-legal-tag.component';
 import { StorageComponent } from './storage/storage.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 @NgModule({
   declarations: [
     LegalTagsComponent,
@@ -25,6 +27,8 @@ import { MatCardModule } from '@angular/material/card';
     NgxSpinnerModule,
     NgMultiSelectDropDownModule,
     MatCardModule,
+    MatButtonModule,
+    MatFormFieldModule,
   ],
 })
 export class LegalTagsModule {}

@@ -16,10 +16,10 @@
   </h4>
 </div>
 <div class="modal-body" style="height: auto">
-  <form #myForm id="myForm">
+  <form #myForm id="myForm" class="modal-form">
     <div class="row">
       <div class="col-md-3">
-        <label>Name :</label>
+        <label class="add-leagal-label">Name:</label>
       </div>
       <div class="col-md-3">
         <input
@@ -30,10 +30,11 @@
           name="legalname"
           (focusout)="validateLegalName($event.target.value)"
           placeholder="name"
+          class="add-legal-input"
         />
       </div>
       <div class="col-md-1 col-sm-1">
-        <div style="padding: 5px">
+        <div class="add-legal-check-icon">
           <i
             *ngIf="isNameSpin && !isNameChecked"
             class="fa fa-spinner fa-pulse emailCheckIcon"
@@ -52,7 +53,7 @@
     </div>
     <div class="row">
       <div class="col-md-3">
-        <label>Contract ID :</label>
+        <label class="add-leagal-label">Contract ID:</label>
       </div>
       <div class="col-md-3">
         <input
@@ -62,14 +63,15 @@
           [(ngModel)]="selectedcontractid"
           name="contractid"
           placeholder="contract id"
+          class="add-legal-input"
         />
       </div>
       <div class="col-md-3">
-        <label>Data Type :</label>
+        <label class="add-leagal-label">Data Type:</label>
       </div>
       <div class="col-md-3">
         <select
-          class="form-control"
+          class="form-control add-legal-input"
           [(ngModel)]="selecteddataType"
           name="dataType"
         >
@@ -83,7 +85,7 @@
     </div>
     <div class="row">
       <div class="col-md-3">
-        <label>Originator :</label>
+        <label class="add-leagal-label">Originator:</label>
       </div>
       <div class="col-md-3">
         <input
@@ -93,14 +95,15 @@
           value=""
           id="originator"
           name="originator"
+          class="add-legal-input"
         />
       </div>
       <div class="col-md-3">
-        <label>personal Data :</label>
+        <label class="add-leagal-label">personal Data:</label>
       </div>
       <div class="col-md-3">
         <select
-          class="form-control"
+          class="form-control add-legal-input"
           [(ngModel)]="selectedpersonalData"
           name="personalData"
         >
@@ -116,11 +119,11 @@
     </div>
     <div class="row">
       <div class="col-md-3">
-        <label>security Classification :</label>
+        <label class="add-leagal-label">security Classification:</label>
       </div>
       <div class="col-md-3">
         <select
-          class="form-control"
+          class="form-control add-legal-input"
           [(ngModel)]="selectedsecurityClassification"
           name="securityClassification"
         >
@@ -137,7 +140,7 @@
         <!-- <input type="text" placeholder="security classification"  value="" id="securityClassification" name="securityClassification"/> -->
       </div>
       <div class="col-md-3">
-        <label>country Of Origin :</label>
+        <label class="add-leagal-label">country Of Origin:</label>
       </div>
       <div class="col-md-3">
         <ng-multiselect-dropdown
@@ -148,6 +151,7 @@
           name="countryOfOrigin"
           (onSelect)="onItemSelect($event)"
           (onSelectAll)="onSelectAll($event)"
+          class="add-legal-input"
         >
         </ng-multiselect-dropdown>
         <!-- <ng-multiselect-dropdown style=" list-style: initial !important;" [placeholder]="'select country'" [data]="cities" 
@@ -158,12 +162,12 @@
     </div>
     <div class="row">
       <div class="col-md-3">
-        <label>expiration Date :</label>
+        <label class="add-leagal-label">expiration Date:</label>
       </div>
       <div class="col-md-3">
         <input
           (click)="d.toggle()"
-          class="form-control"
+          class="form-control add-legal-input"
           autocomplete="off"
           placeholder="yyyy-mm-dd"
           name="dp"
@@ -175,11 +179,11 @@
         <!-- <input type="text" placeholder="yyyy-mm-dd" [(ngModel)]="selectedexpirationDate" value="" id="expirationDate" name="expirationDate"/> -->
       </div>
       <div class="col-md-3">
-        <label>export Classification :</label>
+        <label class="add-leagal-label">export Classification:</label>
       </div>
       <div class="col-md-3">
         <select
-          class="form-control"
+          class="form-control add-legal-input"
           [(ngModel)]="selectedexportClassification"
           name="exportClassification"
         >
@@ -198,7 +202,7 @@
     </div>
     <div class="row">
       <div class="col-md-3">
-        <label>Description :</label>
+        <label class="add-leagal-label">Description:</label>
       </div>
       <div class="col-md-9">
         <textarea
@@ -207,6 +211,7 @@
           value=""
           id="description"
           name="description"
+          class="add-legal-input"
         ></textarea>
       </div>
     </div>
@@ -215,7 +220,7 @@
     <p *ngIf="isSuccess" style="color: green">{{ successMessge }}</p>
     <p *ngIf="isError" style="color: red">{{ errorMessge }}</p>
   </div>
-  <div class="row" style="justify-content: center">
+  <div class="row" class="buttons-container">
     <button
       class="btn btn-success"
       form="login-form"
@@ -226,7 +231,8 @@
       Create<i class="icon-material-outline-arrow-right-alt"></i>
     </button>
     <button
-      class="btn btn-success"
+      mat-raised-button
+      color="warn"
       form="login-form"
       type="submit"
       style="width: 150px; margin-left: 1%"

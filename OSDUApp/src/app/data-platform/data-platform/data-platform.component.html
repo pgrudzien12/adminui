@@ -8,7 +8,7 @@
   </div>
 
   <mat-accordion *ngIf="isDisabled || selectedStorageKind">
-    <mat-expansion-panel>
+    <mat-expansion-panel style="margin: 20px 0">
       <mat-expansion-panel-header>
         <mat-panel-title> Modify Query FIlter </mat-panel-title>
       </mat-expansion-panel-header>
@@ -19,9 +19,11 @@
         [checked]="isUserOwned"
         color="primary"
         [disabled]="!selectedStorageKindId"
+        style="margin-bottom: 20px; margin-left: 5px"
         class="checkbox-container"
         >User Owned data
         <mat-icon
+          class="mat-icon-smaller"
           color="primary"
           matTooltip="If checkbox is selected, the result only contains the records that
           the user owns. If unchecked, the result contains all records that

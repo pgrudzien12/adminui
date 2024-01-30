@@ -1,4 +1,4 @@
-<mat-form-field *ngIf="member">
+<mat-form-field *ngIf="member" class="edit-user-role">
   <mat-select [(ngModel)]="member.role" (selectionChange)="changeRole()">
     <mat-option *ngFor="let role of roleList" [value]="role.name">
       {{ role.name }}

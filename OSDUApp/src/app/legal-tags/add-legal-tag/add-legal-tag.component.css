@@ -12,9 +12,8 @@ textarea {
 }
 
 .emailCheckIcon {
-  font-size: 25px;
+  font-size: 16px;
   color: #05ad12;
-  font-weight: bolder;
 }
 
 .dropdown-list {
@@ -30,4 +29,51 @@ li.multiselect-item-checkbox {
   input[type="checkbox"][_ngcontent-gdv-c109]
   + div[_ngcontent-gdv-c109] {
   font-size: 14px !important;
+}
+
+
+.add-leagal-label {
+  text-align: right;
+  width: 100%;
+  margin-bottom: 0;
+  margin-top: 10px;
+}
+
+.add-legal-input {
+  width: 100%!important;
+  margin: 0 0 10px!important;
+}
+
+.add-legal-input:focus {
+  border-color: #80bdff;
+}
+
+.modal-body .col-md-3, .modal-body .col-md-9 {
+  padding-right: 0!important;
+}
+
+.modal-body .form-control:focus {
+  box-shadow: none;
+}
+
+#myForm.modal-form {
+  padding-left: 0px;
+  padding-right: 35px;
+  margin-bottom: 20px;
+}
+
+::ng-deep .add-legal-input .multiselect-dropdown .dropdown-btn {
+  border-color: #ced4da!important;
+}
+
+.add-legal-check-icon {
+  padding: 8px 0;
+  position: relative;
+  left: -5px;
+}
+
+.buttons-container {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 15px;
 }

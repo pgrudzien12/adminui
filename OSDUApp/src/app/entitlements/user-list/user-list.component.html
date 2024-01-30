@@ -1,37 +1,56 @@
-<table mat-table [dataSource]="dataSource" class="w-100">
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef>ID</th>
-    <td mat-cell *matCellDef="let element">
-      {{ element.email }}
+<table mat-table [dataSource]="filteredData" matSort class="w-100">
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox
+        (change)="onMasterToggle()"
+        [checked]="isAllSelected()"
+        [indeterminate]="isSomeSelected() && !isAllSelected()"
+      ></mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox
+        (change)="onCheckboxChange(row)"
+        [checked]="selection.isSelected(row)"
+      ></mat-checkbox>
     </td>
   </ng-container>
 
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.member.email }}
+    </td>
+  </ng-container>
   <ng-container matColumnDef="type">
-    <th mat-header-cell *matHeaderCellDef>Type</th>
-    <td mat-cell *matCellDef="let element; let i = index">
-      <mat-icon color="primary" *ngIf="isGroup(element)" matTooltip="Group"
-        >group</mat-icon
-      >
-
-      <ng-container *ngIf="!isGroup(element) && azureUsers[i]">
-        <ng-container *ngIf="azureUsers[i].id !== 'unknown'">
-          <mat-icon
-            color="primary"
-            matTooltip="User"
-            *ngIf="azureUsers[i].type === 'user'"
-            >person</mat-icon
-          >
-          <mat-icon
-            color="primary"
-            *ngIf="azureUsers[i].type === 'application'"
-            matTooltip="Application"
-            >manage_accounts</mat-icon
-          >
-        </ng-container>
-
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+    <td mat-cell *matCellDef="let element">
+      <ng-container>
+        <mat-icon color="primary" *ngIf="element.isGroup" matTooltip="Group"
+          >group</mat-icon
+        >
         <mat-icon
           color="primary"
-          *ngIf="azureUsers[i].id === 'unknown'"
+          matTooltip="User"
+          *ngIf="
+            !element.isGroup &&
+            element.azureMember.id !== 'unknown' &&
+            element.azureMember.type === 'user'
+          "
+          >person</mat-icon
+        >
+        <mat-icon
+          color="primary"
+          *ngIf="
+            !element.isGroup &&
+            element.azureMember.id !== 'unknown' &&
+            element.azureMember.type === 'application'
+          "
+          matTooltip="Application"
+          >manage_accounts</mat-icon
+        >
+        <mat-icon
+          color="primary"
+          *ngIf="!element.isGroup && element.azureMember.id === 'unknown'"
           matTooltip="Unknown"
           >question_mark</mat-icon
         >
@@ -40,42 +59,40 @@
   </ng-container>
 
   <ng-container matColumnDef="displayName">
-    <th mat-header-cell *matHeaderCellDef>Name</th>
-    <td mat-cell *matCellDef="let element; let i = index">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+    <td mat-cell *matCellDef="let element">
       <a
-        *ngIf="!isGroup(element) && azureUsers[i]"
         class="editUserhref"
-        [routerLink]="'/entitlement/user-profile/' + element.email"
-        >{{ azureUsers[i].displayName }}</a
+        (click)="navigateToGroup(element.member)"
+        href="javascript:void(0);"
+        *ngIf="element.isGroup"
+        >{{ element.member.email }}</a
       >
       <a
+        *ngIf="!element.isGroup"
         class="editUserhref"
-        (click)="navigateToGroup(element)"
-        href="javascript:void(0);"
-        *ngIf="isGroup(element)"
-        >{{ element.email }}</a
+        [routerLink]="'/entitlement/user-profile/' + element.member.email"
+        >{{ element.azureMember.displayName }}</a
       >
     </td>
   </ng-container>
   <ng-container matColumnDef="mail">
-    <th mat-header-cell *matHeaderCellDef>Email</th>
-    <td mat-cell *matCellDef="let element; let i = index">
-      <span *ngIf="!isGroup(element) && azureUsers[i]">{{
-        azureUsers[i].mail
-      }}</span>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+    <td mat-cell *matCellDef="let element">
+      <span *ngIf="!element.isGroup">{{ element.azureMember.mail }}</span>
     </td>
   </ng-container>
 
   <ng-container matColumnDef="role">
-    <th mat-header-cell *matHeaderCellDef>Role</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
     <td mat-cell *matCellDef="let element">
       <app-edit-user-role
-        [member]="element"
+        [member]="element.member"
         [group]="group"
-        *ngIf="editRole && !isGroup(element)"
+        *ngIf="editRole && !element.isGroup"
       ></app-edit-user-role>
-      <ng-container *ngIf="!editRole || isGroup(element)">
-        {{ element.role }}
+      <ng-container *ngIf="!editRole || element.isGroup">
+        <p class="table-padding">{{ element.member.role }}</p>
       </ng-container>
     </td>
   </ng-container>
@@ -83,10 +100,12 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Actions</th>
     <td mat-cell *matCellDef="let element">
-      <ng-template
-        [ngTemplateOutlet]="templateRef"
-        [ngTemplateOutletContext]="{ $implicit: element }"
-      ></ng-template>
+      <div style="position: relative; top: -6px">
+        <ng-template
+          [ngTemplateOutlet]="templateRef"
+          [ngTemplateOutletContext]="{ $implicit: element }"
+        ></ng-template>
+      </div>
     </td>
   </ng-container>
 
@@ -101,7 +120,7 @@
 <app-empty-state
   icon="person_search"
   text="No member to display"
-  *ngIf="dataSource.data.length === 0"
+  *ngIf="filteredData.data.length === 0"
 >
 </app-empty-state>
 
@@ -110,7 +129,5 @@
   [pageSize]="10"
   [pageSizeOptions]="[5, 10, 25, 100]"
   aria-label="Select page"
-  (page)="provideAzureUser()"
-  [hidden]="dataSource.data.length === 0"
 >
 </mat-paginator>

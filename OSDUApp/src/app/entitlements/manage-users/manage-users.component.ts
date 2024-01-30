@@ -9,6 +9,8 @@ import { Helper } from 'src/app/common/helper.service';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import swal from 'sweetalert2';
+import { forkJoin } from 'rxjs';
+import { OsduUser } from 'src/app/models/osdu-member.model';
 
 @Component({
   selector: 'app-manage-users',
@@ -21,6 +23,11 @@ export class ManageUsersComponent implements OnInit {
   private readonly debounceTime = 1000;
 
   memberList = [];
+  currentSelection: OsduUser[];
+  groupCheckboxValue: boolean = false;
+  userCheckboxValue: boolean = false;
+  appCheckboxValue: boolean = false;
+  unknownCheckboxValue: boolean = false;
 
   constructor(
     public cmnSrvc: CommonService,
@@ -115,5 +122,44 @@ export class ManageUsersComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  removeUsers() {
+    let selectionLength = this.currentSelection.length;
+    swal
+      .fire(
+        Helper.warningSweetAlertConfirmConfig(
+          'Are you sure you want to delete ' +
+            selectionLength +
+            ' selected users from the OSDU data partition '
+        )
+      )
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.launchDeleteUsers();
+        }
+      });
+  }
+
+  private launchDeleteUsers() {
+    const deleteObservables = this.currentSelection.map((element) =>
+      this.restService.deleteMember(element.member.email)
+    );
+    forkJoin(deleteObservables).subscribe({
+      next: (results) => {
+        // This will be executed after all deletions are successful
+        console.log('All users deleted', results);
+        this.showDataGroup();
+      },
+      error: (error) => {
+        // Handle error
+        console.error('Error deleting users', error);
+        this.showDataGroup();
+      },
+    });
+  }
+
+  handleSelectionChange(selectedUsers: OsduUser[]): void {
+    this.currentSelection = selectedUsers;
   }
 }

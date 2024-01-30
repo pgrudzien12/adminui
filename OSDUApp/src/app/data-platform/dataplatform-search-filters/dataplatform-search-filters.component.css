@@ -33,3 +33,23 @@
 .actions {
   gap: 10px;
 }
+
+.mat-icon-smaller {
+  font-size: 16px;
+  position: relative;
+  top: -4px;
+  left: 10px;
+}
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 3px;
+}
+
+::ng-deep .mat-select-value {
+  position: relative;
+  top: -3px;
+}
+
+.buttons-container {
+  padding: 0;
+  margin: 40px 0 20px;
+}

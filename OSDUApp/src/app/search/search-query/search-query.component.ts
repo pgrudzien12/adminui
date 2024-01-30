@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/common/common.service';
 import { RestAPILayerService } from 'src/app/common/rest-apilayer.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -7,6 +7,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AddACLComponent } from '../add-acl/add-acl.component';
 import swal from 'sweetalert2';
 import { Helper } from 'src/app/common/helper.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+// import { forEach } from 'jszip';
 
 @Component({
   selector: 'app-search-query',
@@ -23,6 +28,13 @@ export class SearchQueryComponent {
   selectedObjects = [];
   AllSelector: boolean = false;
   loading: boolean = true;
+
+  dataSource = new MatTableDataSource();
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  readonly displayedColumns = ['select', 'id', 'kind', 'version'];
 
   constructor(
     private router: Router,
@@ -72,6 +84,14 @@ export class SearchQueryComponent {
         this.resultSearchQuery = resultSearchQuery['results'];
         this.resultSearchQueryFilter = resultSearchQuery['results'];
         this.resultSearchQueryCount = resultSearchQuery['results'].length;
+
+        this.dataSource.data = this.resultSearchQuery;
+        this.dataSource.sort = this.sort;
+        console.log(this.paginator);
+        this.paginator.length = this.dataSource.data.length;
+        this.dataSource.paginator = this.paginator;
+
+        console.log(this.resultSearchQuery);
         this.spinner.hide();
         this.loading = false;
       },
@@ -92,6 +112,7 @@ export class SearchQueryComponent {
       this.resultSearchQuery,
       search
     );
+    this.dataSource.data = this.resultSearchQueryFilter;
     this.resultSearchQueryCount = this.resultSearchQueryFilter.length;
     this.AllSelector = false;
   }
@@ -113,26 +134,25 @@ export class SearchQueryComponent {
     }
   }
 
-  selectAll(value) {
-    if (value.currentTarget.checked) {
-      for (let obj in this.resultSearchQueryFilter) {
-        if (
-          !this.selectedObjects.includes(
-            this.resultSearchQueryFilter[obj]['id']
-          )
-        ) {
-          this.selectedObjects.push(this.resultSearchQueryFilter[obj]['id']);
-        }
+  selectAll(event: MatCheckboxChange) {
+    if (event.checked) {
+      this.resultSearchQueryFilter.forEach((element) =>
+        this.selectedObjects.push(element.id)
+      );
+    } else {
+      this.selectedObjects = [];
+    }
+  }
+
+  selectRow(event: MatCheckboxChange, elementID) {
+    if (event.checked) {
+      if (!this.selectedObjects.includes(elementID)) {
+        this.selectedObjects.push(elementID);
       }
     } else {
-      for (let obj in this.resultSearchQueryFilter) {
-        const index = this.selectedObjects.indexOf(
-          this.resultSearchQueryFilter[obj]['id'],
-          0
-        );
-        if (index > -1) {
-          this.selectedObjects.splice(index, 1);
-        }
+      const index = this.selectedObjects.indexOf(elementID, 0);
+      if (index > -1) {
+        this.selectedObjects.splice(index, 1);
       }
     }
   }

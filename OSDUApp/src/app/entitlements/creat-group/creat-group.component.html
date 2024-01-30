@@ -162,24 +162,28 @@
     <p *ngIf="isSuccess" style="color: green">{{ successMessge }}</p>
     <p *ngIf="isError" style="color: red">{{ errorMessge }}</p>
   </div>
-  <div class="row" style="justify-content: center">
-    <button
-      class="btn btn-success"
-      form="login-form"
-      type="submit"
-      style="width: 150px"
-      (click)="requestSubmit()"
-    >
-      Create<i class="icon-material-outline-arrow-right-alt"></i>
-    </button>
-    <button
-      class="btn btn-success"
-      form="login-form"
-      type="submit"
-      style="width: 150px; margin-left: 1%"
-      (click)="myFormreset()"
-    >
-      Clear<i class="icon-material-outline-arrow-right-alt"></i>
-    </button>
+  <div class="row">
+    <div class="buttons-container">
+      <button
+        mat-raised-button
+        color="secondary"
+        form="login-form"
+        type="submit"
+        style="width: 150px; margin-left: 1%"
+        (click)="myFormreset()"
+      >
+        Clear<i class="icon-material-outline-arrow-right-alt"></i>
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        form="login-form"
+        type="submit"
+        style="width: 150px"
+        (click)="requestSubmit()"
+      >
+        Create<i class="icon-material-outline-arrow-right-alt"></i>
+      </button>
+    </div>
   </div>
 </div>

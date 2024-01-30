@@ -932,6 +932,9 @@
   background: rgb(0 124 102 / 1); }
 .bg-flat-color-8 {
   background: #FF9800; }
+
+  .bg-flat-color-9 {
+  background: transparent }
 .transition {
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease; }
@@ -2483,7 +2486,7 @@ header .form-inline {
 
 
 input:not(.mat-input-element), input[type="text"]:not(.mat-input-element), input[type="password"]:not(.mat-input-element), input[type="email"]:not(.mat-input-element), input[type="number"]:not(.mat-input-element), textarea, select {
-    height: 37px;
+    height: 40px;
     line-height: 48px;
     padding: 0 20px;
     outline: none;
@@ -2499,7 +2502,10 @@ input:not(.mat-input-element), input[type="text"]:not(.mat-input-element), input
     opacity: 1;
     border-radius: 4px;
     border: none;
-    box-shadow: 0 1px 4px 0px rgba(0, 0, 0, 0.12);
+  border: 1px solid #ced4da;
+  width: calc(100% - 20px);
+  margin-left: 10px;
+  font-weight: 400;
 }
 
 
@@ -2609,14 +2615,28 @@ form.example::after {
 }
 
 .btn.btn-success:hover, .btn.btn-success:focus, .btn.btn-register:hover, .btn.btn-register:focus {
-  background-color: rgb(0 102 127 / 1) !important;
-  border-color: rgb(0 102 127 / 1) !important;
-  color: #fff;
+  background-color: #00a4c9!important;
 }
+
+.btn.btn-success:disabled:hover,
+.btn.btn-success:focus,
+.btn.btn-register:disabled:hover,
+.btn.btn-register:focus {
+  background-color: #00667f!important;
+}
+
+
 .btn.btn-success, .btn.btn-success, .btn.btn-register, .btn.btn-register {
-  background-color: #307594 !important;
-  border-color:#307594 !important;
+  background-color:#00667f;
+  border: none;
   color: #fff;
+  text-transform: uppercase;
+  height: 40px;
+  box-shadow: none !important;
+  border-radius: 4px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 200;
 }
 .modal-header {
   padding: 7px;
@@ -2656,8 +2676,13 @@ i.fa.fa-trash-o:hover {
 
 .editUserhref {
   cursor: pointer;
-  color: #e59034 !important;
-  font-weight: bold;
+  color: #008faf !important;
+  text-decoration: underline;
+}
+
+a.editUserhref:hover {
+   color: #008faf !important;
+   text-decoration: none;
 }
 
 .editUserhrefGroup {
@@ -2670,13 +2695,44 @@ a.editUserhrefGroup:hover {
   /* color: rgb(229 144 102 / 1) !important; */
 }
 
-a.editUserhref:hover {
-  color: black !important;
+.mat-raised-button.mat-primary {
+  text-transform: uppercase;
+  height: 40px;
+  line-height: 40px;
+  box-shadow: none!important;
 }
 
+.mat-raised-button.mat-primary:hover {
+  background-color: #00a4c9;
+}
+
+.mat-raised-button.mat-primary .mat-icon {
+  position: relative;
+  top: -2px;
+  left: -3px;
+}
+
+
 .modal-title { 
-  font-size: 15px !important;
-  padding: 3px !important;
+  font-size: 18px !important;
+  padding: 8px 8px 2px !important;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+.modal-title .close {
+  color: white!important;
+  text-shadow: none;
+  opacity: 1;
+    font-size: 32px;
+    font-weight: 200;
+    position: relative;
+    top: -5px;
+}
+
+.modal-title .close:not(:disabled):not(.disabled):hover {
+  color: white;
+  opacity: 0.6;
 }
 
 thead{    
@@ -2879,4 +2935,52 @@ form#myForm {
   margin: 20px auto;
   position: relative;
   box-sizing: content-box;
+}
+
+.modal-content {
+border-radius: 0.4rem 0.4rem 0.3rem 0.3rem;
+}
+
+.modal-content .form-control {
+  width: calc(100% - 20px);
+  margin-left: 10px;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px 40px;
+}
+
+.mat-raised-button.mat-secondary {
+  color: white;
+  text-transform: uppercase;
+  background-color: #9b220a;
+  box-shadow: none!important;
+}
+
+.mat-raised-button.mat-secondary:hover {
+background-color: #c6270b;
+}
+
+.table-bordered thead th {
+            border-bottom-width: 2px;
+            font-weight: 400;
+            color: white;
+            text-transform: uppercase;
+            font-size: 12px;
+}
+
+th.thHover:hover {
+  color: #90dcff!important;
+  opacity: 0.8;
+}
+
+.table-bordered td, .table-bordered th {
+  border: none;
+}
+
+.table thead th {
+  border-bottom: 1px solid rgba(255,255,255,0.3);
 }

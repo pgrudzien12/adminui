@@ -1,12 +1,26 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title class="d-flex align-items-center">
+      <mat-icon color="primary" class="mr-2">search</mat-icon>Search for the
+      user</mat-card-title
+    >
+  </mat-card-header>
+  <mat-card-content>
+    <app-user-autocomplete
+      (selectedChange)="selectUser($event)"
+    ></app-user-autocomplete>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="mt-3">
+  <mat-card-header>
+    <mat-card-title class="d-flex align-items-center">
       <mat-icon color="primary" class="mr-2">person</mat-icon
       >Profile</mat-card-title
     >
   </mat-card-header>
   <mat-card-content *ngIf="user">
-    <div class="d-flex">
+    <div class="d-flex gap-15">
       <mat-form-field appearance="outline" class="flex-field">
         <mat-label>Name</mat-label>
         <input matInput [ngModel]="user.displayName" readonly />
@@ -34,6 +48,6 @@
   </mat-card-header>
 
   <mat-card-content *ngIf="user"
-    ><app-user-memberships [userId]="user.id"></app-user-memberships>
+    ><app-user-memberships [user]="user"></app-user-memberships>
   </mat-card-content>
 </mat-card>

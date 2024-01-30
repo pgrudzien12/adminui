@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AzureUser } from 'src/app/models/azure-user';
 import { switchMap, filter } from 'rxjs/operators';
 import { GraphApiService } from 'src/app/common/graph-api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -14,7 +15,8 @@ export class UserProfileComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private graphApi: GraphApiService
+    private graphApi: GraphApiService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -28,5 +30,11 @@ export class UserProfileComponent implements OnInit {
       .subscribe((user) => {
         this.user = user;
       });
+  }
+
+  selectUser(user: AzureUser) {
+    this.user = user;
+    let routerLink = '/entitlement/user-profile/' + user.id;
+    this.router.navigateByUrl(routerLink);
   }
 }

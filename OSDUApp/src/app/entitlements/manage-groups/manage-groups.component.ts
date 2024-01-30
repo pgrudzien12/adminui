@@ -32,6 +32,10 @@ export class ManageGroupsComponent {
   UserList: any = [];
   fullUserList: any = [];
 
+  dataCheckboxValue: boolean = false;
+  userCheckboxValue: boolean = false;
+  serviceCheckboxValue: boolean = false;
+
   pageNum: number;
   myInput;
   headers;

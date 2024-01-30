@@ -1,0 +1,34 @@
+::ng-deep .mat-dialog-title {
+    margin: -24px -24px 20px -24px;
+    background-color: #00667f;
+    padding: 15px 26px 10px;
+    color: white;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 18px;
+}
+
+.add-member-buttons-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.field-container {
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.icon-info {
+    position: relative;
+    top: -3px;
+    right: -4px;
+}
+
+::ng-deep .mat-dialog-container .mat-form-field-label  {
+    display: inline-block !important;
+    background-color: white;
+    width: auto !important;
+    padding-right: 15px;
+}

@@ -67,9 +67,7 @@ th {
   text-align: left;
   cursor: pointer;
 }
-th.thHover:hover {
-  color: black !important;
-}
+
 /*
 ::-ms-clear {
     display: none;
@@ -155,3 +153,4 @@ th.thHover:hover {
 .flex-full {
   flex: 1;
 }
+

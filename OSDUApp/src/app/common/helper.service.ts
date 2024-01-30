@@ -83,6 +83,17 @@ export class Helper {
     };
   }
 
+  static infoSweetAlertConfig(text: string): SweetAlertOptions {
+    return {
+      title: 'Confirmation',
+      icon: 'info',
+      text,
+      customClass: {
+        confirmButton: 'mat-raised-button mat-button-base mat-primary',
+      },
+    };
+  }
+
   static confirmSweetAlertConfig(text: string): SweetAlertOptions {
     return {
       title: 'Confirm',

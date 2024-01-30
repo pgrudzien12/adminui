@@ -1,6 +1,6 @@
 .empty-state {
   width: 100%;
-  margin-top: 90px;
+  margin-top: 70px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,12 +8,18 @@
 }
 
 .mat-icon {
-  transform: scale(9);
+  transform: scale(6);
   color: var(--blur-color);
+  opacity: 0.3;
 }
 
 span {
   margin-top: 100px;
   text-align: center;
   color: var(--blur-color);
+  position: relative;
+  top: -25px;
+  font-size: 20px;
+  font-weight: 100;
+  font-style: italic;
 }

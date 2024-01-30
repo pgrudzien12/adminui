@@ -21,3 +21,19 @@ ng-star-inserted {
 .search-container {
   flex: 1;
 }
+
+.object-view-mat-card {
+  box-shadow: none;
+}
+
+.card-title {
+  font-weight: 100;
+  color: black;
+  margin-top: 20px;
+}
+
+.card-subtitle {
+  letter-spacing: 0.5px;
+  font-size: 12px;
+  top: -5px;
+}

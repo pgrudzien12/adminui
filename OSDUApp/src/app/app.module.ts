@@ -14,6 +14,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 import {
   MsalModule,
   MsalService,
@@ -70,12 +72,13 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatMenuModule,
     MatTooltipModule,
     ReactiveFormsModule,
+    MatCheckboxModule,
     MsalModule.forRoot(
       new PublicClientApplication({
         auth: {
           clientId: environment.settings.idp.client_id,
           authority: `${environment.settings.idp.auth_url}${environment.settings.idp.tenant_id}`,
-          redirectUri: window.location.origin,
+          redirectUri: environment.settings.idp.redirect_uri,
           postLogoutRedirectUri: window.location.origin,
         },
         cache: {

@@ -32,6 +32,13 @@ export class SidenavComponent {
       children: [],
     },
     {
+      icon: 'account_box',
+      label: 'User profile',
+      value: '/entitlement/user-profile/',
+      openInTab: false,
+      children: [],
+    },
+    {
       icon: 'sell',
       label: 'Manage legal tags',
       value: '/legal-tags',

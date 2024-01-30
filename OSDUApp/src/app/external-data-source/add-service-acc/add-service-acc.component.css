@@ -20,5 +20,27 @@ select {
   text-align: right;
 }
 .td_left {
-  padding-right: 5%;
+  width: 200px;
+  color: #333;
+  padding-right: 5px;
+}
+
+.tblScheme input, .tblScheme select {
+  width: 250px;
+  margin: 0 0 10px!important;
+}
+
+.button-row {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  padding-right: 15px;
+}
+
+.button-row button {
+  width: 150px;
+}
+
+.modal-body {
+      padding: 40px 20px 20px;
 }

@@ -1,0 +1,54 @@
+<h1
+  mat-dialog-title
+  class="modal-title"
+  style="padding: 10px 20px 5px !important; min-width: 600px"
+>
+  Add member to group
+</h1>
+
+<div mat-dialog-content class="d-flex flex-column">
+  <app-group-autocomplete
+    [selected]="selectedGroup"
+    [userId]="user.id"
+    (selectedChange)="selectedChange($event)"
+  ></app-group-autocomplete>
+  <ng-container *ngIf="selectedGroup">
+    <ng-container *ngIf="selectedGroup.name">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="selectedGroup.description" readonly />
+        <mat-icon color="primary" matPrefix>manage_accounts</mat-icon>
+      </mat-form-field>
+    </ng-container>
+    <mat-form-field appearance="outline">
+      <mat-label>Group Name</mat-label>
+      <input matInput [(ngModel)]="selectedGroup.email" readonly />
+      <mat-icon color="primary" matPrefix>group</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Role</mat-label>
+      <mat-select [(ngModel)]="selectedRole">
+        <mat-option *ngFor="let role of roleList" [value]="role">
+          {{ role.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
+</div>
+
+<div mat-dialog-actions>
+  <div class="add-member-buttons-container">
+    <button mat-raised-button color="secondary" [mat-dialog-close]="false">
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!selectedGroup || !selectedRole"
+      (click)="requestSubmit()"
+    >
+      Add member
+    </button>
+  </div>
+</div>

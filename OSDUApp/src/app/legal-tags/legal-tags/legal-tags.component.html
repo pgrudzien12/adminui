@@ -8,70 +8,59 @@
 <mat-card>
   <div class="d-flex flex-column">
     <div>
-      <div class="col-xs-6 col-md-3 col-lg-3">
-        <button
-          type="button"
-          class="btn btn-success openAddGroupModal"
-          (click)="openModalCreate()"
-          style="
-            background: rgb(0 124 102 / 1) !important;
-            border-color: rgb(0 124 102 / 1) !important;
-            margin-bottom: 1%;
-          "
-        >
+      <div class="legal-tags-flex-div">
+        <div>
+          <input
+            id="myInput"
+            type="text"
+            placeholder="Search..."
+            name="myInput"
+            [(ngModel)]="myInput"
+            (keyup)="searchFilter($event.target.value)"
+          />
+          <!-- <mat-form-field appearance="outline">
+              <mat-label>Name</mat-label>
+              <input matInput id="myInput" [(ngModel)]="myInput"  (keyup)="searchFilter($event.target.value)"/>
+              <mat-icon color="primary" matPrefix  >search</mat-icon>
+            </mat-form-field> -->
+          <div class="tool-tip">
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
+            <p class="tool-tip__info">
+              <span class="info"
+                >To filter data based on Legal Tag Name or Description
+              </span>
+            </p>
+          </div>
+        </div>
+        <button mat-raised-button color="primary" (click)="openModalCreate()">
           <i class="fa fa-plus"></i>&nbsp; Create Legal Tag
         </button>
       </div>
-      <div class="col-xs-6 col-md-3 col-lg-3">
-        <input
-          id="myInput"
-          type="text"
-          placeholder="Search..."
-          name="myInput"
-          [(ngModel)]="myInput"
-          (keyup)="searchFilter($event.target.value)"
-        />
-        <div class="tool-tip" style="top: -53%; left: -11%">
-          <i class="fa fa-info-circle" aria-hidden="true"></i>
-          <p class="tool-tip__info">
-            <span class="info"
-              >To filter data based on Legal Tag Name or Description
-            </span>
-          </p>
-        </div>
-      </div>
-      <div class="col-xs-6 col-md-4 col-lg-4">
+      <section class="filter-section">
         <ng-multiselect-dropdown
           [placeholder]="'Please select Tags to Filter'"
           [settings]="dropdownSettings"
           [data]="legalTagNameList"
           [(ngModel)]="selectedLegalTagNames"
           name="countryOfOrigin"
+          ngClass="filter-control"
           (onSelect)="onItemSelect($event)"
           (onSelectAll)="onSelectAll($event)"
         >
         </ng-multiselect-dropdown>
-      </div>
-      <div class="col-xs-6 col-md-2 col-lg-2">
-        <button
-          type="button"
-          class="btn btn-success"
-          (click)="searchLegalTag()"
-          style="
-            background: rgb(0 124 102 / 1) !important;
-            border-color: rgb(0 124 102 / 1) !important;
-            margin-bottom: 1%;
-          "
-        >
-          <i class="fa fa-filter"></i>&nbsp; Filter
-        </button>
-        <div class="tool-tip">
-          <i class="fa fa-info-circle" aria-hidden="true"></i>
-          <p class="tool-tip__info tooltip_right">
-            <span class="info">{{ legat_filter }}</span>
-          </p>
+
+        <div class="filter-button-container">
+          <button mat-raised-button color="primary" (click)="searchLegalTag()">
+            <i class="fa fa-filter"></i>&nbsp; Filter
+          </button>
+          <div class="tool-tip">
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
+            <p class="tool-tip__info tooltip_right">
+              <span class="info">{{ legat_filter }}</span>
+            </p>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
     <p style="color: red">{{ error_Message_Div }}</p>
     <div style="width: 83wv !important">

@@ -11,9 +11,9 @@
     <div class="row"></div>
     <div class="inner">
       <button
+        *ngIf="!isViewSelected"
         type="button"
-        class="btn btn-success btnGreen"
-        style="margin-bottom: 1%"
+        class="btn btn-success add-new-source-btn"
         (click)="openModalAdd()"
       >
         <i class="fa fa-plus"></i>&nbsp;Add New Source
@@ -34,7 +34,7 @@
             <td>
               <button
                 type="button"
-                class="btn btn-success btnGreen"
+                class="btn btn-success"
                 (click)="openModalEdit('tblValue', source)"
               >
                 <i class="fa fa-eye"></i>&nbsp;View / Edit
@@ -44,7 +44,7 @@
               <button
                 type="button"
                 routerLink="/EDS/DataJob"
-                class="btn btn-success btnGreen"
+                class="btn btn-success"
                 (click)="navigateDataJob(source.id)"
               >
                 <i class="fa fa-eye"></i>&nbsp;Manage Job
@@ -64,12 +64,13 @@
         ></ngb-pagination>
       </div>
 
-      <div *ngIf="isViewSelected" class="inner-table" style="padding-right: 6%">
-        <div class="row">
-          <div class="col-md-2">
-            <label class="label">Registered Sources : </label>
-          </div>
-          <div class="col-md-4">
+      <div *ngIf="isViewSelected" class="inner-table">
+        <div>
+          <h5 class="add-new-source-header">Add new source</h5>
+        </div>
+        <div class="inner-table-body">
+          <div class="registerd-sources">
+            <label class="label">Registered Sources: </label>
             <select
               class="form-control"
               [(ngModel)]="ngSources"
@@ -86,8 +87,6 @@
                 {{ source["data"]["Name"] }}
               </option>
             </select>
-          </div>
-          <div class="col-md-6">
             <button
               type="button"
               class="btn btn-success"
@@ -98,153 +97,152 @@
             </button>
             <button
               type="button"
-              class="btn btn-success btnGreen"
-              style="margin-left: 1%"
+              class="btn btn-success"
               (click)="navigateDataJob(ngSources)"
               [disabled]="ngSources === '0'"
             >
               <i class="fa fa-eye"></i>&nbsp;Manage Job
             </button>
           </div>
-        </div>
-        <hr />
-        <div class="row">
-          <div class="col-md-2">
-            <label>ID <span class="asterix">*</span> </label>
-          </div>
-          <div class="col-md-4">
-            <input
-              placeholder="ID"
-              contenteditable="false"
-              disabled="disabled"
-              [(ngModel)]="ngSelectedSourceID"
-              value="{{ ngSelectedSourceID }}"
-              type="text"
-            />
-          </div>
-          <div class="col-md-2">
-            <label>Name <span class="asterix">*</span></label>
-          </div>
-          <div class="col-md-4">
-            <input
-              placeholder="Name"
-              (keyup)="nameValidation($event.target.value)"
-              [(ngModel)]="ngSelectedSourceName"
-              value="{{ ngSelectedSourceName }}"
-              type="text"
-            />
-            <p *ngIf="isNameError" style="color: red">
-              Name should contain no special characters other than dashes or
-              underscores.
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-2">
-            <label>Description </label>
-          </div>
-          <div class="col-md-4">
-            <input
-              placeholder="Description"
-              [(ngModel)]="ngSourceDesc"
-              value="{{ ngSourceDesc }}"
-              type="text"
-            />
-          </div>
-          <div class="col-md-2">
-            <label>Platform Implementation<span class="asterix">*</span></label>
-          </div>
-          <div class="col-md-4">
-            <select
-              class="form-control"
-              [(ngModel)]="ngSelectedPlatform"
-              name="platform"
-            >
-              <option value="0" selected="selected">
-                Select Platform Implementation
-              </option>
-              <option
-                value="{{ platform }}"
-                *ngFor="let platform of platformImplementationList"
-              >
-                {{ platform }}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-2">
-            <label>ACL Owners</label>
-          </div>
-          <div class="col-md-4">
-            <ng-multiselect-dropdown
-              class="form-control multidpd"
-              [placeholder]="'Please select Owners'"
-              [settings]="dropdownSettings1"
-              [data]="aclList"
-              [(ngModel)]="selectedACLOwnerNames"
-              name="aclnames"
-              (onSelect)="onItemSelect('ACL', $event)"
-              (onSelectAll)="onSelectAll('ACL', $event)"
-            >
-            </ng-multiselect-dropdown>
-          </div>
-          <div class="col-md-2">
-            <label>ACL Viewers</label>
-          </div>
-          <div class="col-md-4">
-            <ng-multiselect-dropdown
-              class="form-control multidpd"
-              [placeholder]="'Please select Viewers'"
-              [settings]="dropdownSettings1"
-              [data]="aclList"
-              [(ngModel)]="selectedACLViewerNames"
-              name="selectedACLViewerNames"
-              (onSelect)="onItemSelect('ACL', $event)"
-              (onSelectAll)="onSelectAll('ACL', $event)"
-            >
-            </ng-multiselect-dropdown>
-          </div>
-        </div>
+          <hr />
+          <div class="formfield-row">
+            <div class="row">
+              <div class="col-md-2">
+                <label>ID <span class="asterix">*</span> </label>
+              </div>
+              <div class="col-md-4">
+                <input
+                  placeholder="ID"
+                  contenteditable="false"
+                  disabled="disabled"
+                  [(ngModel)]="ngSelectedSourceID"
+                  value="{{ ngSelectedSourceID }}"
+                  type="text"
+                />
+              </div>
+              <div class="col-md-2">
+                <label>Name <span class="asterix">*</span></label>
+              </div>
+              <div class="col-md-4">
+                <input
+                  placeholder="Name"
+                  (keyup)="nameValidation($event.target.value)"
+                  [(ngModel)]="ngSelectedSourceName"
+                  value="{{ ngSelectedSourceName }}"
+                  type="text"
+                />
+                <p *ngIf="isNameError" style="color: red">
+                  Name should contain no special characters other than dashes or
+                  underscores.
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label>Description </label>
+              </div>
+              <div class="col-md-4">
+                <input
+                  placeholder="Description"
+                  [(ngModel)]="ngSourceDesc"
+                  value="{{ ngSourceDesc }}"
+                  type="text"
+                />
+              </div>
+              <div class="col-md-2">
+                <label
+                  >Platform Implementation<span class="asterix">*</span></label
+                >
+              </div>
+              <div class="col-md-4">
+                <select
+                  class="form-control"
+                  [(ngModel)]="ngSelectedPlatform"
+                  name="platform"
+                >
+                  <option value="0" selected="selected">
+                    Select Platform Implementation
+                  </option>
+                  <option
+                    value="{{ platform }}"
+                    *ngFor="let platform of platformImplementationList"
+                  >
+                    {{ platform }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label>ACL Owners</label>
+              </div>
+              <div class="col-md-10">
+                <ng-multiselect-dropdown
+                  class="form-control multidpd"
+                  [placeholder]="'Please select Owners'"
+                  [settings]="dropdownSettings1"
+                  [data]="aclList"
+                  [(ngModel)]="selectedACLOwnerNames"
+                  name="aclnames"
+                  (onSelect)="onItemSelect('ACL', $event)"
+                  (onSelectAll)="onSelectAll('ACL', $event)"
+                >
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label>ACL Viewers</label>
+              </div>
+              <div class="col-md-10">
+                <ng-multiselect-dropdown
+                  class="form-control multidpd"
+                  [placeholder]="'Please select Viewers'"
+                  [settings]="dropdownSettings1"
+                  [data]="aclList"
+                  [(ngModel)]="selectedACLViewerNames"
+                  name="selectedACLViewerNames"
+                  (onSelect)="onItemSelect('ACL', $event)"
+                  (onSelectAll)="onSelectAll('ACL', $event)"
+                >
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
 
-        <div class="row" style="margin-top: 0.5%">
-          <div class="col-md-2">
-            <label>Legal Tag </label>
+            <div class="row" style="margin-top: 0.5%">
+              <div class="col-md-2">
+                <label>Legal Tag </label>
+              </div>
+              <div class="col-md-10">
+                <ng-multiselect-dropdown
+                  class="form-control multidpd"
+                  [placeholder]="'Please select Legal Tags'"
+                  [settings]="dropdownSettings"
+                  [data]="legalTagNameList"
+                  [(ngModel)]="selectedLegalTagNames"
+                  name="legaltag"
+                  (onSelect)="onItemSelect('Legal', $event)"
+                  (onSelectAll)="onSelectAll('Legal', $event)"
+                >
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
           </div>
-          <div class="col-md-4">
-            <ng-multiselect-dropdown
-              class="form-control multidpd"
-              [placeholder]="'Please select Legal Tags'"
-              [settings]="dropdownSettings"
-              [data]="legalTagNameList"
-              [(ngModel)]="selectedLegalTagNames"
-              name="legaltag"
-              (onSelect)="onItemSelect('Legal', $event)"
-              (onSelectAll)="onSelectAll('Legal', $event)"
-            >
-            </ng-multiselect-dropdown>
-          </div>
-        </div>
-
-        <hr />
-        <div class="row">
-          <div class="col-xs-12 col-md-6">
-            <h4>Agreement IDs</h4>
-          </div>
-          <div class="col-xs-12 col-md-6">
+          <hr />
+          <div class="agreement-id">
+            <h5>Agreement IDs</h5>
             <button
               type="button"
-              class="btn btn-success btnGreen"
+              class="btn btn-success"
               (click)="openModalAddAgreement('add')"
               style="margin-bottom: 14px; float: right"
             >
               <i class="fa fa-plus"></i>&nbsp;Add Agreement ID
             </button>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12" *ngIf="serviceAgrrementList.length > 0">
-            <!-- <table class="table table-bordered">
+          <div class="row">
+            <div class="col-md-12" *ngIf="serviceAgrrementList.length > 0">
+              <!-- <table class="table table-bordered">
                         <thead data-toggle="collapse" data-target="#collapseAgreeBody" aria-expanded="true" aria-controls="collapseAgreeBody" >
                             <th style="width: 5%;"></th>
                             <th style="width: 5%;"></th>
@@ -258,7 +256,7 @@
                                    
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-success btnGreen" (click)="openModalAddAgreement('edit')" ><i class="fa fa-pencil"></i>&nbsp;</button>
+                                    <button type="button" class="btn btn-success" (click)="openModalAddAgreement('edit')" ><i class="fa fa-pencil"></i>&nbsp;</button>
                                 </td>
                                 <td> {{agrrement}}</td>
                                
@@ -266,146 +264,135 @@
                         </tbody>
                        
                     </table> -->
-            <table class="table table-bordered">
-              <thead
-                data-toggle="collapse"
-                data-target="#collapseAgreeBody"
-                aria-expanded="true"
-                aria-controls="collapseAgreeBody"
-              >
-                <th></th>
-                <th>Agreement ID</th>
-              </thead>
-              <tbody
-                id="collapseAgreeBody"
-                class="panel-collapse collapse show"
-              >
-                <tr *ngFor="let agrrement of serviceAgrrementList">
-                  <td>
-                    <a
-                      href="javascript:void(0);"
-                      (click)="deleteAgrreentId(agrrement)"
-                      ><i style="color: red !important" class="fa fa-trash"></i
-                    ></a>
-                  </td>
+              <table class="table table-bordered">
+                <thead
+                  data-toggle="collapse"
+                  data-target="#collapseAgreeBody"
+                  aria-expanded="true"
+                  aria-controls="collapseAgreeBody"
+                >
+                  <th></th>
+                  <th>Agreement ID</th>
+                </thead>
+                <tbody
+                  id="collapseAgreeBody"
+                  class="panel-collapse collapse show"
+                >
+                  <tr *ngFor="let agrrement of serviceAgrrementList">
+                    <td>
+                      <a
+                        href="javascript:void(0);"
+                        (click)="deleteAgrreentId(agrrement)"
+                        ><i
+                          style="color: #00667f !important"
+                          class="fa fa-trash"
+                        ></i
+                      ></a>
+                    </td>
 
-                  <td>
-                    <a
-                      href="javascript:void(0);"
-                      title="Click here to edit Agreement ID"
-                      (click)="openModalEditAgreement(agrrement)"
-                      class="editUserhref"
-                    >
-                      {{ agrrement }}
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                    <td>
+                      <a
+                        href="javascript:void(0);"
+                        title="Click here to edit Agreement ID"
+                        (click)="openModalEditAgreement(agrrement)"
+                        class="editUserhref"
+                      >
+                        {{ agrrement }}
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-        <hr />
-        <div class="row">
-          <div class="col-xs-12 col-md-6">
-            <h4>Security Schemes <span class="asterix">*</span></h4>
-          </div>
-          <div class="col-xs-12 col-md-6">
+          <hr />
+
+          <div class="agreement-id">
+            <h5>Security Schemes <span class="asterix">*</span></h5>
+
             <button
               type="button"
-              class="btn btn-success btnGreen"
+              class="btn btn-success"
               (click)="openModalAddServiceAcc('add')"
               style="margin-bottom: 14px; float: right"
             >
               <i class="fa fa-plus"></i>&nbsp;Add Security Schemes
             </button>
           </div>
-        </div>
-        <div class="row" style="padding: 1%; overflow: auto; width: 82vw">
-          <table class="table table-bordered">
-            <thead>
-              <th></th>
-              <th>Name</th>
-              <th>Type</th>
-              <!-- <th *ngFor="let accHeader of ServiceAccountHeader">{{accHeader}}</th> -->
-            </thead>
-            <tbody>
-              <tr *ngFor="let acc of serviceAccList">
-                <td>
-                  <button
+
+          <div class="row" style="padding: 1%; overflow: auto; width: 82vw">
+            <table class="table table-bordered">
+              <thead>
+                <th></th>
+                <th>Name</th>
+                <th>Type</th>
+                <!-- <th *ngFor="let accHeader of ServiceAccountHeader">{{accHeader}}</th> -->
+              </thead>
+              <tbody>
+                <tr *ngFor="let acc of serviceAccList">
+                  <td>
+                    <a
+                      href="javascript:void(0);"
+                      (click)="openModalEditServiceAcc(acc)"
+                      ><i
+                        style="color: #00667f !important"
+                        class="fa fa-edit"
+                      ></i
+                    ></a>
+                    <!-- <button
                     type="button"
                     class="btn btn-success btnPencilOrange"
                     (click)="openModalEditServiceAcc(acc)"
                   >
                     <i class="fa fa-pencil"></i>
-                  </button>
-                </td>
-                <td>
-                  <a
-                    href="javascript:void(0);"
-                    title="Click here to edit Agreement ID"
-                    (click)="openModalEditServiceAcc(acc)"
-                    class="editUserhref"
-                  >
-                    {{ acc.Name }}
-                  </a>
-                </td>
-                <td>
-                  {{ acc.Type }}
-                </td>
-                <!-- <td *ngFor="let row1 of row.value | keyvalue">
+                  </button> -->
+                  </td>
+                  <td>
+                    <a
+                      href="javascript:void(0);"
+                      title="Click here to edit Agreement ID"
+                      (click)="openModalEditServiceAcc(acc)"
+                      class="editUserhref"
+                    >
+                      {{ acc.Name }}
+                    </a>
+                  </td>
+                  <td>
+                    {{ acc.Type }}
+                  </td>
+                  <!-- <td *ngFor="let row1 of row.value | keyvalue">
                                 {{row.value}}
                             </td> -->
-                <!-- <td *ngFor="let row1 of row.value | keyvalue"> 
+                  <!-- <td *ngFor="let row1 of row.value | keyvalue"> 
                                 <div class="tdRotate">
                                     <span>{{row1.value}}</span>
                                    
                                 </div>
                             </td> -->
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-        <div style="margin-top: 2%">
-          <p *ngIf="isSuccess" style="color: green">{{ successMessge }}</p>
-          <p *ngIf="isError" style="color: red">{{ errorMessge }}</p>
-        </div>
-        <div>
-          <button
-            type="button"
-            class="btn btn-success"
-            (click)="previous()"
-            style="
-              background: rgb(0 124 102 / 1) !important;
-              border-color: rgb(0 124 102 / 1) !important;
-            "
-          >
-            Previous
-          </button>
-          <button
-            type="button"
-            class="btn btn-success"
-            (click)="saveSource()"
-            style="
-              background: rgb(0 124 102 / 1) !important;
-              border-color: rgb(0 124 102 / 1) !important;
-              margin-left: 1%;
-            "
-          >
-            Save
-          </button>
-          <button
-            type="button"
-            class="btn btn-success"
-            (click)="resetForm()"
-            style="
-              background: rgb(0 124 102 / 1) !important;
-              border-color: rgb(0 124 102 / 1) !important;
-              margin-left: 1%;
-            "
-          >
-            Clear
-          </button>
+          <div style="margin-top: 2%">
+            <p *ngIf="isSuccess" style="color: green">{{ successMessge }}</p>
+            <p *ngIf="isError" style="color: red">{{ errorMessge }}</p>
+          </div>
+          <div class="inner-table-buttons">
+            <button type="button" class="btn btn-success" (click)="previous()">
+              Previous
+            </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              (click)="saveSource()"
+            >
+              Save
+            </button>
+            <button type="button" class="btn btn-success" (click)="resetForm()">
+              Clear
+            </button>
+          </div>
         </div>
       </div>
     </div>

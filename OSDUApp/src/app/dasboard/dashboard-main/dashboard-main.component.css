@@ -54,7 +54,21 @@ div#right-panel {
 .text-light {
   /* color: #f8f9fa !important; */
   color: #ffffff !important;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: lighter;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.text-light .fa {
   font-size: 18px;
+  margin: 0 5px;
+}
+
+.text-light .fa-info-circle:before {
+  font-size: 12px;
+  color: white;
 }
 
 .chart-wrapper.px-0 i {
@@ -63,12 +77,11 @@ div#right-panel {
 }
 .cont_router,
 .cont_router1 {
+  background-color: rgb(0 102 127 / 1);
   cursor: pointer;
 }
 .cont_router:hover {
-  transform: scale(1.01);
-  transition: 0.25s;
-  opacity: 0.98;
+  background-color: #005163 ;
 }
 .chart-wrapper.px-3 .btn.btn-success,
 .btn.btn-register {
@@ -96,7 +109,7 @@ div#right-panel {
 p.tool-tip__info.tooltip_right {
   left: 50%;
   transform: translate(-50%, calc(15% + 8px));
-  transform: translate(-50%, calc(100%+1px));
+  transform: translate(-50%, calc(100% + 1px));
 }
 
 p.tool-tip__info.tooltip_right:after {
@@ -136,4 +149,38 @@ p.tool-tip__info.tooltip_right {
 
 .center-div {
   margin: auto;
+}
+
+
+.dashboard-button {
+   background-color: #12a5de;
+   color: white;
+   text-transform: uppercase;
+    height: 40px;
+    line-height: 40px;
+    border: none;
+    border-radius: 3px;
+    padding: 0 10px;
+    width: 90%;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.dashboard-button:hover {
+  background-color: #2fbaed;
+  cursor: pointer;
+}
+
+.big-icon {
+  font-family: 'FontAwesome';
+    font-style: normal;
+    font-size: 80px;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  top: -18px;
 }

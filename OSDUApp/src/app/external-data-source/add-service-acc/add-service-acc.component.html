@@ -17,15 +17,15 @@
       data-dismiss="modal"
       aria-label="Close"
     >
-      &times;
-    </button>
+      &times;</button
+    >btnPencilOrange
   </h4>
 </div>
 <div class="modal-body" style="height: auto">
   <form #myForm id="myForm">
     <table class="tblScheme">
       <tr>
-        <td class="td_left" style="width: 44.5%">
+        <td class="td_left">
           <label> Security Scheme Name:&nbsp; </label>
         </td>
         <td>
@@ -62,7 +62,7 @@
     </table>
     <table class="tblScheme" *ngIf="isAuthTypeSelected && isAuthType">
       <tr>
-        <td class="td_left" style="width: 46.5%">
+        <td class="td_left">
           <label>Flow: </label>
         </td>
         <td>
@@ -164,7 +164,6 @@
             type="button"
             class="btn btn-success"
             (click)="editSecretKeys('ClientSecret')"
-            style="margin-left: 3%"
           >
             <i class="fa fa-eye"></i>&nbsp;View / Edit
           </button>
@@ -196,7 +195,6 @@
             type="button"
             class="btn btn-success"
             (click)="editSecretKeys('Scopes')"
-            style="margin-left: 3%"
           >
             <i class="fa fa-eye"></i>&nbsp;View / Edit
           </button>
@@ -228,7 +226,6 @@
             type="button"
             class="btn btn-success"
             (click)="editSecretKeys('Username')"
-            style="margin-left: 3%"
           >
             <i class="fa fa-eye"></i>&nbsp;View / Edit
           </button>
@@ -266,7 +263,7 @@
     <table></table>
     <table class="tblScheme" *ngIf="isAuthTypeSelected && isBearerToken">
       <tr>
-        <td class="td_left" style="width: 45%">
+        <td class="td_left">
           <label>Access Token: </label>
         </td>
         <td>
@@ -281,7 +278,7 @@
     </table>
     <table class="tblScheme" *ngIf="isAuthTypeSelected && isAPIKey">
       <tr>
-        <td class="td_left" style="width: 45%">
+        <td class="td_left">
           <label>API Key: </label>
         </td>
         <td>
@@ -296,7 +293,7 @@
     </table>
     <table class="tblScheme">
       <tr>
-        <td class="td_left" style="width: 45%">
+        <td class="td_left">
           <label>Secret Repository URL: </label>
         </td>
         <td>
@@ -311,16 +308,15 @@
     </table>
   </form>
   <br />
-  <div style="text-align: center">
+  <div>
     <p *ngIf="isSuccess" style="color: green">{{ successMessge }}</p>
     <p *ngIf="isError" style="color: red">{{ errorMessge }}</p>
   </div>
-  <div class="row" style="justify-content: center">
+  <div class="button-row">
     <button
       class="btn btn-success"
       form="login-form"
       type="submit"
-      style="width: 150px"
       (click)="requestSubmit()"
     >
       {{ btnLabel }}<i class="icon-material-outline-arrow-right-alt"></i>
