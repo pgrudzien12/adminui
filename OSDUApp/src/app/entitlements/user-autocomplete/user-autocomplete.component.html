@@ -3,6 +3,8 @@
   [label]="label"
   [getSuggestions]="refreshedList$.bind(this)"
   [displayFn]="displayFn"
+  [displaySubTextFn]="displaySubTextFn"
   (selectedChange)="optionSelected($event)"
   [selected]="selected"
+  style="width: 500px"
 ></app-auto-complete>

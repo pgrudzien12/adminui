@@ -1,4 +1,6 @@
-<h1 mat-dialog-title>Add member to {{ groupName }}</h1>
+<h1 mat-dialog-title>
+  <span class="dialog-subtitle">Add member to</span> {{ groupName }}
+</h1>
 <div mat-dialog-content class="d-flex flex-column">
   <app-member-autocomplete
     (selectedChange)="selectedChange($event)"
@@ -48,15 +50,17 @@
 </div>
 
 <div mat-dialog-actions>
-  <button mat-raised-button color="warn" [mat-dialog-close]="false">
-    <mat-icon>cancel</mat-icon> Cancel
-  </button>
-  <button
-    mat-raised-button
-    color="primary"
-    [disabled]="!selectedMember || !selectedRole"
-    (click)="requestSubmit()"
-  >
-    <mat-icon>add</mat-icon> Add member
-  </button>
+  <div class="add-member-buttons-container">
+    <button mat-raised-button color="secondary" [mat-dialog-close]="false">
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!selectedMember || !selectedRole"
+      (click)="requestSubmit()"
+    >
+      Add member
+    </button>
+  </div>
 </div>

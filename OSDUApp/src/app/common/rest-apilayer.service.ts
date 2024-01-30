@@ -579,11 +579,14 @@ export class RestAPILayerService {
   }
 
   getObjectsByKind(kind): Observable<any> {
-    this.param = 'search/kind/' + kind;
+    this.param = 'search/v2/query';
 
     return this.http
-      .get<any>(
+      .post<any>(
         this.osdu_connector_api_endpoint_url + this.param,
+        {
+          kind: kind,
+        },
         this.httpOptions
       )
       .pipe(
@@ -900,6 +903,9 @@ export class RestAPILayerService {
           search
         );
 
+        console.log('=========================');
+        console.log(mergedUsersFilteredFromAzure);
+        console.log(members);
         const filteredById = members.filter(
           (m) =>
             m.email.includes(search) &&

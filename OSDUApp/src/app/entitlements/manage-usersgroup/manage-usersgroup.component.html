@@ -12,18 +12,8 @@
     (selectedChange)="selectedChange($event)"
   ></app-group-autocomplete>
 
-  <div class="d-flex justify-content-between mb-2 align-items-center">
-    <mat-form-field appearance="outline">
-      <mat-label>Search for a member</mat-label>
-      <input
-        matInput
-        name="myInput"
-        [formControl]="searchControl"
-        [disabled]="!selectedGroupType"
-      />
-      <mat-icon color="primary" matPrefix>badge</mat-icon>
-    </mat-form-field>
-    <div>
+  <div>
+    <div class="manage-user-group-buttons-container">
       <button
         mat-raised-button
         color="primary"
@@ -32,17 +22,57 @@
       >
         <mat-icon>add</mat-icon> Add Member
       </button>
+      <button
+        mat-raised-button
+        color="secondary"
+        (click)="deleteMembers()"
+        [disabled]="
+          this.memberList.length === 0 || this.currentSelection.length === 0
+        "
+      >
+        <mat-icon>delete</mat-icon> Remove Member
+      </button>
     </div>
+    <section class="manage-usergroup-filters">
+      <mat-form-field appearance="outline">
+        <mat-label>Search for a member</mat-label>
+        <input
+          matInput
+          name="myInput"
+          [formControl]="searchControl"
+          [disabled]="!selectedGroupType"
+        />
+        <mat-icon color="primary" matPrefix>badge</mat-icon>
+      </mat-form-field>
+
+      <div class="checkbox-filters">
+        <span>Type:</span>
+        <mat-checkbox [(ngModel)]="groupCheckboxValue">Group</mat-checkbox>
+        <mat-checkbox [(ngModel)]="userCheckboxValue">User</mat-checkbox>
+        <mat-checkbox [(ngModel)]="appCheckboxValue">Application</mat-checkbox>
+        <mat-checkbox [(ngModel)]="unknownCheckboxValue">Unknown</mat-checkbox>
+      </div>
+    </section>
   </div>
 
   <app-user-list
+    *ngIf="filteredMemberList.length === 0"
     [osduMembers]="memberList"
     [editRole]="true"
     [group]="selectedGroup"
+    [filterGroup]="groupCheckboxValue"
+    [filterUsers]="userCheckboxValue"
+    [filterApp]="appCheckboxValue"
+    [fiterUnknown]="unknownCheckboxValue"
+    (selectionChanged)="handleSelectionChange($event)"
   >
     <ng-template let-element>
-      <button mat-icon-button color="warn" (click)="deleteFunc(element.email)">
-        <mat-icon>delete_forever</mat-icon>
+      <button
+        mat-icon-button
+        color="warn"
+        (click)="deleteFunc(element.member.email)"
+      >
+        <mat-icon>delete_outline</mat-icon>
       </button>
     </ng-template>
   </app-user-list>

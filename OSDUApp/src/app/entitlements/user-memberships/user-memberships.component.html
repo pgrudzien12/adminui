@@ -1,16 +1,28 @@
+<div class="button-right">
+  <!-- button to show diaglog to add this user to a group -->
+  <button mat-raised-button color="primary" (click)="openAddToGroupDialog()">
+    Add to group
+  </button>
+  <button mat-raised-button color="primary" (click)="removeUsers()">
+    Remove from group
+  </button>
+</div>
 <div class="d-flex justify-content-between align-items-center">
   <mat-form-field appearance="outline">
     <mat-label>Search for group</mat-label>
     <input matInput [formControl]="searchControl" />
     <mat-icon color="primary" matPrefix>group</mat-icon>
   </mat-form-field>
+
   <app-groupe-type-radio-button
     label="Filter by group type"
+    [selectedGroup]="selectedGroup"
     (selectedGroupChange)="selectedGroupChange($event)"
   ></app-groupe-type-radio-button>
 </div>
 <app-user-list
   [osduMembers]="filteredGroups"
   [displayedColumns]="displayedColumns"
+  (selectionChanged)="handleSelectionChange($event)"
 >
 </app-user-list>

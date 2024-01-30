@@ -1,5 +1,5 @@
 .attribute-name {
-  font-weight: bold;
+  font-weight: 500;
   color: var(--primary-color);
   white-space: nowrap;
   overflow: hidden;
@@ -13,6 +13,25 @@
 
 .mat-tree-node {
   border-bottom: dashed 0.5px;
-  border-bottom-color: var(--primary-color);
+  border-bottom-color: #ccc;
   overflow-wrap: anywhere;
 }
+
+.buttons-in-title {
+  position: absolute;
+  top: 11px;
+  right: 45px;
+}
+
+.buttons-in-title .mat-primary {
+  height: 30px;
+  line-height: 30px;
+  font-size: 12px;
+}
+
+.buttons-in-title .mat-primary .mat-icon {
+  font-size: 18px;
+  width: 15px;
+  height: 15px;
+}
+

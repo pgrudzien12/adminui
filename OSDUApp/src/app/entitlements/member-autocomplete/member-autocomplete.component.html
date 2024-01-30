@@ -6,3 +6,9 @@
   (selectedChange)="optionSelected($event)"
   [selected]="selected"
 ></app-auto-complete>
+
+<div class="no-results">
+  <span *ngIf="listOfUsers.length === 0 && filterLength > 0">
+    Member you are searching for does not exist.
+  </span>
+</div>

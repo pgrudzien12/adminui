@@ -10,9 +10,7 @@ th {
   text-align: left;
   cursor: pointer;
 }
-th.thHover:hover {
-  color: black !important;
-}
+
 
 /* swwetalert */
 .sweet-alert .sa-icon {

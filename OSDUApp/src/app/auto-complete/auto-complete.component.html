@@ -5,6 +5,7 @@
     [formControl]="formControl"
     [matAutocomplete]="auto"
     [required]="required"
+    (keyup.enter)="onEnterKey()"
   />
   <mat-icon color="primary" matPrefix>{{ icon }}</mat-icon>
   <button mat-icon-button color="warn" (click)="clear()" matSuffix>
@@ -17,7 +18,10 @@
     (optionSelected)="optionSelected($event)"
   >
     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-      {{ displayFn(option) }}
+      <div class="mat-option-complex-text">
+        {{ displayFn(option) }}
+        <span> {{ displaySubTextFn(option) }}</span>
+      </div>
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>

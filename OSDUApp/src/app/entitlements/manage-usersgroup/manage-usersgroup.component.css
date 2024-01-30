@@ -58,17 +58,23 @@ th {
   text-align: left;
   cursor: pointer;
 }
-th.thHover:hover {
-  color: black !important;
-}
+
 
 button:disabled {
   background-color: grey !important;
   border-color: grey !important;
   color: lightgray !important;
 }
-/* .btn.btn-success, .btn.btn-register{
-   
-    color: #fff;
-    border-radius: 0px !important   
-} */
+
+.manage-user-group-buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.manage-usergroup-filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

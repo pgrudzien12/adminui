@@ -1,7 +1,7 @@
 <mat-card>
   <div class="ref-data-view">
-    <div class="button-bar" style="display: flex">
-      <div class="col-xs-12 col-md-5 col-lg-5">
+    <div class="button-bar">
+      <div class="controls-container">
         <input
           type="text"
           name="product"
@@ -21,8 +21,6 @@
             {{ this.cmnSrvc.cleanAttributeKIND(item.schemaIdentity.id) }}
           </option>
         </datalist>
-      </div>
-      <div class="col-xs-6">
         <button
           type="button"
           class="btn btn-success"
@@ -37,7 +35,7 @@
           <i class="fa fa-search"></i>&nbsp; Search
         </button>
       </div>
-      <div class="col-xs-6 col-md-3" style="margin-left: 3%">
+      <div class="controls-container">
         <input
           id="myInput"
           type="text"
@@ -66,23 +64,13 @@
           resultRefSearchQueryCount === 0 &&
           this.cmnSrvc.referenceQuery === undefined
         "
-        style="margin-top: 3%; text-indent: 2%"
       >
         Please select a type of reference
       </div>
       <div class="resultat" *ngIf="resultRefSearchQueryCount > 0">
         <div class="resultat-bar-title">
-          <label
-            style="
-              float: right;
-              font-weight: 600;
-              margin-top: 2%;
-              margin-right: 1%;
-            "
-            >Total No of Results: {{ resultRefSearchQueryCount }}</label
-          >
-          <br />
-          <h5>Results :</h5>
+          <h5>Results</h5>
+          <label>Total No of Results: {{ resultRefSearchQueryCount }}</label>
         </div>
         <div class="resultat-bar">
           <table
@@ -108,7 +96,9 @@
                   class="editUserhref"
                 >
                   {{
-                    this.cmnSrvc.cleanAttributeID(resultRefSearchQueryFilter[i])
+                    this.cmnSrvc.cleanAttributeID(
+                      resultRefSearchQueryFilter[i].id
+                    )
                   }}
                 </td>
               </tr>

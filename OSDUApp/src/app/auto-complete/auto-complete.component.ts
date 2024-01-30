@@ -23,6 +23,11 @@ export class AutoCompleteComponent<T> implements OnInit, OnChanges {
   @Input() displayFn: (element: T) => string = (element: T) =>
     element.toString() ?? '';
 
+  @Input() displaySubTextFn: (element: T) => string = (element: T) =>
+    element?.toString() == '[object Object]' ? '' : element?.toString();
+
+  @Output() enterKeyPressed = new EventEmitter<string>();
+
   @Input() getSuggestions: (filter: string) => Observable<T[]>;
   @Input() selected: T;
   @Input() label: string = '';
@@ -35,6 +40,10 @@ export class AutoCompleteComponent<T> implements OnInit, OnChanges {
   optionSelected(event: MatAutocompleteSelectedEvent) {
     this.selected = event.option.value;
     this.selectedChange.emit(this.selected);
+  }
+
+  onEnterKey(): void {
+    this.enterKeyPressed.emit(this.formControl.value);
   }
 
   clear() {

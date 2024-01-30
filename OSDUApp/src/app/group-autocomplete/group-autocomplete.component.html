@@ -1,8 +1,16 @@
-<app-auto-complete
-  icon="group"
-  [label]="label"
-  [getSuggestions]="refreshedList$.bind(this)"
-  [displayFn]="displayFn"
-  (selectedChange)="optionSelected($event)"
-  [selected]="selected"
-></app-auto-complete>
+<div class="group-autocomplete">
+  <div class="no-results">
+    <span *ngIf="selectedGroups.length === 0 && enteredTextInput.length > 0"
+      >Group you are searching for does not exist</span
+    >
+  </div>
+  <app-auto-complete
+    icon="group"
+    [label]="label"
+    [getSuggestions]="refreshedList$.bind(this)"
+    [displayFn]="displayFn"
+    (selectedChange)="optionSelected($event)"
+    [selected]="selected"
+    (enterKeyPressed)="handleEnterKey($event)"
+  ></app-auto-complete>
+</div>

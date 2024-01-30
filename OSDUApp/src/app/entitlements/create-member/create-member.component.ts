@@ -15,6 +15,7 @@ import swal from 'sweetalert2';
 @Component({
   selector: 'app-create-member',
   templateUrl: './create-member.component.html',
+  styleUrls: ['./create-member.component.css'],
 })
 export class CreateMemberComponent {
   selectedUser: AzureUser = null;

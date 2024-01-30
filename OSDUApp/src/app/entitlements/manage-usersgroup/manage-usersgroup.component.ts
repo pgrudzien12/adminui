@@ -10,6 +10,9 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { Helper } from 'src/app/common/helper.service';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { forkJoin } from 'rxjs';
+import { OsduUser } from 'src/app/models/osdu-member.model';
 
 @Component({
   selector: 'app-manage-usersgroup',
@@ -22,19 +25,28 @@ export class ManageUsersGroupComponent implements OnInit, OnDestroy {
   selectedGroup: OsduGroup;
 
   searchControl = new FormControl('');
+  myCheckboxControl = new FormControl(false);
+  form: FormGroup;
+  groupCheckboxValue: boolean = false;
+  userCheckboxValue: boolean = false;
+  appCheckboxValue: boolean = false;
+  unknownCheckboxValue: boolean = false;
 
   sub: Subscription;
 
   private readonly debounceTime = 1000;
 
   memberList = [];
+  filteredMemberList = [];
+  currentSelection: OsduUser[];
 
   constructor(
     public cmnSrvc: CommonService,
     private restService: RestAPILayerService,
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder
   ) {
     this.cmnSrvc.bkgndColor = 'Manage <wbr>Group <wbr>Members';
   }
@@ -60,6 +72,32 @@ export class ManageUsersGroupComponent implements OnInit, OnDestroy {
 
       this.launchSearch(this.selectedGroup);
     });
+
+    this.form = this.fb.group({
+      checkboxes: this.fb.array([]),
+    });
+
+    // Populate the form with checkboxes
+
+    //this.populateCheckboxes();
+
+    // Subscribe to changes in the form group
+    // this.form.valueChanges.subscribe((value) => {
+    //   this.typeFilter(value);
+    //   // Do something with the updated value
+    // });
+  }
+
+  populateCheckboxes() {
+    const checkboxArray = this.form.get('checkboxes') as FormArray;
+    checkboxArray.push(this.fb.group({ isChecked: false, label: 'Group' }));
+    checkboxArray.push(this.fb.group({ isChecked: false, label: 'User' }));
+    checkboxArray.push(this.fb.group({ isChecked: false, label: 'Unknown' }));
+    checkboxArray.push(
+      this.fb.group({ isChecked: false, label: 'Application' })
+    );
+
+    // Add more checkboxes as needed
   }
 
   ngOnDestroy(): void {
@@ -108,6 +146,12 @@ export class ManageUsersGroupComponent implements OnInit, OnDestroy {
       });
   }
 
+  // onCheckboxChange(event, index: number) {
+  //   const checkboxArray = this.form.get('checkboxes') as FormArray;
+  //   const changedCheckbox = checkboxArray.at(index);
+  //   console.log('Checkbox changed:', changedCheckbox.value);
+  // }
+
   searchFilter(search) {
     if (!search) {
       this.showDataGroup(this.selectedGroupType);
@@ -135,7 +179,6 @@ export class ManageUsersGroupComponent implements OnInit, OnDestroy {
 
   private launchDelete(isConfirm: boolean, userId: string) {
     if (!isConfirm) return;
-
     this.restService
       .deleteMemberGroup(this.selectedGroupType, userId)
       .subscribe(
@@ -151,5 +194,48 @@ export class ManageUsersGroupComponent implements OnInit, OnDestroy {
           console.log(err);
         }
       );
+  }
+
+  deleteMembers() {
+    let selectionLength = this.currentSelection.length;
+    swal
+      .fire(
+        Helper.warningSweetAlertConfirmConfig(
+          'Are you sure you want to remove ' +
+            selectionLength +
+            ' selected users from ' +
+            this.selectedGroupType
+        )
+      )
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.launchDeleteMembers();
+        }
+      });
+  }
+
+  private launchDeleteMembers() {
+    const deleteObservables = this.currentSelection.map((element) =>
+      this.restService.deleteMemberGroup(
+        this.selectedGroupType,
+        element.member.email
+      )
+    );
+    forkJoin(deleteObservables).subscribe({
+      next: (results) => {
+        // This will be executed after all deletions are successful
+        console.log('All users deleted', results);
+        this.showDataGroup(this.selectedGroupType);
+      },
+      error: (error) => {
+        // Handle error
+        console.error('Error deleting users', error);
+        this.showDataGroup(this.selectedGroupType);
+      },
+    });
+  }
+
+  handleSelectionChange(selectedUsers: OsduUser[]): void {
+    this.currentSelection = selectedUsers;
   }
 }

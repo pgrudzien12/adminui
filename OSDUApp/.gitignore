@@ -48,3 +48,7 @@ Thumbs.db
 
 # Developer local files
 */**/.localonly*
+
+/devops/azure/.terraform/**/*
+terraform.tfstate
+.terraform.lock.hcl

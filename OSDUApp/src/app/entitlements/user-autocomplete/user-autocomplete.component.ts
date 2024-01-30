@@ -27,7 +27,8 @@ export class UserAutocompleteComponent {
       map((join) => {
         const azureUsers = join.azureUsers ?? ([] as AzureUser[]);
         const azureApps = join.azureApps ?? ([] as AzureUser[]);
-
+        console.log(azureUsers);
+        console.log(azureApps);
         return [...azureUsers, ...azureApps];
       })
     );
@@ -35,6 +36,10 @@ export class UserAutocompleteComponent {
 
   displayFn(user: AzureUser): string {
     return Helper.displayAzureUser(user);
+  }
+
+  displaySubTextFn(user: AzureUser): string {
+    return 'ID: ' + user.id;
   }
 
   optionSelected(event: AzureUser) {

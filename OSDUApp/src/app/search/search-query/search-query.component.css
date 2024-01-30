@@ -9,3 +9,88 @@ input {
   /*setting margin to auto of the cheeckbox*/
   display: flex; /*Flex box property*/
 }
+
+.table-checkbox {
+  height: auto;
+  transform: scale(1.2);
+}
+
+.search-row {
+  position: relative;
+  font-size: 14px;
+}
+
+.checkbox-container {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 65px;
+}
+
+.resultat-bar-title {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  position: relative;
+  top: 5px;
+  padding: 0 7px;
+}
+
+.resultat-bar-title h5 {
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.resultat-bar-title label {
+  color: #777;
+  font-style: italic;
+  font-size: 12px;
+}
+
+.button-bar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-bar .controls-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.button-bar .controls-container input {
+  width: 270px;
+  margin-right: 10px;
+}
+
+.empty-state {
+  width: 100%;
+  margin-top: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.mat-icon {
+  transform: scale(6);
+  color: var(--blur-color);
+  opacity: 0.3;
+}
+
+.empty-state span {
+  margin-top: 100px;
+  text-align: center;
+  color: var(--blur-color);
+  position: relative;
+  top: -25px;
+  font-size: 20px;
+  font-weight: 100;
+  font-style: italic;
+}

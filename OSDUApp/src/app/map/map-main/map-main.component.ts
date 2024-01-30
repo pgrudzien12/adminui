@@ -68,36 +68,52 @@ export class MapMainComponent implements OnInit {
   completeMapWithWells() {
     const data = {
       kind: 'osdu:wks:master-data--Well:1.0.0',
-      query: 'id:"opendes:master-data--Well:W244483"',
+      // query: 'kind:"osdu:wks:master-data--Well:1.0.0"',
       limit: 99,
     };
-
+    const geojson = {
+      type: 'FeatureCollection',
+      features: null,
+    };
     this.restService.getDataFromSearch(data).subscribe(
       (result) => {
         this.spinner.hide();
         console.log(result);
-        console.log(result.results[0].data['SpatialLocation.Wgs84Coordinates']);
-        this.listCoordsWells =
-          result.results[0].data[
-            'SpatialLocation.Wgs84Coordinates'
-          ].geometries[0].coordinates;
-        this.listNamesWells = result.results[0].data['FacilityID'];
-        const geojson = {
-          type: 'FeatureCollection',
-          features: [
-            {
-              type: 'Feature',
-              geometry: {
-                type: 'Point',
-                coordinates: [-0.313296, 43.31602], //this.listCoordsWells
-              },
-              properties: {
-                title: this.listNamesWells,
-                description: this.listNamesWells,
-              },
-            },
-          ],
-        };
+
+        if (result && result.results) {
+          const features = [];
+
+          // Outer loop: iterate over all results
+          result.results.forEach((res) => {
+            if (res.data && res.data['SpatialLocation.Wgs84Coordinates']) {
+              const spatialData = res.data['SpatialLocation.Wgs84Coordinates'];
+              // Check if spatialData.features exists and is an array
+              if (
+                spatialData.geometries &&
+                Array.isArray(spatialData.geometries)
+              ) {
+                // Inner loop: iterate over all geometries
+                spatialData.geometries.forEach((geometry) => {
+                  if (geometry && geometry.type === 'point') {
+                    features.push({
+                      geometry: geometry,
+                      properties: {
+                        title: res.data['FacilityName'],
+                        description: res.id, // or any other field you'd like
+                      },
+                    });
+                  }
+                });
+              }
+            }
+          });
+
+          geojson.features = features;
+
+          console.log(geojson);
+        } else {
+          console.error('Data is not in the expected format!');
+        }
 
         for (const feature of geojson.features) {
           // create a HTML element for each feature

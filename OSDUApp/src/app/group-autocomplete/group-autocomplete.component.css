@@ -1,0 +1,10 @@
+.group-autocomplete {
+    position: relative;
+}
+.no-results {
+    position: absolute;
+    top: 70px;
+    color: #c6270b;;
+    left: 15px;
+    font-style: italic;
+}

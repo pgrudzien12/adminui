@@ -1,12 +1,12 @@
 <h1 mat-dialog-title>Create member</h1>
 
-<div mat-dialog-content class="d-flex flex-column">
+<div mat-dialog-content class="d-flex flex-column" style="min-width: 500px">
   <app-user-autocomplete
     (selectedChange)="selectUser($event)"
   ></app-user-autocomplete>
 
   <ng-container *ngIf="selectedUser">
-    <div class="d-flex">
+    <div class="d-flex field-container">
       <mat-form-field appearance="outline">
         <mat-label>Name</mat-label>
         <input matInput [ngModel]="selectedUser.displayName" readonly
@@ -18,7 +18,7 @@
     </div>
 
     <mat-form-field appearance="outline">
-      <label>ID</label>
+      <mat-label>ID</mat-label>
       <input matInput [ngModel]="selectedUser.id" readonly
     /></mat-form-field>
 
@@ -29,7 +29,11 @@
           {{ level.name }}
         </mat-option>
       </mat-select>
-      <mat-icon matSuffix color="primary" [matTooltip]="tooltipLevelMessage"
+      <mat-icon
+        matSuffix
+        color="primary"
+        class="icon-info"
+        [matTooltip]="tooltipLevelMessage"
         >info</mat-icon
       >
     </mat-form-field>
@@ -37,15 +41,17 @@
 </div>
 
 <div mat-dialog-actions>
-  <button mat-raised-button color="warn" [mat-dialog-close]="false">
-    <mat-icon>cancel</mat-icon>Cancel
-  </button>
-  <button
-    mat-raised-button
-    color="primary"
-    [disabled]="!canSave"
-    (click)="requestSubmit()"
-  >
-    <mat-icon>add</mat-icon>Create
-  </button>
+  <div class="add-member-buttons-container">
+    <button mat-raised-button color="secondary" [mat-dialog-close]="false">
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!canSave"
+      (click)="requestSubmit()"
+    >
+      Create
+    </button>
+  </div>
 </div>

@@ -21,10 +21,23 @@ export class MemberAutocompleteComponent {
   @Input() group =
     'users@' + environment.settings.data_partition + '.dataservices.energy';
 
+  listOfUsers = [];
+  filterLength = 0;
+
   constructor(private restService: RestAPILayerService) {}
 
   refreshedList$(filter: string): Observable<OsduMemberWithAzureUser[]> {
-    if (!filter || typeof filter !== 'string') return of([]);
+    if (!filter || typeof filter !== 'string') {
+      this.listOfUsers = [];
+      this.filterLength = 0;
+      return of([]);
+    }
+    this.restService
+      .getUsersAppsAndGroupByString(filter)
+      .subscribe((result) => {
+        this.listOfUsers = result;
+        this.filterLength = filter.length;
+      });
     return this.restService.getUsersAppsAndGroupByString(filter);
   }
 
