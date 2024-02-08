@@ -17,6 +17,9 @@ import { map, startWith } from 'rxjs/operators';
 
 import swal from 'sweetalert2';
 import { Helper } from 'src/app/common/helper.service';
+import { ConnectorService } from 'src/app/common/connector.service';
+import { SelectionModel } from '@angular/cdk/collections';
+import { OsduObject } from 'src/app/models/osdu-object.model';
 @Component({
   selector: 'app-add-objview-acl',
   templateUrl: './add-objview-acl.component.html',
@@ -26,6 +29,8 @@ export class AddACLObjViewComponent implements OnInit {
   groupListData = [];
   selectedGroups = [];
   listAssociated = [];
+
+  selectedAssociatedObjects = new SelectionModel<OsduObject>();
 
   selectedAssociatedOption;
 
@@ -44,7 +49,8 @@ export class AddACLObjViewComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public objectId: string,
     public dialogRef: MatDialogRef<AddACLObjViewComponent>,
     private spinner: NgxSpinnerService,
-    public restService: RestAPILayerService
+    public restService: RestAPILayerService,
+    private connectorService: ConnectorService
   ) {
     this.filteredGroups = this.groupCtrl.valueChanges.pipe(
       startWith(null),
@@ -56,7 +62,6 @@ export class AddACLObjViewComponent implements OnInit {
           : this.groupListData.slice()
       )
     );
-    console.log(this.objectId);
   }
 
   ngOnInit(): void {
@@ -85,9 +90,15 @@ export class AddACLObjViewComponent implements OnInit {
   }
 
   getAssociatedObjects() {
-    this.restService.getAssociatedObjects(this.objectId).subscribe((res) => {
-      this.listAssociated = res;
-    });
+    this.connectorService
+      .getAssociatedObjects(this.objectId)
+      .subscribe((res) => {
+        this.listAssociated = res;
+        this.selectedAssociatedObjects = new SelectionModel(true);
+        this.listAssociated.forEach((el) =>
+          this.selectedAssociatedObjects.select(el)
+        );
+      });
   }
 
   remove(group: string): void {
@@ -105,7 +116,7 @@ export class AddACLObjViewComponent implements OnInit {
     ) {
       objectACL = [this.objectId];
     } else {
-      objectACL = [...this.listAssociated, this.objectId];
+      objectACL = [...this.selectedAssociatedObjects.selected, this.objectId];
     }
     this.restService.getListRecordsFromStorage(objectACL).subscribe(
       (result) => {
@@ -140,14 +151,12 @@ export class AddACLObjViewComponent implements OnInit {
           (err) => {
             swal.fire(Helper.errorSweetAlertConfig(err));
             this.spinner.hide();
-            console.log(err);
           }
         );
       },
       (err) => {
         swal.fire(Helper.errorSweetAlertConfig(err));
         this.spinner.hide();
-        console.log(err);
       }
     );
   }
@@ -160,7 +169,8 @@ export class AddACLObjViewComponent implements OnInit {
           .filter((group) => group.startsWith('data.'));
       },
       (err) => {
-        console.log(err);
+        swal.fire(Helper.errorSweetAlertConfig(err));
+        this.spinner.hide();
       }
     );
   }

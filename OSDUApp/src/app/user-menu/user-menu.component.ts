@@ -7,6 +7,8 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { GraphApiService } from '../common/graph-api.service';
 import jsonPackage from 'package.json';
 import { environment } from 'src/environments/environment';
+import { ConnectorService } from '../common/connector.service';
+import { MonitoringService } from '../common/monitoring.service';
 
 @Component({
   selector: 'app-user-menu',
@@ -21,6 +23,8 @@ export class UserMenuComponent implements OnInit, OnDestroy {
   username = '';
   email = '';
 
+  connectorVersion: string = null;
+
   readonly applicationVersion = jsonPackage.version;
   readonly env = environment.name;
 
@@ -28,7 +32,9 @@ export class UserMenuComponent implements OnInit, OnDestroy {
     private authService: MsalService,
     private broadcastService: MsalBroadcastService,
     private graphAPI: GraphApiService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private connectorService: ConnectorService,
+    private monitoringService: MonitoringService
   ) {}
 
   ngOnInit(): void {
@@ -45,13 +51,20 @@ export class UserMenuComponent implements OnInit, OnDestroy {
       });
   }
 
+  getConnectorVersion() {
+    if (this.connectorVersion) return;
+    this.connectorService.getHealth().subscribe((res) => {
+      this.connectorVersion = res.version;
+    });
+  }
+
   setLoginDisplay() {
     this.loggedIn = this.authService.instance.getAllAccounts().length > 0;
     if (!this.loggedIn) return;
     const account = this.authService.instance.getAllAccounts()[0];
     this.username = account.name ?? '';
     this.email = account.username;
-
+    this.monitoringService.setAuthenticatedUserContext(account.localAccountId);
     this.getUserPhoto();
   }
 

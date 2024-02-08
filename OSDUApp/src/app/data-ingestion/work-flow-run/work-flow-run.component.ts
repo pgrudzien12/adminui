@@ -44,7 +44,6 @@ export class WorkFlowRunComponent implements OnInit {
       this.ngselectedWorkFlowName;
     }
 
-    console.log('router', this.currentWorkFlow);
     this.workFlowNameList = this.cmnSrvc.workFlowNameList;
     this.getWorkFlowList();
   }
@@ -66,7 +65,6 @@ export class WorkFlowRunComponent implements OnInit {
       (err) => {
         this.error_Message_Div = err;
         this.spinner.hide();
-        console.log(err);
       }
     );
   }
@@ -82,12 +80,10 @@ export class WorkFlowRunComponent implements OnInit {
         this.workFlowRunList = result;
         this.fullWorkFlowRunList = result;
         this.error_Message_Div = '';
-        console.log(result);
       },
       (err) => {
         this.error_Message_Div = err;
         this.spinner.hide();
-        console.log(err);
       }
     );
   }
@@ -188,13 +184,10 @@ export class WorkFlowRunComponent implements OnInit {
                     ' created successfully.'
                 )
               );
-
-              console.log(result);
             },
             (err) => {
               that.error_Message_Div = err;
               that.spinner.hide();
-              console.log(err);
             }
           );
       });

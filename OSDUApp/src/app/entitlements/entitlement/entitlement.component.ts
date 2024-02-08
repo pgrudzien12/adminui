@@ -25,8 +25,7 @@ export class EntitlementComponent implements OnInit {
 
   onTabSelect() {}
 
-  getColor(type) {
-    console.log(type);
+  getColor() {
     return '#00a6de';
   }
 }

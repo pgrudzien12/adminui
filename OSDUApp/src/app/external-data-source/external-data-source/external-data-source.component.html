@@ -184,8 +184,6 @@
                   [data]="aclList"
                   [(ngModel)]="selectedACLOwnerNames"
                   name="aclnames"
-                  (onSelect)="onItemSelect('ACL', $event)"
-                  (onSelectAll)="onSelectAll('ACL', $event)"
                 >
                 </ng-multiselect-dropdown>
               </div>
@@ -202,8 +200,6 @@
                   [data]="aclList"
                   [(ngModel)]="selectedACLViewerNames"
                   name="selectedACLViewerNames"
-                  (onSelect)="onItemSelect('ACL', $event)"
-                  (onSelectAll)="onSelectAll('ACL', $event)"
                 >
                 </ng-multiselect-dropdown>
               </div>
@@ -221,8 +217,6 @@
                   [data]="legalTagNameList"
                   [(ngModel)]="selectedLegalTagNames"
                   name="legaltag"
-                  (onSelect)="onItemSelect('Legal', $event)"
-                  (onSelectAll)="onSelectAll('Legal', $event)"
                 >
                 </ng-multiselect-dropdown>
               </div>

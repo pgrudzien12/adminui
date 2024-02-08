@@ -1,3 +1,5 @@
+import { Constants } from './app/common/constants.service';
+
 export const dashboardList = [
   {
     header: 'Project Overview',
@@ -119,8 +121,7 @@ export const search_filterOR2 =
   "eg: 'query': '(data.Data.IndividualTypeProperties.Operator: 'srn:master-data/Organisation:Statoil:') OR (data.Data.IndividualTypeProperties.ProjectTypeID: 'srn:reference-data/ProjectType:Acquisition:')'. In this case the API will return data when one of the conditions is satisfied.";
 export const search_filterAND2 =
   " eg: 'query': '(data.Data.IndividualTypeProperties.Operator: 'srn:master-data/Organisation:Statoil:') AND (data.Data.IndividualTypeProperties.ProjectTypeID: 'srn:reference-data/ProjectType:Acquisition:')'. In this case the API will return data when both the field values are available. Even if one of the condition is not satisfied then the result will be empty.";
-export const search_filter_limit =
-  'The maximum number of results to return from the given offset. If no limit is provided, then it will return 10 items. Max number of items which can be fetched by the query is 100.';
+export const search_filter_limit = `The maximum number of results to return from the given offset. If no limit is provided, then it will return ${Constants.requestDefaultLimit} items. Max number of items which can be fetched by the query is ${Constants.maxOSDULimit}.`;
 export const search_spatailfilter =
   'The below dropdown consists of all the SpatialmLocation filters like Coordinates,HorizontalCRSID,etc which can be edited and modified to make a Spatial Location Filter.';
 

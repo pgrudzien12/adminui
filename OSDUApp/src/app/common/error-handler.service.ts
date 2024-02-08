@@ -1,10 +1,19 @@
-import { Injectable } from '@angular/core';
+import { ErrorHandler, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
+import { MonitoringService } from './monitoring.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ErrorHandlerService {
+export class ErrorHandlerService extends ErrorHandler {
+  constructor(private monitoringService: MonitoringService) {
+    super();
+  }
+
+  handleError(error: Error) {
+    this.monitoringService.logException(error);
+  }
+
   public errorHandler<T>() {
     return (error: any): Observable<T> => {
       let errorMessage = '';

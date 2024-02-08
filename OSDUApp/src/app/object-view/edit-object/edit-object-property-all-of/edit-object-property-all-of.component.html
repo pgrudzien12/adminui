@@ -17,7 +17,7 @@
       [valueName]="key"
       [readonly]="readonly"
       (valueChange)="valueChanged($event, key)"
-      *ngIf="value[key]"
+      *ngIf="value[key] !== undefined"
     >
     </app-edit-object-property>
   </ng-container>

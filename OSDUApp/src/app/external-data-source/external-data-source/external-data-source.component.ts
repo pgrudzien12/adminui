@@ -116,9 +116,8 @@ export class ExternalDataSourceComponent implements OnInit {
 
         this.spinner.hide();
       },
-      (err) => {
+      () => {
         this.spinner.hide();
-        console.log(err);
       }
     );
   }
@@ -148,10 +147,8 @@ export class ExternalDataSourceComponent implements OnInit {
           };
         }
       },
-      (err) => {
+      () => {
         this.spinner.hide();
-
-        console.log(err);
       }
     );
   }
@@ -165,13 +162,11 @@ export class ExternalDataSourceComponent implements OnInit {
     this.restService.getConnectionSourceRegistry(data).subscribe(
       (result) => {
         this.spinner.hide();
-        console.log(result);
         this.eds_connectionsource_List = result['results'];
         this.cmnSrvc.externalDataSources = result['results'];
       },
-      (err) => {
+      () => {
         this.spinner.hide();
-        console.log(err);
       }
     );
   }
@@ -454,12 +449,10 @@ export class ExternalDataSourceComponent implements OnInit {
           },
         },
       };
-      console.log(data);
       this.spinner.show();
       this.restService.postConnectionSourceRegistry(data).subscribe(
         (result) => {
           this.spinner.hide();
-          console.log(result);
           if (typeof result != 'string') {
             this.isSuccess = true;
             this.successMessge =
@@ -471,9 +464,8 @@ export class ExternalDataSourceComponent implements OnInit {
             this.errorMessge = result;
           }
         },
-        (err) => {
+        () => {
           this.spinner.hide();
-          console.log(err);
         }
       );
     }
@@ -496,13 +488,5 @@ export class ExternalDataSourceComponent implements OnInit {
 
   navigateDataJob(source) {
     this.router.navigate(['/EDS/DataJob'], { queryParams: { id: source } });
-  }
-
-  onItemSelect(type, item: any) {
-    console.log(item);
-    //this.selectedcountryOfOrigin.push(item["item_id"]);
-  }
-  onSelectAll(type, items: any) {
-    console.log(items);
   }
 }

@@ -1,63 +1,23 @@
 <div class="d-flex align-items-center filter-element-container">
-  <mat-form-field appearance="outline">
-    <mat-label> Select field </mat-label>
-    <mat-select
-      [(ngModel)]="filters.selectedField"
-      (selectionChange)="emitFilersChange('firstValue')"
+  <div>
+    <app-auto-complete
+      label="Select field"
+      [getSuggestions]="getFieldSuggestions.bind(this)"
+      [selected]="filters.selectedField"
+      (inputChange)="selectedFieldChange($event)"
+      (selectedChange)="selectedFieldChange($event)"
     >
-      <mat-option *ngFor="let field of fields" [value]="field">
-        {{ field }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+    </app-auto-complete>
+  </div>
 
   <app-auto-complete
     label="Select value"
     [getSuggestions]="getSuggestions.bind(this)"
-    [(selected)]="filters.firstValue"
+    [(selected)]="filters.value"
     [displayFn]="displayFn"
-    (selectedChange)="emitFilersChange()"
+    (selectedChange)="fieldValueChange($event)"
+    (inputChange)="fieldValueChange($event)"
+    [disabled]="!filters.selectedField"
     class="autocomplete-field"
   ></app-auto-complete>
-
-  <mat-form-field appearance="outline" class="operator-field">
-    <mat-select
-      [(ngModel)]="filters.selectedOperator"
-      (selectionChange)="emitFilersChange()"
-    >
-      <mat-option *ngFor="let op of operators" [value]="op">
-        {{ op }}
-      </mat-option>
-    </mat-select>
-    <mat-icon
-      class="mat-icon-smaller"
-      color="primary"
-      matSuffix
-      [matTooltip]="tooltipContent"
-      >info</mat-icon
-    >
-  </mat-form-field>
-
-  <app-auto-complete
-    label="Select value"
-    [getSuggestions]="getSuggestions.bind(this)"
-    *ngIf="filters.selectedOperator === 'OR'"
-    [(selected)]="filters.secondValue"
-    (selectedChange)="emitFilersChange()"
-    [displayFn]="displayFn"
-    class="autocomplete-field"
-  ></app-auto-complete>
-
-  <mat-form-field
-    appearance="outline"
-    *ngIf="filters.selectedOperator === 'AND'"
-    class="autocomplete-field"
-  >
-    <mat-label>Enter the query value</mat-label>
-    <input
-      matInput
-      [(ngModel)]="filters.secondValue"
-      (ngModelChange)="emitFilersChange()"
-    />
-  </mat-form-field>
 </div>

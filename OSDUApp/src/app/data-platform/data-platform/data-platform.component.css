@@ -37,16 +37,11 @@ app-osdu-object-list {
   min-width: 200px;
 }
 
-.header-container {
-  gap: 10px;
-}
-
 ::ng-deep .checkbox-container .mat-checkbox-label {
   display: flex;
   align-items: center;
   gap: 5px;
 }
-
 
 .mat-expansion-panel-header-title {
   font-weight: 400 !important;

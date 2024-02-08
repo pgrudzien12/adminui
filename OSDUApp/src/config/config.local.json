@@ -3,6 +3,9 @@
   "name": "dev",
   "mapboxKey": "key",
   "settings": {
+    "appInsights": {
+      "instrumentationKey": "APP_INSIGHTS_KEY"
+    },
     "common": {
       "entitlement_host": "entitlements/v2/",
       "legal_host": "legal/v1/",

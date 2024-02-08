@@ -80,6 +80,8 @@ export class RestAPILayerService {
 
   axios = require('axios').default;
 
+  private static readonly STORAGE_QUERY_PER_CHUNCK = 100;
+
   constructor(
     public http: HttpClient,
     private cmnSrvc: CommonService,
@@ -88,7 +90,7 @@ export class RestAPILayerService {
     private errorHandler: ErrorHandlerService
   ) {}
 
-  private extractData(res: Response) {
+  private extractData(res: any) {
     const body = res;
     return body || {};
   }
@@ -425,15 +427,21 @@ export class RestAPILayerService {
     const IDRegWithVersion =
       /^[\w\-\.]+:[\w\-\.]+\-\-[\w\.]+:[\w\-\.\:\%]+[^:]:[0-9]+$/;
     if (IDRegWithVersion.test(id)) {
-      let id_version = id.split(':');
-      return this.getSpecificRecordVersionFromStorageWithID(id_version);
+      const id_version = id.split(':');
+      const idWithoutVersion = id_version.slice(0, -1).join(':');
+      const version = id_version.slice(-1)[0];
+      return this.getSpecificRecordVersionFromStorageWithID(
+        idWithoutVersion,
+        version
+      );
     } else {
       return this.getLatestRecordVersionFromStorageWithID(id);
     }
   }
 
   getLatestRecordVersionFromStorageWithID(id): Observable<any> {
-    this.param = 'records/' + encodeURIComponent(id);
+    this.param =
+      'records/' + encodeURIComponent(Helper.formatIdForStorageAPI(id));
     return this.http
       .get<any>(
         this.storage_endpoint_url + this.storage_host + this.param,
@@ -454,16 +462,11 @@ export class RestAPILayerService {
       .pipe(catchError(this.errorHandler.errorHandler<any>()));
   }
 
-  getSpecificRecordVersionFromStorageWithID(id_version): Observable<any> {
-    let index = id_version.length - 1;
-    this.param =
-      'records/' +
-      encodeURIComponent(id_version.slice(0, index).join(':')) +
-      '/' +
-      id_version.slice(index).join(':');
+  getSpecificRecordVersionFromStorageWithID(id, version): Observable<any> {
+    const param = `records/${encodeURIComponent(id)}/${version}`;
     return this.http
       .get<any>(
-        this.storage_endpoint_url + this.storage_host + this.param,
+        this.storage_endpoint_url + this.storage_host + param,
         this.httpOptions
       )
       .pipe(
@@ -473,7 +476,7 @@ export class RestAPILayerService {
   }
 
   getRecordVersionsFromStorageWithID(id): Observable<any> {
-    this.param = 'records/versions/' + id;
+    this.param = 'records/versions/' + Helper.formatIdForStorageAPI(id);
     return this.http
       .get<any>(
         this.storage_endpoint_url + this.storage_host + this.param,
@@ -485,22 +488,44 @@ export class RestAPILayerService {
       );
   }
 
-  getListRecordsFromStorage(list_id: string[]): Observable<any> {
-    this.param = 'query/records/';
-    const jsonBody = {
-      records: list_id.map((id) => Helper.getObjectIdWithoutVersion(id)),
-    };
+  getListRecordsFromStorage(listId: string[]): Observable<any> {
+    const param = 'query/records/';
 
-    return this.http
-      .post<any>(
-        this.storage_endpoint_url + this.storage_host + this.param,
-        jsonBody,
-        this.httpOptions
-      )
-      .pipe(
-        map(this.extractData),
-        catchError(this.errorHandler.errorHandler<any>())
-      );
+    const queries = listId
+      .map(Helper.getObjectIdWithoutVersion)
+      .map(Helper.formatIdForStorageAPI)
+      .reduce((all, one, index) => {
+        const chunk = Math.floor(
+          index / RestAPILayerService.STORAGE_QUERY_PER_CHUNCK
+        );
+        all[chunk] = [].concat(all[chunk] || [], one);
+        return all;
+      }, [])
+      .reduce((acc, records, index) => {
+        const jsonBody = {
+          records,
+        };
+
+        acc[index] = this.http.post<any>(
+          this.storage_endpoint_url + this.storage_host + param,
+          jsonBody,
+          this.httpOptions
+        );
+
+        return acc;
+      }, {});
+
+    return forkJoin(queries).pipe(
+      map((res) => {
+        return {
+          records: Object.values(res).reduce((all: any[], response: any) => {
+            return [...all, ...response.records];
+          }, []),
+        };
+      }),
+      map(this.extractData),
+      catchError(this.errorHandler.errorHandler<any>())
+    );
   }
 
   createOrUpdateRecords(objects_json): Observable<any> {
@@ -520,14 +545,12 @@ export class RestAPILayerService {
   }
 
   //------------------------- Search APIs-------------------------------------------
-  getDataFromSearch(data): Observable<any> {
-    this.param = 'query';
+  getDataFromSearch(data, with_cursor: boolean = false): Observable<any> {
+    const url = with_cursor
+      ? `${this.search_endpoint_url}${this.search_host}query_with_cursor`
+      : `${this.search_endpoint_url}${this.search_host}query`;
     return this.http
-      .post<any>(
-        this.search_endpoint_url + this.search_host + this.param,
-        data,
-        this.httpOptions
-      )
+      .post<any>(url, data, this.httpOptions)
       .pipe(
         map(this.extractData),
         catchError(this.errorHandler.errorHandler<any>())
@@ -540,55 +563,6 @@ export class RestAPILayerService {
     this.param = 'schema-service/v1/schema/' + kind;
     return this.http
       .get<any>(this.storage_endpoint_url + this.param, this.httpOptions)
-      .pipe(
-        map(this.extractData),
-        catchError(this.errorHandler.errorHandler<any>())
-      );
-  }
-
-  //--------------------------------- OSDU Connector API ----------------------------------------
-
-  getAssociatedObjects(id): Observable<string[]> {
-    this.param = 'search/associated/' + id;
-    return this.http
-      .post<any>(
-        this.osdu_connector_api_endpoint_url + this.param,
-        {},
-        this.httpOptions
-      )
-      .pipe(
-        map(
-          (result: string[]) =>
-            result.map((r) => (r.endsWith(':') ? r.slice(0, -1) : r)),
-          catchError(this.errorHandler.errorHandler<any>())
-        )
-      );
-  }
-
-  getAllAssociatedObjects(id): Observable<any> {
-    this.param = 'search/associated/all/' + id;
-    return this.http
-      .get<any>(
-        this.osdu_connector_api_endpoint_url + this.param,
-        this.httpOptions
-      )
-      .pipe(
-        map(this.extractData),
-        catchError(this.errorHandler.errorHandler<any>())
-      );
-  }
-
-  getObjectsByKind(kind): Observable<any> {
-    this.param = 'search/v2/query';
-
-    return this.http
-      .post<any>(
-        this.osdu_connector_api_endpoint_url + this.param,
-        {
-          kind: kind,
-        },
-        this.httpOptions
-      )
       .pipe(
         map(this.extractData),
         catchError(this.errorHandler.errorHandler<any>())
@@ -618,7 +592,6 @@ export class RestAPILayerService {
   downloadAsZip(urls, names): void {
     let count = 0;
     const zip = new JSZip();
-    let dateStart = new Date();
 
     urls.forEach((url) => {
       JSZipUtils.getBinaryContent(url, (err, data) => {
@@ -652,11 +625,6 @@ export class RestAPILayerService {
           });
 
           this.cmnSrvc.progressionBarDownloadText = '';
-          let dateEnd = new Date();
-          console.log(
-            'Time in seconde : ',
-            Math.abs((dateEnd.getTime() - dateStart.getTime()) / 1000)
-          );
         }
       });
     });
@@ -903,9 +871,6 @@ export class RestAPILayerService {
           search
         );
 
-        console.log('=========================');
-        console.log(mergedUsersFilteredFromAzure);
-        console.log(members);
         const filteredById = members.filter(
           (m) =>
             m.email.includes(search) &&

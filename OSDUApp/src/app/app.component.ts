@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { HeaderService } from './common/headers.service';
+import { MonitoringService } from './common/monitoring.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,8 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private titleService: Title,
-    private headerService: HeaderService
+    private headerService: HeaderService,
+    public monitoringService: MonitoringService
   ) {}
 
   ngOnInit() {

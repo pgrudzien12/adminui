@@ -61,7 +61,6 @@ export class WfRunViewComponent implements OnInit {
           this.isSuccess = false;
           this.errorMessge = err;
           this.spinner.hide();
-          console.log(err);
         }
       );
   }

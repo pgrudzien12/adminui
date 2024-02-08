@@ -31,7 +31,6 @@ li.multiselect-item-checkbox {
   font-size: 14px !important;
 }
 
-
 .add-leagal-label {
   text-align: right;
   width: 100%;
@@ -40,16 +39,17 @@ li.multiselect-item-checkbox {
 }
 
 .add-legal-input {
-  width: 100%!important;
-  margin: 0 0 10px!important;
+  width: 100% !important;
+  margin: 0 0 10px !important;
 }
 
 .add-legal-input:focus {
   border-color: #80bdff;
 }
 
-.modal-body .col-md-3, .modal-body .col-md-9 {
-  padding-right: 0!important;
+.modal-body .col-md-3,
+.modal-body .col-md-9 {
+  padding-right: 0 !important;
 }
 
 .modal-body .form-control:focus {
@@ -63,7 +63,7 @@ li.multiselect-item-checkbox {
 }
 
 ::ng-deep .add-legal-input .multiselect-dropdown .dropdown-btn {
-  border-color: #ced4da!important;
+  border-color: #ced4da !important;
 }
 
 .add-legal-check-icon {

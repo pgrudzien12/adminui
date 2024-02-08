@@ -8,6 +8,7 @@ import {
   ContentChild,
   SimpleChanges,
   EventEmitter,
+  OnDestroy,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -18,10 +19,8 @@ import { Router } from '@angular/router';
 import { GraphApiService } from 'src/app/common/graph-api.service';
 import { OsduGroup } from 'src/app/models/osdu-group.model';
 import { SelectionModel } from '@angular/cdk/collections';
-import { map } from 'rxjs/operators';
+import { map, defaultIfEmpty } from 'rxjs/operators';
 import { Subscription, forkJoin } from 'rxjs';
-import { defaultIfEmpty } from 'rxjs/operators';
-import { OnDestroy } from '@angular/core';
 
 type USERLIST_COLUMNS =
   | 'select'

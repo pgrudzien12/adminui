@@ -16,6 +16,14 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { GroupAutocompleteComponent } from '../group-autocomplete/group-autocomplete.component';
 import { AzureUserPipe } from '../pipes/user.pipe';
+import { OsduObjectListComponent } from '../osdu-object-list/osdu-object-list.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { SelectTableColumnsComponent } from '../data-platform/select-table-columns/select-table-columns.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { UserIconComponent } from '../user-icon/user-icon.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +34,10 @@ import { AzureUserPipe } from '../pipes/user.pipe';
     ObjectCellComponent,
     AutoCompleteComponent,
     GroupAutocompleteComponent,
+    SelectTableColumnsComponent,
+    OsduObjectListComponent,
     AzureUserPipe,
+    UserIconComponent,
   ],
   imports: [
     AngularCommonModule,
@@ -38,6 +49,11 @@ import { AzureUserPipe } from '../pipes/user.pipe';
     MatButtonModule,
     MatAutocompleteModule,
     MatInputModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatTooltipModule,
+    MatCheckboxModule,
+    MatChipsModule,
     ReactiveFormsModule,
   ],
   exports: [
@@ -46,9 +62,11 @@ import { AzureUserPipe } from '../pipes/user.pipe';
     LegalTagCellComponent,
     ObjectidCellComponent,
     ObjectCellComponent,
+    OsduObjectListComponent,
     AutoCompleteComponent,
     GroupAutocompleteComponent,
     AzureUserPipe,
+    UserIconComponent,
   ],
 })
 export class CommonModule {}

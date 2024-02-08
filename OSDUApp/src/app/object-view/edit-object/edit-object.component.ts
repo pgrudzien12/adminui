@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 import { CommonService } from 'src/app/common/common.service';
@@ -36,6 +36,7 @@ export class EditObjectComponent implements OnInit {
   constructor(
     private restService: RestAPILayerService,
     private route: ActivatedRoute,
+    private router: Router,
     private cmnSrvc: CommonService
   ) {}
 
@@ -77,9 +78,7 @@ export class EditObjectComponent implements OnInit {
                 'Object successfully updated with your changes'
               )
             );
-            this.objectJson.data = JSON.parse(
-              JSON.stringify(this.objectJsonEditing)
-            );
+            this.router.navigate(['/', 'object-view', this.objectJson.id]);
           },
           (err) => {
             swal.fire(Helper.errorSweetAlertConfig(err));

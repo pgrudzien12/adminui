@@ -83,7 +83,6 @@ export class CreatGroupComponent {
           this.isError = true;
           this.isSuccess = false;
           this.errorMessge = err;
-          console.log(err);
         }
       );
     }

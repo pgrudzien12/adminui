@@ -40,6 +40,7 @@ export class ObjectAclComponent implements OnInit {
     source: null,
     tags: null,
     type: null,
+    version: null,
   };
 
   ngOnInit(): void {

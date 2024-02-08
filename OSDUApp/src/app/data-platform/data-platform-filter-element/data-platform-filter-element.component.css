@@ -8,7 +8,7 @@
 }
 
 .filter-element-container {
-  gap: 5px
+  gap: 5px;
 }
 
 ::ng-deep .filter-element-container .mat-form-field-wrapper {

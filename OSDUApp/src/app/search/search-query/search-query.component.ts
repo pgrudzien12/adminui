@@ -11,7 +11,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-// import { forEach } from 'jszip';
 
 @Component({
   selector: 'app-search-query',
@@ -34,7 +33,14 @@ export class SearchQueryComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  readonly displayedColumns = ['select', 'id', 'kind', 'version'];
+  readonly displayedColumns = [
+    'select',
+    'id',
+    'name',
+    'kind',
+    'version',
+    'date',
+  ];
 
   constructor(
     private router: Router,
@@ -87,18 +93,15 @@ export class SearchQueryComponent {
 
         this.dataSource.data = this.resultSearchQuery;
         this.dataSource.sort = this.sort;
-        console.log(this.paginator);
         this.paginator.length = this.dataSource.data.length;
         this.dataSource.paginator = this.paginator;
 
-        console.log(this.resultSearchQuery);
         this.spinner.hide();
         this.loading = false;
       },
       (err) => {
         swal.fire(Helper.errorSweetAlertConfig(err));
         this.spinner.hide();
-        console.log(err);
       }
     );
   }
@@ -162,3 +165,4 @@ export class SearchQueryComponent {
     this.modalService.open(AddACLComponent);
   }
 }
+

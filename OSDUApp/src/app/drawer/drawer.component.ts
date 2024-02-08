@@ -74,6 +74,10 @@ export class DrawerComponent implements OnInit, OnDestroy {
     );
   }
 
+  afterExpand() {
+    this.sidenavService.sideNavState$.next(true);
+  }
+
   ngOnInit(): void {
     this.refreshSelected();
     this.routerSubscription = this.router.events

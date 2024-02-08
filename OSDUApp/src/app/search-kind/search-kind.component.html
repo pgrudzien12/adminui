@@ -1,0 +1,14 @@
+<mat-card class="mb-2">
+  <div class="d-flex align-items-center">
+    <app-kind-autocomplete
+      class="flex-full"
+      [(selected)]="selectedStorageKind"
+      (selectedChange)="selectedKindChange()"
+    ></app-kind-autocomplete>
+  </div>
+</mat-card>
+
+<app-data-platform
+  [baseQuery]="baseQuery"
+  *ngIf="baseQuery"
+></app-data-platform>

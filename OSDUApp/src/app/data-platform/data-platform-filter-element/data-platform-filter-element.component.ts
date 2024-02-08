@@ -1,22 +1,32 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { OsduObject } from 'src/app/models/osdu-object.model';
 import { of } from 'rxjs';
 import { DataPlatformFilterElement } from '../models/data-platform-filter-element.model';
 import { search_filterOR1, search_filterAND1 } from 'src/config';
+import { RestAPILayerService } from 'src/app/common/rest-apilayer.service';
+import { catchError, map } from 'rxjs/operators';
+import { Constants } from 'src/app/common/constants.service';
+import { Helper } from 'src/app/common/helper.service';
 @Component({
   selector: 'app-data-platform-filter-element',
   templateUrl: './data-platform-filter-element.component.html',
   styleUrls: ['./data-platform-filter-element.component.css'],
 })
-export class DataPlatformFilterElementComponent implements OnInit {
-  @Input() fullResult: OsduObject[] = [];
+export class DataPlatformFilterElementComponent {
+  @Input() baseQuery = null;
 
-  fields: string[] = [];
+  readonly fields: string[] = [
+    'kind',
+    'data.FacilityName',
+    'data.WellboreID',
+    'data.WellID',
+    'data.ExistenceKind',
+    'data.Source',
+    'data.Name',
+  ].sort();
 
   @Input() filters: DataPlatformFilterElement = {
-    selectedOperator: 'OR',
-    firstValue: null,
-    secondValue: null,
+    value: null,
     selectedField: null,
   };
 
@@ -26,48 +36,21 @@ export class DataPlatformFilterElementComponent implements OnInit {
 
   readonly tooltipContent = `OR: ${search_filterOR1}\n\nAND: ${search_filterAND1}`;
 
-  ngOnInit() {
-    if (this.fullResult.length === 0) return;
-    this.getFields();
+  constructor(private restAPIService: RestAPILayerService) {}
+
+  emitFilersChange() {
+    this.filtersChange.emit(this.filters);
   }
 
-  emitFilersChange(type = 'none') {
-    if (type === 'firstValue') {
-      this.filters = {
-        selectedOperator: 'OR',
-        firstValue: null,
-        secondValue: null,
-        selectedField: this.filters.selectedField,
-      };
-    }
-
-    this.filtersChange.emit({ ...this.filters });
+  selectedFieldChange(filter) {
+    this.filters.selectedField = filter;
+    this.filters.value = null;
+    this.emitFilersChange();
   }
 
-  getFields() {
-    const element = this.fullResult[0];
-
-    const resultFields = Object.keys(element).filter(
-      (f) => f !== '..Legal Tag' && f !== '.Id'
-    );
-
-    const filterdFieldSet = new Set<string>();
-
-    resultFields.forEach((rField) => {
-      if (typeof element[rField] === 'string') {
-        filterdFieldSet.add(rField);
-        return;
-      }
-
-      if (
-        this.isSpacialLocation(element, rField) &&
-        element[rField].length > 0
-      ) {
-        element[rField].forEach((s) => filterdFieldSet.add(s));
-      }
-    });
-
-    this.fields = Array.from(filterdFieldSet);
+  fieldValueChange(value: string) {
+    this.filters.value = value;
+    this.emitFilersChange();
   }
 
   displayFn(element: string) {
@@ -75,25 +58,51 @@ export class DataPlatformFilterElementComponent implements OnInit {
   }
 
   getSuggestions(search) {
-    if (typeof search !== 'string') return of([]);
+    if (typeof search !== 'string' || !this.filters.selectedField)
+      return of([]);
 
-    const resultSet = new Set<string>();
+    const queryArray = [];
+    if (this.baseQuery.query) queryArray.push(`(${this.baseQuery.query})`);
 
-    this.fullResult.forEach((element) => {
-      const elementField = element[this.filters.selectedField];
-      if (!elementField) return;
+    if (search)
+      queryArray.push(`${this.filters.selectedField}:(\"${search}\")`);
 
-      if (
-        typeof elementField === 'string' &&
-        elementField.toLowerCase().includes(search.toLowerCase())
-      )
-        resultSet.add(elementField);
-    });
+    return this.restAPIService
+      .getDataFromSearch({
+        ...this.baseQuery,
+        query: queryArray.join(' AND '),
+        limit: Constants.maxOSDULimit,
+      })
+      .pipe(
+        map((res) => {
+          const objects = res.results as OsduObject[];
+          const resultSet = new Set<string>();
+          objects
+            .map((el) =>
+              Helper.getFieldFromDottedString(el, this.filters.selectedField)
+            )
+            .filter((field) => {
+              return (
+                field &&
+                typeof field === 'string' &&
+                field.toLowerCase().includes(search.toLowerCase())
+              );
+            })
+            .forEach((el) => resultSet.add(el));
 
-    return of(Array.from(resultSet));
+          return Array.from(resultSet).sort();
+        }),
+        catchError(() => [])
+      );
   }
 
-  private isSpacialLocation(element: OsduObject, field: string) {
-    return typeof element[field] === 'object' && field === 'SpatialLocation';
+  getFieldSuggestions(search) {
+    if (typeof search !== 'string') return of(this.fields);
+
+    return of(
+      this.fields.filter((el) =>
+        el.toLowerCase().includes(search.toLowerCase())
+      )
+    );
   }
 }

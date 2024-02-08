@@ -6,6 +6,7 @@ import { AzureUser } from 'src/app/models/azure-user';
 import { SweetAlertOptions } from 'sweetalert2';
 import { OsduKind } from '../models/osdu-kind.model';
 import { environment } from 'src/environments/environment';
+import { DataPlatformFilterElement } from '../data-platform/models/data-platform-filter-element.model';
 
 export class Helper {
   static isGroup(element: OsduMember) {
@@ -13,7 +14,11 @@ export class Helper {
   }
 
   static displayAzureUser(user: AzureUser): string {
-    return user ? `${user.displayName} - ${user.mail}` : '';
+    if (!user) return '';
+    const display: string[] = [];
+    if (user.displayName) display.push(user.displayName);
+    if (user.mail) display.push(user.mail);
+    return display.join(' - ');
   }
 
   static displayOsduMemberWithAzureUser(member: OsduMemberWithAzureUser) {
@@ -131,8 +136,50 @@ export class Helper {
     return documentRef.substring(prefix.length);
   }
 
-  static readonly userGroup =
-    'users@' + environment.settings.data_partition + '.dataservices.energy';
+  static getQueryStringFromFiltersElements(
+    filtersElements: DataPlatformFilterElement[],
+    followingOperators: string[]
+  ): string {
+    const elements = filtersElements
+      .filter((el) => !!el.value && !!el.selectedField)
+      .map((el) => {
+        return Helper.searchElement(el.selectedField, el.value);
+      });
 
-  static readonly objectMandatoryColumns = ['id', 'legal'];
+    if (elements.length === 0) {
+      return '';
+    }
+    let queryString = elements[0];
+
+    followingOperators.forEach((op, index) => {
+      const followingElement = elements[index + 1];
+      if (!followingElement) return;
+
+      queryString = `${queryString} ${op} ${followingElement}`;
+    });
+
+    return queryString;
+  }
+
+  private static searchElement(field: string, value: string): string {
+    if (field !== 'id') return `${field}:("${value}")`;
+    return `${field}=("${value}")`;
+  }
+
+  static getFieldFromDottedString(object, fieldKey: string) {
+    const path = fieldKey.split('.');
+
+    let next = object;
+
+    for (let i in path) {
+      if (typeof next !== 'object') return null;
+      next = next[path[i]];
+    }
+
+    return next;
+  }
+
+  static formatIdForStorageAPI(id: string) {
+    return id.endsWith(':') ? id.substring(-1) : id;
+  }
 }

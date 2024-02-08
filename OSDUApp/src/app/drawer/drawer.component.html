@@ -1,5 +1,5 @@
 <div [@onSideNavChange]="sideNavState ? 'open' : 'close'">
-  <mat-accordion #accordion>
+  <mat-accordion #accordion [multi]="true">
     <ng-container *ngFor="let item of items">
       <app-drawer-item
         [item]="item"
@@ -13,7 +13,11 @@
         }"
         (click)="selectionChange(item)"
       ></app-drawer-item>
-      <mat-expansion-panel hideToggle *ngIf="item.children?.length">
+      <mat-expansion-panel
+        hideToggle
+        *ngIf="item.children?.length"
+        (opened)="afterExpand()"
+      >
         <mat-expansion-panel-header
           [ngClass]="{
             'list-entry': true,

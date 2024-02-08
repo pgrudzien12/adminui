@@ -1,52 +1,54 @@
 {
-    "production": false,
-    "name": "prod",
-    "mapboxKey": "key",
-    "settings": {
-      "common": {
-        "entitlement_host": "entitlements/v2/",
-        "legal_host": "legal/v1/",
-        "storage_host": "storage/v2/",
-        "search_host": "search/v2/",
-        "workflow_host": "v1/",
-        "eds_workflow_host": "workflow/v1/",
-        "schema_host": "schema-service/v1/"
+  "production": false,
+  "name": "prod",
+  "mapboxKey": "key",
+  "settings": {
+    "appInsights": {
+      "instrumentationKey": "APP_INSIGHTS_KEY"
+    },
+    "common": {
+      "entitlement_host": "entitlements/v2/",
+      "legal_host": "legal/v1/",
+      "storage_host": "storage/v2/",
+      "search_host": "search/v2/",
+      "workflow_host": "v1/",
+      "eds_workflow_host": "workflow/v1/",
+      "schema_host": "schema-service/v1/"
+    },
+    "eds": {
+      "acl": {
+        "owners": [""],
+        "viewers": [""]
       },
-      "eds": {
-        "acl": {
-          "owners": [""],
-          "viewers": [""]
-        },
-        "legal": {
-          "legaltags": ["osdu-demo-legaltag"],
-          "otherRelevantDataCountries": ["US"]
-        },
-        "Payload": {
-          "AppKey": "test-app",
-          "data-partition-id": "osdu"
-        }
+      "legal": {
+        "legaltags": ["osdu-demo-legaltag"],
+        "otherRelevantDataCountries": ["US"]
       },
-      "data_partition": "osdudev-opendes",
-      "idp": {
-        "auth_url": "https://login.microsoftonline.com/",
-        "token_url": "https://login.microsoftonline.com/",
-        "logout_uri": "https://login.microsoftonline.com/",
-        "tenant_id": "tenant_id",
-        "client_id": "client_id",
-        "redirect_uri": "redirect_uri",
-        "scope": "scope"
-      },
-      "api_endpoints": {
-        "entitlement_endpoint": "entitlement_endpoint",
-        "storage_endpoint": "storage_endpoint",
-        "search_endpoint": "search_endpoint",
-        "legal_endpoint": "legal_endpoint",
-        "schema_endpoint": "schema_endpoint",
-        "osdu_connector_api_endpoint": "osdu_connector_api_endpoint",
-        "file_endpoint": "file_endpoint",
-        "graphAPI_endpoint": "graphAPI_endpoint",
-        "workflow_endpoint": "workflow_endpoint"
+      "Payload": {
+        "AppKey": "test-app",
+        "data-partition-id": "osdu"
       }
+    },
+    "data_partition": "osdudev-opendes",
+    "idp": {
+      "auth_url": "https://login.microsoftonline.com/",
+      "token_url": "https://login.microsoftonline.com/",
+      "logout_uri": "https://login.microsoftonline.com/",
+      "tenant_id": "tenant_id",
+      "client_id": "client_id",
+      "redirect_uri": "redirect_uri",
+      "scope": "scope"
+    },
+    "api_endpoints": {
+      "entitlement_endpoint": "entitlement_endpoint",
+      "storage_endpoint": "storage_endpoint",
+      "search_endpoint": "search_endpoint",
+      "legal_endpoint": "legal_endpoint",
+      "schema_endpoint": "schema_endpoint",
+      "osdu_connector_api_endpoint": "osdu_connector_api_endpoint",
+      "file_endpoint": "file_endpoint",
+      "graphAPI_endpoint": "graphAPI_endpoint",
+      "workflow_endpoint": "workflow_endpoint"
     }
   }
-  
+}

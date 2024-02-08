@@ -1,0 +1,33 @@
+<mat-card class="mb-2">
+  <mat-card-content>
+    <app-group-autocomplete
+      [selected]="selectedGroup"
+      type="data"
+      (selectedChange)="selectedChange($event)"
+    ></app-group-autocomplete>
+  </mat-card-content>
+</mat-card>
+
+<app-data-platform
+  [baseQuery]="baseQuery"
+  *ngIf="baseQuery"
+  [templateColumns]="templateColumns"
+  [selectable]="true"
+  [selectActionsTemplate]="selectActions"
+  [canSelect]="boundCanDelete"
+>
+</app-data-platform>
+
+<ng-template #aclColumnRef let-element>
+  <a [routerLink]="getACLsLink(element)" class="editUserhref">
+    {{ getACLMemberships(element) }}
+  </a>
+</ng-template>
+
+<ng-template #selectActions let-selected>
+  <app-delete-from-datagroup
+    [objects]="selected"
+    [datagroup]="selectedGroup"
+    (deleted)="onDelete()"
+  ></app-delete-from-datagroup>
+</ng-template>

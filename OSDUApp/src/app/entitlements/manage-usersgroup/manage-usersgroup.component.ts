@@ -4,15 +4,14 @@ import { RestAPILayerService } from 'src/app/common/rest-apilayer.service';
 import { AddMemberComponent } from '../add-member/add-member.component';
 import { OsduGroup } from 'src/app/models/osdu-group.model';
 import { MatDialog } from '@angular/material/dialog';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { Helper } from 'src/app/common/helper.service';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { forkJoin } from 'rxjs';
 import { OsduUser } from 'src/app/models/osdu-member.model';
+import { Constants } from 'src/app/common/constants.service';
 
 @Component({
   selector: 'app-manage-usersgroup',
@@ -34,8 +33,6 @@ export class ManageUsersGroupComponent implements OnInit, OnDestroy {
 
   sub: Subscription;
 
-  private readonly debounceTime = 1000;
-
   memberList = [];
   filteredMemberList = [];
   currentSelection: OsduUser[];
@@ -55,7 +52,7 @@ export class ManageUsersGroupComponent implements OnInit, OnDestroy {
     this.searchControl.disable({ emitEvent: false });
 
     this.searchControl.valueChanges
-      .pipe(debounceTime(this.debounceTime))
+      .pipe(debounceTime(Constants.debounceTime))
       .subscribe((value) => this.searchFilter(value));
 
     this.sub = this.route.queryParams.subscribe((params) => {
@@ -76,16 +73,6 @@ export class ManageUsersGroupComponent implements OnInit, OnDestroy {
     this.form = this.fb.group({
       checkboxes: this.fb.array([]),
     });
-
-    // Populate the form with checkboxes
-
-    //this.populateCheckboxes();
-
-    // Subscribe to changes in the form group
-    // this.form.valueChanges.subscribe((value) => {
-    //   this.typeFilter(value);
-    //   // Do something with the updated value
-    // });
   }
 
   populateCheckboxes() {
@@ -146,12 +133,6 @@ export class ManageUsersGroupComponent implements OnInit, OnDestroy {
       });
   }
 
-  // onCheckboxChange(event, index: number) {
-  //   const checkboxArray = this.form.get('checkboxes') as FormArray;
-  //   const changedCheckbox = checkboxArray.at(index);
-  //   console.log('Checkbox changed:', changedCheckbox.value);
-  // }
-
   searchFilter(search) {
     if (!search) {
       this.showDataGroup(this.selectedGroupType);
@@ -185,13 +166,12 @@ export class ManageUsersGroupComponent implements OnInit, OnDestroy {
         () => {
           this.showDataGroup(this.selectedGroupType);
         },
-        (err) => {
+        () => {
           swal.fire(
             Helper.errorSweetAlertConfig(
               'Sorry. This user is not authorized to perform this function.'
             )
           );
-          console.log(err);
         }
       );
   }
@@ -222,9 +202,8 @@ export class ManageUsersGroupComponent implements OnInit, OnDestroy {
       )
     );
     forkJoin(deleteObservables).subscribe({
-      next: (results) => {
+      next: () => {
         // This will be executed after all deletions are successful
-        console.log('All users deleted', results);
         this.showDataGroup(this.selectedGroupType);
       },
       error: (error) => {

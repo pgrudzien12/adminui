@@ -2,36 +2,59 @@
   <div class="d-flex" *ngIf="isField()">
     <div class="flex-full">
       <ng-container *ngIf="property.type === 'string'">
-        <ng-container *ngIf="!property.format">
-          <app-edit-object-property-string
-            [(value)]="value"
-            [valueName]="valueName"
-            [property]="property"
-            [readonly]="readonly"
-            (valueChange)="valueChanged($event)"
-          ></app-edit-object-property-string>
-        </ng-container>
+        <ng-container *ngIf="!property['x-osdu-relationship']">
+          <ng-container *ngIf="!property.format">
+            <app-edit-object-property-string
+              [(value)]="value"
+              [valueName]="valueName"
+              [property]="property"
+              [readonly]="readonly"
+              (valueChange)="valueChanged($event)"
+            ></app-edit-object-property-string>
+          </ng-container>
 
-        <ng-container *ngIf="property.format === 'date-time'">
-          <app-edit-object-property-date-time
+          <ng-container *ngIf="property.format === 'date-time'">
+            <app-edit-object-property-date-time
+              [(value)]="value"
+              [valueName]="valueName"
+              [property]="property"
+              [readonly]="readonly"
+              (valueChange)="valueChanged($event)"
+            >
+            </app-edit-object-property-date-time>
+          </ng-container>
+
+          <ng-container *ngIf="property.format === 'date'">
+            <app-edit-property-date
+              [(value)]="value"
+              [valueName]="valueName"
+              [property]="property"
+              [readonly]="readonly"
+              (valueChange)="valueChanged($event)"
+            ></app-edit-property-date>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="property['x-osdu-relationship']">
+          <app-edit-object-property-referenced
             [(value)]="value"
             [valueName]="valueName"
             [property]="property"
             [readonly]="readonly"
             (valueChange)="valueChanged($event)"
           >
-          </app-edit-object-property-date-time>
+          </app-edit-object-property-referenced>
         </ng-container>
+      </ng-container>
 
-        <ng-container *ngIf="property.format === 'date'">
-          <app-edit-property-date
-            [(value)]="value"
-            [valueName]="valueName"
-            [property]="property"
-            [readonly]="readonly"
-            (valueChange)="valueChanged($event)"
-          ></app-edit-property-date>
-        </ng-container>
+      <ng-container *ngIf="property.type === 'boolean'">
+        <app-edit-object-property-boolean
+          [(value)]="value"
+          [valueName]="valueName"
+          [property]="property"
+          [readonly]="readonly"
+          (valueChange)="valueChanged($event)"
+        >
+        </app-edit-object-property-boolean>
       </ng-container>
 
       <ng-container *ngIf="property.type === 'number'">
@@ -89,20 +112,29 @@
   </div>
 
   <ng-container *ngIf="property.allOf">
-    <app-edit-object-container
-      [label]="valueName"
-      icon="data_object"
-      [expanded]="expanded"
-    >
-      <app-edit-object-property-all-of
-        [allOfArray]="property.allOf"
-        [definitions]="definitions"
-        [(value)]="value"
-        [readonly]="readonly"
-        (valueChange)="valueChanged($event)"
-      >
-      </app-edit-object-property-all-of>
-    </app-edit-object-container>
+    <div class="d-flex">
+      <div class="flex-full">
+        <app-edit-object-container
+          [label]="valueName"
+          icon="data_object"
+          [expanded]="expanded"
+        >
+          <app-edit-object-property-all-of
+            [allOfArray]="property.allOf"
+            [definitions]="definitions"
+            [(value)]="value"
+            [readonly]="readonly"
+            (valueChange)="valueChanged($event)"
+          >
+          </app-edit-object-property-all-of>
+        </app-edit-object-container>
+      </div>
+
+      <ng-container
+        [ngTemplateOutlet]="deleteButton"
+        [ngTemplateOutletContext]="{valueName}"
+      ></ng-container>
+    </div>
   </ng-container>
 
   <ng-container *ngIf="property.oneOf">
@@ -148,7 +180,7 @@
     mat-icon-button
     color="warn"
     (click)="deleteField(valueName)"
-    *ngIf="!readonly"
+    *ngIf="!readonly && displayDelete"
   >
     <mat-icon>delete_outline</mat-icon>
   </button>

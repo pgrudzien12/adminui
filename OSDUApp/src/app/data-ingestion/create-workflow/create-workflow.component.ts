@@ -72,7 +72,6 @@ export class CreateWorkflowComponent {
           this.isError = true;
           this.isSuccess = false;
           this.errorMessge = err;
-          console.log(err);
         }
       );
     }

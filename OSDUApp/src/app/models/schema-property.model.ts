@@ -10,4 +10,8 @@ export interface SchemaProperty {
   items?: any;
   properties?: any;
   oneOf?: Array<any>;
+  'x-osdu-relationship'?: Array<{
+    EntityType: string;
+    GroupType: string;
+  }>;
 }

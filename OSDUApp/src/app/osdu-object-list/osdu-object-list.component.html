@@ -4,8 +4,34 @@
   *ngIf="extraColumns.length && allColumns.length"
 ></app-select-table-columns>
 
+<ng-container *ngIf="selectable">
+  <div class="d-flex justify-content-end align-items-center">
+    <span class="mat-caption"
+      >{{ selection.selected.length }} elements selected</span
+    >
+    <ng-template
+      [ngTemplateOutlet]="selectActionsTemplate"
+      [ngTemplateOutletContext]="{ $implicit: selection.selected }"
+    >
+    </ng-template>
+  </div>
+</ng-container>
+
 <div class="table-responsive">
   <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle(element) : null"
+          [checked]="selection.isSelected(element)"
+          [disabled]="!canSelect(element)"
+        >
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>Id</th>
       <td mat-cell *matCellDef="let element">
@@ -29,11 +55,26 @@
           {{ getExtraField(element, extraCol) }}</span
         >
         <app-object-cell
-          [object]="element[extraCol]"
+          [object]="Helper.getFieldFromDottedString(element, extraCol)"
           *ngIf="!isSimpleData(element, extraCol)"
           [objectParent]="getObjectParentString(element, extraCol)"
         >
         </app-object-cell>
+      </td>
+    </ng-container>
+
+    <ng-container
+      *ngFor="let templateColumn of templateColumns"
+      [matColumnDef]="templateColumn.id"
+    >
+      <th mat-header-cell *matHeaderCellDef>{{ templateColumn.name }}</th>
+
+      <td mat-cell *matCellDef="let element">
+        <ng-template
+          [ngTemplateOutlet]="templateColumn.templateRef"
+          [ngTemplateOutletContext]="{ $implicit: element }"
+        >
+        </ng-template>
       </td>
     </ng-container>
 

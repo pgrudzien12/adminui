@@ -11,6 +11,7 @@ import { debounceTime } from 'rxjs/operators';
 import swal from 'sweetalert2';
 import { forkJoin } from 'rxjs';
 import { OsduUser } from 'src/app/models/osdu-member.model';
+import { Constants } from 'src/app/common/constants.service';
 
 @Component({
   selector: 'app-manage-users',
@@ -19,8 +20,6 @@ import { OsduUser } from 'src/app/models/osdu-member.model';
 })
 export class ManageUsersComponent implements OnInit {
   searchControl = new FormControl('');
-
-  private readonly debounceTime = 1000;
 
   memberList = [];
   currentSelection: OsduUser[];
@@ -44,7 +43,7 @@ export class ManageUsersComponent implements OnInit {
     this.showDataGroup();
 
     this.searchControl.valueChanges
-      .pipe(debounceTime(this.debounceTime))
+      .pipe(debounceTime(Constants.debounceTime))
       .subscribe((value) => this.showDataGroup(value));
   }
 
@@ -59,7 +58,7 @@ export class ManageUsersComponent implements OnInit {
 
   private searchFilter(search: string) {
     this.restService
-      .getMembersByString(Helper.userGroup, search)
+      .getMembersByString(Constants.userGroup, search)
       .subscribe((result) => {
         this.memberList = result;
         this.cmnSrvc.UsersList = result.map((t) => t.email);
@@ -68,7 +67,7 @@ export class ManageUsersComponent implements OnInit {
 
   private searchAllMembers() {
     this.restService
-      .getMembersOfEntitlementGroups(Helper.userGroup)
+      .getMembersOfEntitlementGroups(Constants.userGroup)
       .subscribe((result) => {
         this.memberList = result['members'];
         this.cmnSrvc.UsersList = result['members'].map((t) => t.email);
@@ -113,13 +112,12 @@ export class ManageUsersComponent implements OnInit {
           });
         }
       },
-      (err) => {
+      () => {
         swal.fire(
           Helper.errorSweetAlertConfig(
             'Sorry. This user is not authorized to perform this function.'
           )
         );
-        console.log(err);
       }
     );
   }
@@ -146,14 +144,12 @@ export class ManageUsersComponent implements OnInit {
       this.restService.deleteMember(element.member.email)
     );
     forkJoin(deleteObservables).subscribe({
-      next: (results) => {
+      next: () => {
         // This will be executed after all deletions are successful
-        console.log('All users deleted', results);
         this.showDataGroup();
       },
-      error: (error) => {
+      error: () => {
         // Handle error
-        console.error('Error deleting users', error);
         this.showDataGroup();
       },
     });
