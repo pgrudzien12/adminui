@@ -1,21 +1,9 @@
-#map-mapbox {
+.map-container {
+  width: 50vw;
+}
+
+.page-container {
   width: 100%;
-  height: 100%;
+  overflow: hidden;
 }
 
-#marker-map {
-  /* background-image: url('src/assets/images/point.png'); */
-  background-size: cover;
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.mapboxgl-popup {
-  max-width: 200px;
-}
-
-.mapboxgl-popup-content {
-  text-align: center;
-}

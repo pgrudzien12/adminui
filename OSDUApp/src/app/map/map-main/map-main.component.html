@@ -1,7 +1,72 @@
-<link
-  rel="stylesheet"
-  href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.css"
-  type="text/css"
-/>
-<link rel="image" href="./assets/images/point.png" type="image/png" />
-<div id="map-mapbox"></div>
+<div class="d-flex flex-gap h-100 page-container">
+  <div class="flex-full overflow-auto">
+    <mat-card class="d-flex flex-column flex-gap">
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            MODIFY QUERY FILTERS</mat-expansion-panel-header
+          >
+
+          <app-dataplatform-search-filters
+            [(limit)]="limit"
+            [(followingOperators)]="followingOperators"
+            [(filtersElements)]="filtersElements"
+            (filterData)="completeMapWithWells()"
+            (clear)="clearFilters()"
+          ></app-dataplatform-search-filters>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      <div class="mt-2"></div>
+      <div
+        class="d-flex justify-content-start mb-2 align-items-center"
+        *ngIf="osduObjects.length < length"
+      >
+        <mat-icon color="warn">warning</mat-icon>
+
+        <span class="mat-caption">
+          Showing {{ osduObjects.length }} element{{
+            osduObjects.length > 1 ? "s" : ""
+          }}
+          from a total of {{ length }} element{{ length > 1 ? "s" : "" }} in
+          OSDU. Increase query filters limit to see more results, or refine your
+          search.
+        </span>
+      </div>
+
+      <app-osdu-object-list
+        [objectList]="osduObjects"
+        [templateColumns]="templateColumns"
+        [length]="limit"
+      ></app-osdu-object-list>
+    </mat-card>
+  </div>
+
+  <div class="map-container">
+    <app-leaflet-map
+      [osduObjects]="osduObjects"
+      #leafletMap
+      *ngIf="osduObjects"
+    ></app-leaflet-map>
+  </div>
+</div>
+
+<ng-template #actionRef let-element>
+  <button
+    mat-icon-button
+    color="primary"
+    (click)="showOnMap(element)"
+    matTooltip="Show on map"
+    [disabled]="!isShownOnMap(element)"
+  >
+    <mat-icon>map</mat-icon>
+  </button>
+</ng-template>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.4)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  ><p style="color: white">Loading...</p></ngx-spinner
+>

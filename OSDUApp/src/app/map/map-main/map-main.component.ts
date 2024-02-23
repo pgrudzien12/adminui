@@ -1,133 +1,127 @@
-import { Component, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import * as Mapboxgl from 'mapbox-gl';
-import MapboxDraw from '@mapbox/mapbox-gl-draw';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { CommonService } from 'src/app/common/common.service';
 import { RestAPILayerService } from 'src/app/common/rest-apilayer.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
+import { OsduObject } from 'src/app/models/osdu-object.model';
+import { Constants } from 'src/app/common/constants.service';
+import { DataPlatformFilterElement } from 'src/app/data-platform/models/data-platform-filter-element.model';
+import { Helper } from 'src/app/common/helper.service';
+import { LeafletMapComponent } from '../components/leaflet-map/leaflet-map.component';
 
 @Component({
   selector: 'app-map-main',
   templateUrl: './map-main.component.html',
   styleUrls: ['./map-main.component.css'],
 })
-export class MapMainComponent implements OnInit {
-  modalOptions: NgbModalOptions;
-  listNamesWells;
-  listCoordsWells;
+export class MapMainComponent implements OnInit, AfterViewInit {
+  @ViewChild('actionRef') actionRef: TemplateRef<any>;
+
+  @ViewChild('leafletMap') leafletMap: LeafletMapComponent;
+
+  length = 0;
+
+  osduObjects: OsduObject[] = null;
+
+  templateColumns = [];
+
+  limit = Constants.requestDefaultLimit;
+
+  followingOperators: Array<'OR' | 'AND'> = [];
+  filtersElements: DataPlatformFilterElement[] = [
+    {
+      value: null,
+      selectedField: null,
+    },
+  ];
 
   constructor(
-    private router: Router,
-    private modalService: NgbModal,
     public cmnSrvc: CommonService,
     private restService: RestAPILayerService,
     private spinner: NgxSpinnerService
   ) {
-    this.modalOptions = {
-      backdrop: 'static',
-      backdropClass: 'customBackdrop',
-    };
     this.cmnSrvc.bkgndColor = 'Maps';
+    this.getLocalStorageFilters();
   }
 
-  map: Mapboxgl.Map;
-
   ngOnInit(): void {
-    Mapboxgl.accessToken = environment.mapboxKey;
-
-    this.map = new Mapboxgl.Map({
-      container: 'map-mapbox', // container ID
-      style: 'mapbox://styles/mapbox/satellite-v9', // style URL
-      center: [-0.313296, 43.31602], // LNG, LAT
-      zoom: 5, // starting zoom
-    });
-
-    this.map.addControl(new Mapboxgl.NavigationControl(), 'top-left');
-    this.map.addControl(new Mapboxgl.FullscreenControl(), 'top-left');
-
-    const draw = new MapboxDraw({
-      displayControlsDefault: false,
-      // Select which mapbox-gl-draw control buttons to add to the map.
-      controls: {
-        polygon: true,
-        trash: true,
-      },
-    });
-    this.map.addControl(draw, 'top-left');
-
-    // this.map.on('draw.create', updateArea);
-    // this.map.on('draw.delete', updateArea);
-    // this.map.on('draw.update', updateArea);
-
     this.completeMapWithWells();
   }
 
+  getLocalStorageFilters() {
+    if (localStorage.getItem(Constants.filtersElementStorageKey)) {
+      this.filtersElements = JSON.parse(
+        localStorage.getItem(Constants.filtersElementStorageKey)
+      );
+      localStorage.removeItem(Constants.filtersElementStorageKey);
+    }
+
+    if (localStorage.getItem(Constants.followingOperatorsStorageKey)) {
+      this.followingOperators = JSON.parse(
+        localStorage.getItem(Constants.followingOperatorsStorageKey)
+      );
+      localStorage.removeItem(Constants.followingOperatorsStorageKey);
+    }
+  }
+
+  ngAfterViewInit(): void {
+    this.templateColumns = [
+      {
+        name: '',
+        id: 'actions',
+        templateRef: this.actionRef,
+      },
+    ];
+  }
+
   completeMapWithWells() {
+    this.spinner.show();
     const data = {
-      kind: 'osdu:wks:master-data--Well:1.0.0',
-      // query: 'kind:"osdu:wks:master-data--Well:1.0.0"',
-      limit: 99,
-    };
-    const geojson = {
-      type: 'FeatureCollection',
-      features: null,
+      kind: 'osdu:wks:master-data--Well:*',
+      limit: this.limit,
+      query: Helper.getQueryStringFromFiltersElements(
+        this.filtersElements,
+        this.followingOperators
+      ),
     };
     this.restService.getDataFromSearch(data).subscribe(
       (result) => {
+        this.length = result?.totalCount;
+        if (result?.results) {
+          this.osduObjects = result.results;
+          this.spinner.hide();
+          return;
+        }
+        this.osduObjects = [];
         this.spinner.hide();
-
-        if (result && result.results) {
-          const features = [];
-
-          // Outer loop: iterate over all results
-          result.results.forEach((res) => {
-            if (res.data && res.data['SpatialLocation.Wgs84Coordinates']) {
-              const spatialData = res.data['SpatialLocation.Wgs84Coordinates'];
-              // Check if spatialData.features exists and is an array
-              if (
-                spatialData.geometries &&
-                Array.isArray(spatialData.geometries)
-              ) {
-                // Inner loop: iterate over all geometries
-                spatialData.geometries.forEach((geometry) => {
-                  if (geometry && geometry.type === 'point') {
-                    features.push({
-                      geometry: geometry,
-                      properties: {
-                        title: res.data['FacilityName'],
-                        description: res.id, // or any other field you'd like
-                      },
-                    });
-                  }
-                });
-              }
-            }
-          });
-
-          geojson.features = features;
-        }
-        for (const feature of geojson.features) {
-          // create a HTML element for each feature
-          const el = document.createElement('div');
-          el.className = 'marker-map';
-
-          // make a marker for each feature and add to the map
-          new Mapboxgl.Marker()
-            .setLngLat(feature.geometry.coordinates)
-            .setPopup(
-              new Mapboxgl.Popup({ offset: 25 }) // add popups
-                .setHTML(
-                  `<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
-                )
-            )
-            .addTo(this.map);
-        }
       },
       () => {
         this.spinner.hide();
       }
     );
+  }
+
+  clearFilters() {
+    this.filtersElements = [
+      {
+        value: null,
+        selectedField: null,
+      },
+    ];
+
+    this.completeMapWithWells();
+  }
+
+  showOnMap(osduObject: OsduObject) {
+    this.leafletMap.flyToObject(osduObject);
+  }
+
+  isShownOnMap(osduObject: OsduObject) {
+    return Helper.isShownOnMap(osduObject);
   }
 }

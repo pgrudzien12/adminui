@@ -21,12 +21,14 @@ export class CommonService {
   progressionBarDownloadValue = 0;
   progressionBarDownloadText = '';
   booleanModuleManageMember = false;
+  selectedStorageKindId: string;
 
   isUserGuide: boolean;
   userGuideLink = '';
   bkgndColor = '';
   bkgndColorDash = '';
   externalDataSources;
+  queryData;
 
   filterByValue(array, string) {
     return array.filter((o) =>

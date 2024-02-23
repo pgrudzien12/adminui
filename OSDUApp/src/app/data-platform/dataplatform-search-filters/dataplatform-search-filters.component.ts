@@ -69,4 +69,3 @@ export class DataplatformSearchFiltersComponent {
     this.filtersElements.splice(index, 1);
   }
 }
-

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { CommonService } from 'src/app/common/common.service';
 import { RestAPILayerService } from 'src/app/common/rest-apilayer.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -17,7 +17,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
   templateUrl: './search-query.component.html',
   styleUrls: ['./search-query.component.css'],
 })
-export class SearchQueryComponent {
+export class SearchQueryComponent implements OnDestroy {
   myInput;
   modalOptions: NgbModalOptions;
   resultSearchQuery = [];
@@ -27,6 +27,19 @@ export class SearchQueryComponent {
   selectedObjects = [];
   AllSelector: boolean = false;
   loading: boolean = true;
+  searchQueryData: {
+    kind: string;
+    limit: number;
+    query: any;
+    objectLength: number;
+  };
+
+  selectedQueryValues: {
+    isChecked: boolean;
+    selectedObjectIds: any;
+    isSelectedAll: boolean;
+  };
+  selectedAllValues: { isChecked: boolean; isSelectedAll: boolean };
 
   dataSource = new MatTableDataSource();
 
@@ -90,6 +103,16 @@ export class SearchQueryComponent {
         this.resultSearchQuery = resultSearchQuery['results'];
         this.resultSearchQueryFilter = resultSearchQuery['results'];
         this.resultSearchQueryCount = resultSearchQuery['results'].length;
+        this.searchQueryData = {
+          kind: data.kind,
+          limit: 9999,
+          query: search,
+          objectLength: this.resultSearchQueryCount,
+        };
+        localStorage.setItem(
+          'searchQueryData',
+          JSON.stringify(this.searchQueryData)
+        );
 
         this.dataSource.data = this.resultSearchQuery;
         this.dataSource.sort = this.sort;
@@ -128,11 +151,29 @@ export class SearchQueryComponent {
     if (value.currentTarget.checked) {
       if (!this.selectedObjects.includes(objectID)) {
         this.selectedObjects.push(objectID);
+        this.selectedQueryValues = {
+          isChecked: true,
+          selectedObjectIds: JSON.stringify(this.selectedObjects),
+          isSelectedAll: false,
+        };
+        localStorage.setItem(
+          'selectedAllValues',
+          JSON.stringify(this.selectedQueryValues)
+        );
       }
     } else {
       const index = this.selectedObjects.indexOf(objectID, 0);
       if (index > -1) {
         this.selectedObjects.splice(index, 1);
+        this.selectedQueryValues = {
+          isChecked: false,
+          selectedObjectIds: JSON.stringify(this.selectedObjects),
+          isSelectedAll: false,
+        };
+        localStorage.setItem(
+          'selectedAllValues',
+          JSON.stringify(this.selectedQueryValues)
+        );
       }
     }
   }
@@ -145,6 +186,10 @@ export class SearchQueryComponent {
     } else {
       this.selectedObjects = [];
     }
+    localStorage.setItem(
+      'selectedAllValues',
+      JSON.stringify(this.selectedObjects)
+    );
   }
 
   selectRow(event: MatCheckboxChange, elementID) {
@@ -164,5 +209,13 @@ export class SearchQueryComponent {
     this.cmnSrvc.selectedObjects = this.selectedObjects;
     this.modalService.open(AddACLComponent);
   }
-}
 
+  navigateToMap() {
+    localStorage.setItem('isQueryNavigate', 'true');
+    this.router.navigate(['/map']);
+  }
+
+  ngOnDestroy(): void {
+    localStorage.removeItem('isNavigateFromMergeData');
+  }
+}

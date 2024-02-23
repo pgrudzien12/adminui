@@ -1,0 +1,12 @@
+th {
+  color: white;
+}
+
+table {
+  table-layout: fixed;
+  width: 300px;
+}
+
+td {
+  overflow-wrap: break-word;
+}

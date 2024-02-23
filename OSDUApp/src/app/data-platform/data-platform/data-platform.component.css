@@ -43,6 +43,11 @@ app-osdu-object-list {
   gap: 5px;
 }
 
+.map-nav {
+  padding: 0 10px 10px 0;
+  text-align: end;
+}
+
 .mat-expansion-panel-header-title {
   font-weight: 400 !important;
   text-transform: uppercase !important;
@@ -59,3 +64,4 @@ app-osdu-object-list {
   position: relative;
   top: 4px;
 }
+

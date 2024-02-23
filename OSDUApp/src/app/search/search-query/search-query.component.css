@@ -9,6 +9,10 @@ input {
   /*setting margin to auto of the cheeckbox*/
   display: flex; /*Flex box property*/
 }
+.map-nav {
+  padding: 0 10px 10px 0;
+  text-align: end;
+}
 
 .table-checkbox {
   height: auto;
@@ -94,3 +98,4 @@ input {
   font-weight: 100;
   font-style: italic;
 }
+

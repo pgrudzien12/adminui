@@ -106,6 +106,14 @@ const routes: Routes = [
     canActivate: [MsalGuard],
     data: { title: RoutesService.PAGE_TITLES.legalTags },
   },
+  {
+    path: 'join-data',
+    loadChildren: () =>
+      import('./join-wellbore-data/join-wellbore-data.module').then(
+        (m) => m.JoinWellboreDataModule
+      ),
+    canActivate: [MsalGuard],
+  },
 ];
 
 @NgModule({

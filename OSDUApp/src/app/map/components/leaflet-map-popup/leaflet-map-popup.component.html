@@ -1,0 +1,39 @@
+<ng-container *ngIf="osduObject">
+  <h5>{{ osduObject.data["FacilityName"] }}</h5>
+
+  <table class="table table-striped">
+    <caption></caption>
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>id</td>
+        <td>
+          <a [routerLink]="['/object-view', osduObject.id]">{{
+            osduObject.id
+          }}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>FacilityName</td>
+        <td>{{ osduObject.data["FacilityName"] }}</td>
+      </tr>
+      <tr>
+        <td>FacilityID</td>
+        <td>{{ osduObject.data["FacilityID"] }}</td>
+      </tr>
+      <tr *ngIf="verticalCRS !== 'Unknown'">
+        <td>VerticalCRS</td>
+        <td>{{ verticalCRS }}</td>
+      </tr>
+      <tr *ngIf="country !== 'Unknown'">
+        <td>Country</td>
+        <td>{{ country }}</td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>

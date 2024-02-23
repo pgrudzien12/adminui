@@ -35,6 +35,7 @@ export class SelectTableColumnsComponent implements OnInit, OnChanges {
 
   @Input() allColumns: string[] = [];
 
+  @Input() selectedField: string = '';
   @ViewChild('colInput') colInput: ElementRef<HTMLInputElement>;
 
   displayInput = true;

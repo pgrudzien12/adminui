@@ -10,7 +10,10 @@
   </mat-card>
 
   <div class="d-flex flex-wrap flex-gap w-100">
-    <mat-card *ngFor="let tile of tiles" class="mat-elevation-z8 flex-full matcard">
+    <mat-card
+      *ngFor="let tile of tiles"
+      class="mat-elevation-z8 flex-full matcard"
+    >
       <mat-card-header>
         <div class="d-flex justify-content-center w-100">
           <mat-card-title class="tile-label"> {{ tile.label }}</mat-card-title>
@@ -25,9 +28,11 @@
           <mat-list role="list">
             <mat-list-item role="listitem" *ngFor="let child of tile.children">
               <mat-icon class="mat-icon-dashboard">{{ child.icon }}</mat-icon>
-              <a [routerLink]="child.value" class="editUserhref-dashboard ml-2">{{
-                child.label
-              }}</a>
+              <a
+                [routerLink]="child.value"
+                class="editUserhref-dashboard ml-2"
+                >{{ child.label }}</a
+              >
             </mat-list-item>
           </mat-list>
         </div>

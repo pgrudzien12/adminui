@@ -34,6 +34,13 @@
     </mat-expansion-panel>
   </mat-accordion>
 
+  <div class="map-nav" *ngIf="canDisplayMap">
+    <button mat-raised-button color="primary" (click)="navigateToMap()">
+      <mat-icon>map</mat-icon>
+      Navigate to Map
+    </button>
+  </div>
+
   <div class="mt-2"></div>
   <div
     class="d-flex justify-content-start mb-2 align-items-center"
@@ -68,4 +75,3 @@
   type="ball-scale-multiple"
   ><p style="color: white">Loading...</p></ngx-spinner
 >
-

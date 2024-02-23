@@ -7,6 +7,7 @@ import { SweetAlertOptions } from 'sweetalert2';
 import { OsduKind } from '../models/osdu-kind.model';
 import { environment } from 'src/environments/environment';
 import { DataPlatformFilterElement } from '../data-platform/models/data-platform-filter-element.model';
+import { OsduObject } from '../models/osdu-object.model';
 
 export class Helper {
   static isGroup(element: OsduMember) {
@@ -181,5 +182,14 @@ export class Helper {
 
   static formatIdForStorageAPI(id: string) {
     return id.endsWith(':') ? id.substring(-1) : id;
+  }
+
+  static isShownOnMap(osduObject: OsduObject) {
+    return (
+      osduObject.data &&
+      osduObject.data['SpatialLocation.Wgs84Coordinates'] &&
+      osduObject.data['SpatialLocation.Wgs84Coordinates'].geometries &&
+      osduObject.data['SpatialLocation.Wgs84Coordinates'].geometries?.length > 0
+    );
   }
 }

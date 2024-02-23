@@ -96,7 +96,12 @@ export class RefDataMainComponent implements OnInit {
 
   getObjectsByKind(kind) {
     this.cmnSrvc.referenceQuery = kind;
-    this.connectorService.getObjectsByKind(kind).subscribe(
+    const data = {
+      kind: kind,
+      query: '*',
+      limit: 9999,
+    };
+    this.restService.getDataFromSearch(data).subscribe(
       (resultSearchQuery) => {
         this.resultRefSearchQuery = resultSearchQuery['results'];
         this.resultRefSearchQueryFilter = resultSearchQuery['results'];
