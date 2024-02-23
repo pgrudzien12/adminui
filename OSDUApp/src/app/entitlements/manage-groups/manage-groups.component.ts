@@ -97,7 +97,6 @@ export class ManageGroupsComponent {
     modalRef.componentInstance.userDetails = user;
     let that = this;
     modalRef.componentInstance.passEntryEdit.subscribe((result) => {
-      console.log('res', result);
       that.UserList.forEach((element) => {
         if (element.email == result.data.email) {
           element.name = result.data.name;

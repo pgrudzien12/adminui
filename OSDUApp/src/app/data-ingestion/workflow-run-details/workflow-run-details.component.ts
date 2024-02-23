@@ -55,15 +55,12 @@ export class WorkflowRunDetailsComponent implements OnInit {
           this.isError = true;
           this.errorMessge = result;
         }
-
-        console.log(result);
       },
       (err) => {
         this.isError = true;
         this.isSuccess = false;
         this.errorMessge = err;
         this.spinner.hide();
-        console.log(err);
       }
     );
   }
@@ -107,7 +104,6 @@ export class WorkflowRunDetailsComponent implements OnInit {
             this.isSuccess = false;
             this.errorMessge = err;
             this.spinner.hide();
-            console.log(err);
           }
         );
     }

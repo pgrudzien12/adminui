@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { OsduAssociatedObject } from '../models/osdu-associated-object.model';
 
 @Injectable({
   providedIn: 'root',
@@ -64,6 +66,18 @@ export class CommonService {
     } else {
       return '';
     }
+  }
+
+  addObjectNameAtAttributeTreeRoot(
+    dataSource: MatTableDataSource<OsduAssociatedObject>
+  ) {
+    const dataSourceData = dataSource.data;
+    dataSourceData?.forEach((element) => {
+      element.name = this.findAttibuteNameObject(
+        element.data,
+        this.cleanAttributeKIND(element.kind)
+      );
+    });
   }
 
   // calculate Attribute File Size

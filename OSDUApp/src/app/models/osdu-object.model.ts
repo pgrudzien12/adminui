@@ -14,4 +14,6 @@ export interface OsduObject {
   source: string;
   tags: any;
   type: string;
+  version: string;
+  modifyUser?: string;
 }

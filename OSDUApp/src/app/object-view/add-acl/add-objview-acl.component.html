@@ -13,8 +13,8 @@ This option must be chosen if you want this data to become visible and downloada
       >
 
       <mat-list role="list">
-        <mat-list-item role="listitem"
-          ><mat-icon color="primary" matListItemIcon class="mr-2"
+        <mat-list-item role="listitem">
+          <mat-icon color="primary" matListItemIcon class="mr-2"
             >data_object</mat-icon
           >{{ objectId }}</mat-list-item
         >
@@ -22,7 +22,13 @@ This option must be chosen if you want this data to become visible and downloada
           <mat-icon color="primary" matListItemIcon class="mr-2"
             >add_link</mat-icon
           >
-          {{ object }}
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selectedAssociatedObjects.toggle(object) : null"
+            [checked]="selectedAssociatedObjects.isSelected(object)"
+          >
+          </mat-checkbox>
+          <span class="ml-2">{{ object }}</span>
         </mat-list-item>
       </mat-list>
     </mat-radio-button>

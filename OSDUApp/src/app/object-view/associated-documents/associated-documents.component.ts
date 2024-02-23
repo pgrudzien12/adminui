@@ -11,7 +11,8 @@ export class AssociatedDocumentsComponent implements OnChanges {
 
   listAssociated: OsduObject[] = [];
 
-  private readonly documentsKind =
+  private static readonly LINKED_DOCUMENTS_LIMIT = 1000;
+  private static readonly DOCUMENTS_KIND =
     'osdu:wks:work-product-component--Document:*';
 
   constructor(private restService: RestAPILayerService) {}
@@ -26,8 +27,9 @@ export class AssociatedDocumentsComponent implements OnChanges {
 
   private getLinkedDocuments(id: string) {
     const query = {
-      kind: this.documentsKind,
+      kind: AssociatedDocumentsComponent.DOCUMENTS_KIND,
       query: `"${id}:"`,
+      limit: AssociatedDocumentsComponent.LINKED_DOCUMENTS_LIMIT,
     };
 
     return this.restService.getDataFromSearch(query);

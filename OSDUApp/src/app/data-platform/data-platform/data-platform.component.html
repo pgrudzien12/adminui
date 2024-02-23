@@ -1,13 +1,5 @@
 <mat-card>
-  <div class="d-flex align-items-center header-container">
-    <app-kind-autocomplete
-      class="search-field"
-      [(selected)]="selectedStorageKind"
-      (selectedChange)="selectedKindChange()"
-    ></app-kind-autocomplete>
-  </div>
-
-  <mat-accordion *ngIf="isDisabled || selectedStorageKind">
+  <mat-accordion>
     <mat-expansion-panel style="margin: 20px 0">
       <mat-expansion-panel-header>
         <mat-panel-title> Modify Query FIlter </mat-panel-title>
@@ -18,7 +10,6 @@
         (ngModelChange)="userOwnedSearch()"
         [checked]="isUserOwned"
         color="primary"
-        [disabled]="!selectedStorageKindId"
         style="margin-bottom: 20px; margin-left: 5px"
         class="checkbox-container"
         >User Owned data
@@ -33,7 +24,7 @@
         >
       </mat-checkbox>
       <app-dataplatform-search-filters
-        [selectedKind]="selectedStorageKindId"
+        [baseQuery]="baseQuery"
         (filterData)="launchSearch()"
         [(followingOperators)]="followingOperators"
         [(limit)]="limit"
@@ -43,8 +34,30 @@
     </mat-expansion-panel>
   </mat-accordion>
 
-  <div class="d-flex justify-content-center mt-2">
-    <app-osdu-object-list [objectList]="objectList"></app-osdu-object-list>
+  <div class="mt-2"></div>
+  <div
+    class="d-flex justify-content-start mb-2 align-items-center"
+    *ngIf="objectList.length < length"
+  >
+    <mat-icon color="warn">warning</mat-icon>
+
+    <span class="mat-caption">
+      Showing {{ objectList.length }} element{{
+        objectList.length > 1 ? "s" : ""
+      }}
+      from a total of {{ length }} element{{ length > 1 ? "s" : "" }} in OSDU.
+      Increase query filters limit to see more results, or refine your search.
+    </span>
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <app-osdu-object-list
+      [objectList]="objectList"
+      [templateColumns]="templateColumns"
+      [selectable]="selectable"
+      [selectActionsTemplate]="selectActionsTemplate"
+      [canSelect]="canSelect"
+    ></app-osdu-object-list>
   </div>
 </mat-card>
 
@@ -55,3 +68,4 @@
   type="ball-scale-multiple"
   ><p style="color: white">Loading...</p></ngx-spinner
 >
+

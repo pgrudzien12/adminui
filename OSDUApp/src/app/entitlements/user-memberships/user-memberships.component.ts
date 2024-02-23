@@ -9,6 +9,7 @@ import { AddToGroupComponent } from '../add-to-group/add-to-group.component';
 import { AzureUser } from 'src/app/models/azure-user';
 import swal from 'sweetalert2';
 import { Helper } from 'src/app/common/helper.service';
+import { Constants } from 'src/app/common/constants.service';
 
 @Component({
   selector: 'app-user-memberships',
@@ -36,12 +37,11 @@ export class UserMembershipsComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.user.id);
     if (!this.user) return;
     this.getUserGroups();
 
     this.searchControl.valueChanges
-      .pipe(debounceTime(1000))
+      .pipe(debounceTime(Constants.debounceTime))
       .subscribe(this.filterGroups.bind(this));
   }
 
@@ -58,16 +58,13 @@ export class UserMembershipsComponent implements OnInit, OnChanges {
     this.restService
       .getUsersAccessRights(this.user.id, type)
       .subscribe((groups: OsduGroup[]) => {
-        console.log('Got ', groups.length, ' groups');
         this.groups = groups.map((g) => ({
           email: g.email,
           role: 'MEMBER',
         }));
 
         this.filterGroups(this.searchControl.value);
-        console.log(this.filteredGroups);
       });
-    console.log(this.filteredGroups);
   }
 
   private filterGroups(value: string) {
@@ -112,10 +109,7 @@ export class UserMembershipsComponent implements OnInit, OnChanges {
       )
       .then((result) => {
         if (result.isConfirmed) {
-          console.log(this.currentSelection);
           this.currentSelection.forEach((group) => {
-            console.log(group.member.email);
-            console.log(this.user.id);
             this.restService
               .deleteMemberGroup(group.member.email, this.user.id)
               .subscribe(

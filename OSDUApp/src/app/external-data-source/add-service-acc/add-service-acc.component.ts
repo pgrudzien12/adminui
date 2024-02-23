@@ -105,9 +105,8 @@ export class AddServiceAccComponent implements OnInit {
           this.onAuthTypeChange(this.ServiceDetails.Type.slice(0, -1));
         }
       },
-      (err) => {
+      () => {
         this.spinner.hide();
-        console.log(err);
       }
     );
   }
@@ -121,16 +120,14 @@ export class AddServiceAccComponent implements OnInit {
     this.restService.getFlowType(data).subscribe(
       (result) => {
         this.spinner.hide();
-        // console.log(result)
         this.flowtype_list = result['results'];
         if (this.Type != 'add') {
           this.ngFlow = this.ServiceDetails.Flow.slice(0, -1);
           this.onFlowChange(this.ngFlow);
         }
       },
-      (err) => {
+      () => {
         this.spinner.hide();
-        console.log(err);
       }
     );
   }

@@ -6,7 +6,7 @@
 }
 
 .add-new-source-btn {
-  margin: 20px 0; 
+  margin: 20px 0;
 }
 
 button.btn.btn-success.openAddGroupModal {
@@ -15,7 +15,6 @@ button.btn.btn-success.openAddGroupModal {
   cursor: pointer;
   border-radius: 0px !important;
 }
-
 
 input,
 input[type="text"],
@@ -59,7 +58,6 @@ th {
 
   line-height: 1 !important;
 }
-
 
 .multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret {
   line-height: 15px !important;
@@ -116,28 +114,30 @@ th {
   text-transform: uppercase;
 }
 
-.formfield-row input, .formfield-row .form-control {
-  margin: 0 0 10px!important;
-  width: 100%!important;
-      padding: 5px 15px;
-      }
+.formfield-row input,
+.formfield-row .form-control {
+  margin: 0 0 10px !important;
+  width: 100% !important;
+  padding: 5px 15px;
+}
 
-      .formfield-row .multidpd {
-        height: 60px;
-          padding: 10px;
-      }
+.formfield-row .multidpd {
+  height: 60px;
+  padding: 10px;
+}
 
 .formfield-row label {
   width: 100%;
   height: 40px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-bottom: 0;
-    text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 0;
+  text-align: right;
 }
 
-.formfield-row .col-md-4, .formfield-row .col-md-10 {
+.formfield-row .col-md-4,
+.formfield-row .col-md-10 {
   padding-left: 0;
 }
 
@@ -159,13 +159,13 @@ th {
 }
 
 .agreement-id .btn.btn-success {
-  margin: 0!important;
+  margin: 0 !important;
   width: 230px;
 }
 .agreement-id h5 {
   font-size: 18px;
-    color: #333;
-    font-weight: 400;
+  color: #333;
+  font-weight: 400;
 }
 
 .inner-table-body hr {

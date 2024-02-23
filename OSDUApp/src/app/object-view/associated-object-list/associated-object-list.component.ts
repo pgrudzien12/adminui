@@ -8,10 +8,10 @@ import {
 import { MatTableDataSource } from '@angular/material/table';
 import { CommonService } from 'src/app/common/common.service';
 import { Router } from '@angular/router';
-import { OsduObject } from 'src/app/models/osdu-object.model';
 import { MatPaginator } from '@angular/material/paginator';
 import { Helper } from 'src/app/common/helper.service';
 import { MatSort } from '@angular/material/sort';
+import { OsduAssociatedObject } from 'src/app/models/osdu-associated-object.model';
 
 @Component({
   selector: 'app-associated-object-list',
@@ -24,8 +24,8 @@ export class AssociatedObjectListComponent implements OnChanges, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource: MatTableDataSource<OsduObject> =
-    new MatTableDataSource<OsduObject>();
+  dataSource: MatTableDataSource<OsduAssociatedObject> =
+    new MatTableDataSource<OsduAssociatedObject>();
 
   private readonly displayedColumnsDictionnary = {
     default: ['id', 'name', 'kind', 'version'],
@@ -49,9 +49,10 @@ export class AssociatedObjectListComponent implements OnChanges, AfterViewInit {
       this.displayedColumnsDictionnary[this.dataKind] ??
       this.displayedColumnsDictionnary.default;
 
-    this.dataSource = new MatTableDataSource<OsduObject>(
+    this.dataSource = new MatTableDataSource<OsduAssociatedObject>(
       this.tabAssociatedData
     );
+    this.cmnSrvc.addObjectNameAtAttributeTreeRoot(this.dataSource);
     if (this.paginator) this.dataSource.paginator = this.paginator;
     if (this.sort) this.dataSource.sort = this.sort;
   }

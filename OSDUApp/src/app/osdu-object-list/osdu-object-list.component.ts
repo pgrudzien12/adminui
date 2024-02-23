@@ -1,17 +1,34 @@
-import { Component, OnChanges, Input, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  Input,
+  ViewChild,
+  TemplateRef,
+} from '@angular/core';
 import { OsduObject } from '../models/osdu-object.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Helper } from 'src/app/common/helper.service';
+import { Constants } from '../common/constants.service';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-osdu-object-list',
   templateUrl: './osdu-object-list.component.html',
 })
 export class OsduObjectListComponent implements OnChanges {
-  private readonly mandatoryColumns = Helper.objectMandatoryColumns;
+  private readonly mandatoryColumns = Constants.objectMandatoryColumns;
 
   @Input() objectList: OsduObject[] = [];
+  @Input() length = null;
+  @Input() templateColumns = [];
+  @Input() selectable = false;
+  @Input() selectActionsTemplate: TemplateRef<any>;
+  @Input() canSelect: (osduObject: OsduObject) => boolean = () => true;
+
+  selection = new SelectionModel<OsduObject>(true, []);
+
+  Helper = Helper;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -32,51 +49,52 @@ export class OsduObjectListComponent implements OnChanges {
 
     const headersSet = new Set<string>();
 
-    const data = this.objectList.map((obj) => {
-      const res = {
-        id: obj.id,
-        legal: obj.legal,
-      };
-
-      Object.keys(obj.data).forEach((key) => {
+    this.objectList.forEach((obj) => {
+      Object.keys(obj).forEach((key) => {
         headersSet.add(key);
-
-        res[key] = obj.data[key];
       });
-
-      return res;
+      if (obj.data)
+        Object.keys(obj.data).forEach((key) => {
+          headersSet.add(`data.${key}`);
+        });
     });
 
-    this.extraColumns = [...headersSet.values()];
-
-    this.extraColumns.sort();
+    this.extraColumns = Array.from(headersSet.values())
+      .filter((el) => !this.mandatoryColumns.find((m) => m === el))
+      .sort();
 
     this.allColumns = [...this.mandatoryColumns, ...headersSet.values()];
 
-    this.dataSource = new MatTableDataSource(data);
+    this.dataSource = new MatTableDataSource(this.objectList);
 
     this.dataSource.paginator = this.paginator;
+
+    this.selection = new SelectionModel<OsduObject>(true, []);
   }
 
   getExtraField(element: OsduObject, key: string) {
-    if (!element || !element[key]) return 'null';
-    return element[key];
+    return Helper.getFieldFromDottedString(element, key);
   }
 
   isSimpleData(element, key) {
+    const field = Helper.getFieldFromDottedString(element, key);
     return (
-      !element[key] ||
-      typeof element[key] === 'string' ||
-      typeof element[key] === 'number' ||
-      typeof element[key] === 'boolean'
+      !field ||
+      typeof field === 'string' ||
+      typeof field === 'number' ||
+      typeof field === 'boolean'
     );
   }
 
   getObjectParentString(element: OsduObject, key: string) {
-    return `${element.id} > ${key}`;
+    return `${element.id} > ${key.split('.').join(' > ')}`;
   }
 
   displayedColumnsChange(event: string[]) {
-    this.displayedColumns = event;
+    this.displayedColumns = [
+      ...(this.selectable ? ['select'] : []),
+      ...event,
+      ...this.templateColumns.map((el) => el.id),
+    ];
   }
 }

@@ -1,33 +1,37 @@
 ::ng-deep .mat-dialog-title {
-    margin: -24px -24px 20px -24px;
-    background-color: #00667f;
-    padding: 15px 35px 10px;
-    color: white;
-    font-weight: 400;
+  margin: -24px -24px 20px -24px;
+  background-color: #00667f;
+  padding: 15px 35px 10px;
+  color: white;
+  font-weight: 400;
 }
 
 ::ng-deep .dialog-subtitle {
-    display: block;
-    font-size: 12px;
-    font-weight: 100;
-    line-height: 12px;
-    text-transform: uppercase;
-    opacity: 0.8;
+  display: block;
+  font-size: 12px;
+  font-weight: 100;
+  line-height: 12px;
+  text-transform: uppercase;
+  opacity: 0.8;
 }
 
 ::ng-deep .mat-dialog-container .mat-form-field-label {
-    display: inline-block;
-    background-color: white;
+  display: inline-block;
+  background-color: white;
 }
 
-::ng-deep .mat-dialog-container .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-    width: auto;
-    padding-right: 10px;
+::ng-deep
+  .mat-dialog-container
+  .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float
+  .mat-form-field-label {
+  width: auto;
+  padding-right: 10px;
 }
 
 .add-member-buttons-container {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 20px;
+  justify-content: right;
+  display: flex;
+  width: 100%;
+  margin-bottom: 15px;
 }
+

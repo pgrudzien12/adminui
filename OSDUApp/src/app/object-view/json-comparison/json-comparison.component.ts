@@ -114,7 +114,6 @@ export class JsonComparisonComponent implements OnDestroy, AfterViewInit {
     const styles = window.document.getElementsByTagName('link');
     let j = styles.length;
     while (j--) {
-      // console.log(styles[j].href);
       if (
         styles[j].href.includes('assets/jdd-resources/styles/reset.css') ||
         styles[j].href.includes('assets/bpmn/bpmn-resources/styles/jdd.css') ||

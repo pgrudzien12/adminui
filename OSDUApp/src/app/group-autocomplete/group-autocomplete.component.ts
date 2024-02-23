@@ -13,6 +13,7 @@ export class GroupAutocompleteComponent implements OnInit {
   @Input() selected: OsduGroup;
   @Input() label: string = 'Search for group';
   @Input() userId: string; // User's ID
+  @Input() type: null | 'data' | 'users' | 'service' = null;
 
   groups: OsduGroup[] = [];
   excludedGroups: string[] = []; // IDs of groups to exclude
@@ -51,14 +52,23 @@ export class GroupAutocompleteComponent implements OnInit {
   refreshedList$(filter: string): Observable<OsduGroup[]> {
     if (!filter || typeof filter !== 'string') return of(this.groups);
 
-    this.enteredTextInput = filter;
-    this.selectedGroups = this.groups.filter(
-      (g) =>
-        g.email?.toLowerCase().includes(filter.toLowerCase()) &&
-        !this.excludedGroups.includes(g.name) // Exclude groups that user is already in
+    const filteredType = this.type
+      ? this.groups.filter((g) =>
+          g.email?.toLocaleLowerCase().startsWith(this.type)
+        )
+      : this.groups;
+
+    if (!filter || typeof filter !== 'string') return of(filteredType);
+
+    return of(
+      filteredType.filter(
+        (g) =>
+          g.email?.toLocaleLowerCase().includes(filter.toLocaleLowerCase()) &&
+          !this.excludedGroups.includes(g.name)
+      )
     );
-    return of(this.selectedGroups);
   }
+
   displayFn(group: OsduGroup): string {
     return group ? group.email : '';
   }
@@ -74,7 +84,13 @@ export class GroupAutocompleteComponent implements OnInit {
   }
 
   handleEnterKey(enteredText: string): void {
-    this.selectedGroups = this.groups.filter(
+    const filteredType = this.type
+      ? this.groups.filter((g) =>
+          g.email?.toLocaleLowerCase().startsWith(this.type)
+        )
+      : this.groups;
+
+    this.selectedGroups = filteredType.filter(
       (g) =>
         g.email?.toLowerCase().includes(enteredText.toLowerCase()) &&
         !this.excludedGroups.includes(g.name) // Exclude groups that user is already in

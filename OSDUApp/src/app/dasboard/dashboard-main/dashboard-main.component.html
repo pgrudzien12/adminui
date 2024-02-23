@@ -1,201 +1,37 @@
-<div class="col-sm-6 col-lg-4">
-  <div class="container1 cont_router1">
-    <div class="card text-white bg-flat-color-2" style="height: 404px">
-      <div class="card-body pb-0">
-        <div class="text-light">
-          <i class="fa fa-sitemap" aria-hidden="true"></i>&nbsp;<span>
-            Manage Groups & Legal Tags</span
-          >
-          <div class="tool-tip" style="left: -7px">
-            <i class="fa fa-info-circle" aria-hidden="true"></i>
-            <p class="tool-tip__info">
-              <span class="info">{{ entitlements_helptext }}</span>
-            </p>
-          </div>
-          <!-- <div class="tool-tip" style=" left: -7px;">          
-                            <i style="color: white;" class="fa fa-info-circle " aria-hidden="true"></i>           
-                            <p class="tool-tip__info tooltip_right">
-                              <span class="info">{{entitlements_helptext}}</span>              
-                            </p>
-                          </div> -->
-        </div>
-
-        <div
-          class="chart-wrapper px-3"
-          style="margin-top: 15%; margin-bottom: 15%; text-align: center"
-          height="70"
-        >
-          <div>
-            <i class="big-icon fa-solid fa-gears"></i>
-          </div>
-
-          <button
-            class="dashboard-button"
-            type="button"
-            routerLink="/entitlement/manage-groups"
-          >
-            Manage Groups<i class="icon-material-outline-arrow-right-alt"></i>
-          </button>
-          <button
-            class="dashboard-button"
-            type="button"
-            routerLink="/entitlement/manage-usersgroup"
-          >
-            Manage Group Members<i
-              class="icon-material-outline-arrow-right-alt"
-            ></i>
-          </button>
-          <button
-            *ngIf="this.cmnSrc.booleanModuleManageMember"
-            class="dashboard-button"
-            type="button"
-            routerLink="/entitlement/manage-users"
-          >
-            Manage Members<i class="icon-material-outline-arrow-right-alt"></i>
-          </button>
-          <button
-            class="dashboard-button"
-            type="button"
-            routerLink="/legal-tags"
-          >
-            Manage Legal Tags<i
-              class="icon-material-outline-arrow-right-alt"
-            ></i>
-          </button>
-        </div>
+<div
+  class="d-flex justify-content-center align-items-center flex-column flex-gap"
+>
+  <mat-card class="mat-elevation-z8 flex-full">
+    <mat-card-content>
+      <div class="d-flex justify-content-center">
+        <img src="/assets/images/admin_ui_logo_hd.png" />
       </div>
-    </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="d-flex flex-wrap flex-gap w-100">
+    <mat-card *ngFor="let tile of tiles" class="mat-elevation-z8 flex-full matcard">
+      <mat-card-header>
+        <div class="d-flex justify-content-center w-100">
+          <mat-card-title class="tile-label"> {{ tile.label }}</mat-card-title>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="d-flex justify-content-center align-items-center">
+          <mat-icon class="tile-icon">{{ tile.icon }}</mat-icon>
+        </div>
+        <div class="d-flex justify-content-center">
+          <mat-list role="list">
+            <mat-list-item role="listitem" *ngFor="let child of tile.children">
+              <mat-icon class="mat-icon-dashboard">{{ child.icon }}</mat-icon>
+              <a [routerLink]="child.value" class="editUserhref-dashboard ml-2">{{
+                child.label
+              }}</a>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>
-<div class="col-sm-6 col-lg-8">
-  <div class="row">
-    <div class="col-sm-6 col-lg-6">
-      <div class="container1 cont_router" routerLink="/data-platform">
-        <div class="card text-white bg-flat-color-9">
-          <div class="card-body pb-0">
-            <div class="text-light">
-              <i class="fa fa-database" aria-hidden="true"></i>&nbsp; Search for
-              Data
-              <div class="tool-tip">
-                <i class="fa fa-info-circle" aria-hidden="true"></i>
-                <p class="tool-tip__info tooltip_right">
-                  <span class="info">{{ searchdata_helptext }}</span>
-                </p>
-              </div>
-            </div>
-
-            <div class="chart-wrapper px-0" style="height: 70px" height="70">
-              <div class="icon-container">
-                <i class="big-icon fa-solid fa-search"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-lg-6">
-      <!-- routerLink="/data-ingestion/workflow"(click)="navigateToWorkFlow()" -->
-      <div class="container1 cont_router1">
-        <div class="card text-white bg-flat-color-9">
-          <div class="card-body pb-0">
-            <div class="text-light">
-              <i class="fa fa-paper-plane" aria-hidden="true"></i>&nbsp;
-              WorkFlow Service
-              <div class="tool-tip" style="left: -7px">
-                <i class="fa fa-info-circle" aria-hidden="true"></i>
-                <p class="tool-tip__info tooltip_right">
-                  <span class="info">{{ workflow_helptext }}</span>
-                </p>
-              </div>
-            </div>
-            <div class="icon-container">
-              <i class="big-icon fa-solid fa-folder"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-6 col-lg-6">
-      <div class="container1 cont_router" routerLink="/EDS/source">
-        <div class="card text-white bg-flat-color-9">
-          <div class="card-body pb-0">
-            <div class="text-light">
-              <i class="fa fa-arrows" aria-hidden="true"></i>&nbsp; External
-              Data Source
-              <div class="tool-tip" style="left: -7px">
-                <i class="fa fa-info-circle" aria-hidden="true"></i>
-                <p class="tool-tip__info tooltip_right">
-                  <span class="info">{{ eds_helptext }}</span>
-                </p>
-              </div>
-            </div>
-            <div class="icon-container">
-              <i class="big-icon fa-solid fa-bar-chart"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--/.col-->
-
-    <div class="col-sm-6 col-lg-6">
-      <div class="container1 cont_router1">
-        <div class="card text-white bg-flat-color-9">
-          <div class="card-body pb-0">
-            <div class="text-light">
-              <i class="fa fa-object-group" aria-hidden="true"></i>&nbsp; Data
-              Loading
-              <div class="tool-tip" style="left: -7px">
-                <i class="fa fa-info-circle" aria-hidden="true"></i>
-                <p class="tool-tip__info tooltip_right" style="top: 4px">
-                  <span class="info">{{ dataloading_helptext }}</span>
-                </p>
-              </div>
-            </div>
-            <div class="icon-container">
-              <i class="big-icon fa-solid fa-database"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- <div class="center-div">
-        <div class="col-md-12">
-            <p><a style="
-                font-size: medium;                
-                color: #e59034;" href="https://community.opengroup.org/osdu/ui/admin-ui/-/wikis/Admin-UI-User-Guide" target="_blank">Click here </a> for User Guide</p>
-    
-        </div>
-        
-    </div> -->
-
-<!--/.col-->
-
-<!--/.col-->
-
-<!--/.col-->
-
-<!--/.col-->
-
-<!--/.col-->
-<!-- <div class="col-sm-6 col-lg-4">
-    <div class="container1 cont_router" routerLink="/EDS">
-        <div class="card text-white bg-flat-color-1">
-            <div class="card-body pb-0">                       
-              
-                <p class="text-light"><i class="fa fa-object-group" aria-hidden="true"></i>&nbsp; External Data Sources</p>
-
-                <div class="chart-wrapper px-0" style="height:70px;text-align: center;" height="70">
-                    <img src="../../../assets/images/data_loading.png" height="70" style="height: 90px;">
-                </div>
-
-            </div>
-        </div>
-       
-    </div>
-   
-</div> -->

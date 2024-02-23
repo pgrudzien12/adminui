@@ -141,9 +141,8 @@ export class AddLegalTagComponent implements OnInit {
         this.exportClassificationList =
           result['exportClassificationControlNumbers'];
       },
-      (err) => {
+      () => {
         this.spinner.hide();
-        console.log(err);
       }
     );
   }
@@ -272,11 +271,10 @@ export class AddLegalTagComponent implements OnInit {
 
           this.spinner.hide();
         },
-        (err) => {
+        () => {
           this.spinner.hide();
           this.isNameChecked = true;
           this.isNameavailable = false;
-          console.log(err);
         }
       );
     } else {
@@ -285,13 +283,6 @@ export class AddLegalTagComponent implements OnInit {
     }
   }
 
-  onItemSelect(item: any) {
-    console.log(item);
-    //this.selectedcountryOfOrigin.push(item["item_id"]);
-  }
-  onSelectAll(items: any) {
-    console.log(items);
-  }
   myFormreset() {
     const resetForm = <HTMLFormElement>document.getElementById('myForm');
     resetForm.reset();

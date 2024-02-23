@@ -1,6 +1,4 @@
 export interface DataPlatformFilterElement {
-  selectedOperator: 'OR' | 'AND';
-  firstValue: string;
-  secondValue: string;
+  value: string;
   selectedField: string;
 }

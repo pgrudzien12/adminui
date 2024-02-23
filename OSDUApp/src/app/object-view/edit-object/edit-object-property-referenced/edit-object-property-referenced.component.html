@@ -1,0 +1,30 @@
+<mat-form-field appearance="outline" class="w-100">
+  <mat-label>{{ valueName }}</mat-label>
+  <input
+    type="text"
+    matInput
+    [formControl]="myControl"
+    [matAutocomplete]="auto"
+    [pattern]="property.pattern"
+    [readonly]="readonly"
+  />
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let option of options" [value]="option">
+      {{ option }}
+    </mat-option>
+  </mat-autocomplete>
+
+  <mat-icon
+    matSuffix
+    [matTooltip]="property.description"
+    *ngIf="property.description"
+    color="primary"
+    >info</mat-icon
+  >
+
+  <mat-icon matPrefix color="primary" [matTooltip]="tooltipLink">link</mat-icon>
+
+  <mat-error *ngIf="myControl.invalid"
+    >Should be {{ property.pattern }}</mat-error
+  >
+</mat-form-field>

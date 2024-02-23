@@ -31,6 +31,14 @@ const addNumberProperty = (
   return { [valueName]: 0 };
 };
 
+const addBooleanProperty = (
+  property: SchemaProperty,
+  definitions,
+  valueName: string
+) => {
+  return { [valueName]: false };
+};
+
 const addDateTimeProperty = (
   property: SchemaProperty,
   definitions,
@@ -102,7 +110,7 @@ const addAllOfProperty = (property: SchemaProperty, definitions, valueName) => {
     }
   });
 
-  return addProperty(properties, definitions, valueName);
+  return addObjectProperty(properties, definitions, valueName);
 };
 
 const addOneOfProperty = (property: SchemaProperty, definitions, valueName) => {
@@ -120,6 +128,7 @@ const typeActions = {
   array: addArrayProperty,
   null: addNullProperty,
   number: addNumberProperty,
+  boolean: addBooleanProperty,
 };
 
 const stringFormatActions = {

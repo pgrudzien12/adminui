@@ -120,6 +120,7 @@ export class GraphApiService {
       )
       .pipe(
         map((res: any) => {
+          this._userCache[id] = res;
           return {
             id,
             displayName: res.displayName ?? 'No name application',

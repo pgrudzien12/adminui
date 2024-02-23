@@ -1,0 +1,15 @@
+<ng-container *ngIf="user.id !== 'unknown'">
+  <mat-icon color="primary" matTooltip="User" *ngIf="user.type === 'user'"
+    >person</mat-icon
+  >
+  <mat-icon
+    color="primary"
+    *ngIf="user.type === 'application'"
+    matTooltip="Application"
+    >manage_accounts</mat-icon
+  >
+</ng-container>
+
+<mat-icon color="primary" *ngIf="user.id === 'unknown'" matTooltip="Unknown"
+  >question_mark</mat-icon
+>

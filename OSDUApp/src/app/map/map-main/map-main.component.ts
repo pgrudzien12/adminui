@@ -36,7 +36,6 @@ export class MapMainComponent implements OnInit {
 
   ngOnInit(): void {
     Mapboxgl.accessToken = environment.mapboxKey;
-    console.log(Mapboxgl.accessToken);
 
     this.map = new Mapboxgl.Map({
       container: 'map-mapbox', // container ID
@@ -78,7 +77,6 @@ export class MapMainComponent implements OnInit {
     this.restService.getDataFromSearch(data).subscribe(
       (result) => {
         this.spinner.hide();
-        console.log(result);
 
         if (result && result.results) {
           const features = [];
@@ -109,12 +107,7 @@ export class MapMainComponent implements OnInit {
           });
 
           geojson.features = features;
-
-          console.log(geojson);
-        } else {
-          console.error('Data is not in the expected format!');
         }
-
         for (const feature of geojson.features) {
           // create a HTML element for each feature
           const el = document.createElement('div');
@@ -130,12 +123,10 @@ export class MapMainComponent implements OnInit {
                 )
             )
             .addTo(this.map);
-          console.log(feature.geometry.coordinates);
         }
       },
-      (err) => {
+      () => {
         this.spinner.hide();
-        console.log(err);
       }
     );
   }

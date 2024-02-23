@@ -3,8 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { ObjectViewMainComponent } from './object-view-main/object-view-main.component';
 import { ObjectAclComponent } from './object-acl/object-acl.component';
 import { EditObjectComponent } from './edit-object/edit-object.component';
+import { RoutesService } from '../common/routes.service';
 
-const baseTitle = 'Object view';
+const baseTitle = RoutesService.PAGE_TITLES.objectView;
 
 const routes: Routes = [
   {

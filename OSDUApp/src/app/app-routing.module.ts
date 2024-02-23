@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MsalGuard } from '@azure/msal-angular';
+import { RoutesService } from './common/routes.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -16,6 +17,11 @@ const routes: Routes = [
       import('./entitlements/entitlements.module').then(
         (m) => m.EntitlementsModule
       ),
+    canActivate: [MsalGuard],
+  },
+  {
+    path: 'acl',
+    loadChildren: () => import('./acl/acl.module').then((m) => m.AclModule),
     canActivate: [MsalGuard],
   },
   {
@@ -43,16 +49,11 @@ const routes: Routes = [
     canActivate: [MsalGuard],
   },
   {
-    path: 'data-platform',
+    path: 'search-kind',
     loadChildren: () =>
-      import('./data-platform/data-platform.module').then(
-        (m) => m.DataPlatformModule
+      import('./search-kind/search-kind.module').then(
+        (m) => m.SearchKindModule
       ),
-    canActivate: [MsalGuard],
-  },
-  {
-    path: 'map',
-    loadChildren: () => import('./map/map.module').then((m) => m.MapModule),
     canActivate: [MsalGuard],
   },
   {
@@ -84,11 +85,10 @@ const routes: Routes = [
     canActivate: [MsalGuard],
   },
   {
-    path: 'legal-tags',
-    loadChildren: () =>
-      import('./legal-tags/legal-tags.module').then((m) => m.LegalTagsModule),
+    path: 'map',
+    loadChildren: () => import('./map/map.module').then((m) => m.MapModule),
+    data: { title: RoutesService.PAGE_TITLES.map },
     canActivate: [MsalGuard],
-    data: { title: 'Manage legal tags' },
   },
   {
     path: 'EDS',
@@ -96,7 +96,15 @@ const routes: Routes = [
       import('./external-data-source/external-data-source.module').then(
         (m) => m.ExternalDataSourceModule
       ),
+    data: { title: RoutesService.PAGE_TITLES.externalDataSource },
     canActivate: [MsalGuard],
+  },
+  {
+    path: 'legal-tags',
+    loadChildren: () =>
+      import('./legal-tags/legal-tags.module').then((m) => m.LegalTagsModule),
+    canActivate: [MsalGuard],
+    data: { title: RoutesService.PAGE_TITLES.legalTags },
   },
 ];
 

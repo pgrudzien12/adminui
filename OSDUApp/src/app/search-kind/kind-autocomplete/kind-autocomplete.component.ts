@@ -19,9 +19,6 @@ export class KindAutocompleteComponent {
       if (typeof result === 'string') return;
 
       this.kindList = result['schemaInfos'];
-      this.kindList = this.kindList.filter((x) =>
-        x.schemaIdentity.id.startsWith('osdu:')
-      );
     });
   }
 

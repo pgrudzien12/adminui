@@ -1,76 +1,49 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
-import { RestAPILayerService } from 'src/app/common/rest-apilayer.service';
-import { OsduObject } from 'src/app/models/osdu-object.model';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   search_filterOR2,
   search_filterAND2,
   search_filter_limit,
 } from 'src/config';
 import { DataPlatformFilterElement } from '../models/data-platform-filter-element.model';
+import { Constants } from 'src/app/common/constants.service';
 
 @Component({
   selector: 'app-dataplatform-search-filters',
   templateUrl: './dataplatform-search-filters.component.html',
   styleUrls: ['./dataplatform-search-filters.component.css'],
 })
-export class DataplatformSearchFiltersComponent implements OnChanges {
-  constructor(private restService: RestAPILayerService) {}
-
+export class DataplatformSearchFiltersComponent {
   readonly tooltipLimit = `${search_filter_limit}`;
   readonly operatorTooltip = `OR: ${search_filterOR2}\n\nAND: ${search_filterAND2}`;
+  readonly operators = ['OR', 'AND'];
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.selectedKind) return;
-
-    const data = {
-      kind: this.selectedKind,
-      limit: 9999,
-    };
-
-    this.restService.getDataFromSearch(data).subscribe((result) => {
-      this.fullResult.bind(this)(result['results']);
-    });
-  }
+  fieldValueList: any = [];
 
   @Input() filtersElements: DataPlatformFilterElement[] = [
     {
-      selectedOperator: 'OR',
-      firstValue: null,
-      secondValue: null,
-      selectedField: null,
-    },
-    {
-      selectedOperator: 'OR',
-      firstValue: null,
-      secondValue: null,
+      value: null,
       selectedField: null,
     },
   ];
 
+  @Input() baseQuery: string;
+
   @Output() filtersElementsChange = new EventEmitter<
     DataPlatformFilterElement[]
   >();
+  @Output() filterData: EventEmitter<any> = new EventEmitter<any>();
+  @Output() clear = new EventEmitter<any>();
 
-  @Input() limit = 10;
+  @Input() limit = Constants.requestDefaultLimit;
   @Output() limitChange = new EventEmitter<number>();
 
-  limitList = ['5', '10', '25', '100'];
+  @Input() followingOperators: Array<'OR' | 'AND'> = [];
+  @Output() followingOperatorsChange = new EventEmitter<Array<'OR' | 'AND'>>();
 
-  get canValidate() {
-    return (
-      this.filtersElements.length > 0 && !!this.filtersElements[0].firstValue
-    );
-  }
+  limitList = [5, 25, 100, Constants.maxOSDULimit];
 
   filtersChanged() {
-    this.filtersElementsChange.emit([...this.filtersElements]);
+    this.filtersElementsChange.emit(this.filtersElements);
   }
 
   limitChanged() {
@@ -81,87 +54,19 @@ export class DataplatformSearchFiltersComponent implements OnChanges {
     this.followingOperatorsChange.emit([...this.followingOperators]);
   }
 
-  @Output() filterData: EventEmitter<any> = new EventEmitter<any>();
+  compareLimits(l1: number, l2: number) {
+    return l1 == l2;
+  }
 
-  @Output() clear = new EventEmitter<any>();
+  addCondition() {
+    this.filtersElements.push({
+      value: null,
+      selectedField: null,
+    });
+  }
 
-  readonly operators = ['OR', 'AND'];
-
-  @Input() followingOperators: Array<'OR' | 'AND'> = ['OR'];
-  @Output() followingOperatorsChange = new EventEmitter<Array<'OR' | 'AND'>>();
-
-  @Input() selectedKind: any;
-
-  wellDetails: OsduObject[] = [];
-
-  fieldValueList: any = [];
-
-  fullResult(result) {
-    let tempHeaderList = [];
-
-    let completeResult = result;
-
-    if (completeResult.length > 0) {
-      tempHeaderList = [];
-      let tempSearchArr = [];
-      let tempPassArr = [];
-
-      if (!tempHeaderList.includes('id')) {
-        tempHeaderList.push('id');
-      }
-      completeResult.forEach((element) => {
-        if (!tempHeaderList.includes('..Legal Tag')) {
-          tempHeaderList.push('.Legal Tag');
-        }
-
-        let search_data = element['data'];
-        if (search_data != undefined) {
-          let headrVals = Object.keys(search_data);
-          headrVals.forEach((ele) => {
-            if (!tempHeaderList.includes(ele)) {
-              tempHeaderList.push(ele);
-            }
-          });
-        }
-      });
-
-      completeResult.forEach((element) => {
-        let temparr = {};
-        let tempPassObject = {};
-        let TempWithoutLegal = [];
-        temparr[tempHeaderList[0]] = element['id'];
-        temparr[tempHeaderList[1]] = element['legal']['legaltags'];
-        tempPassObject[tempHeaderList[0]] = element['id'];
-        tempPassObject[tempHeaderList[1]] = element['legal']['legaltags'];
-        TempWithoutLegal = tempHeaderList.filter((x) => x != '.Legal Tag');
-        TempWithoutLegal = TempWithoutLegal.filter((x) => x != '..Id');
-
-        for (let j = 0; j < TempWithoutLegal.length; j++) {
-          if (element['data'] != undefined) {
-            if (TempWithoutLegal.includes(Object.keys(element['data'])[j])) {
-              let obkey = Object.keys(element['data'])[j];
-              let res_data = element['data'][obkey];
-              tempPassObject[obkey] = res_data;
-              if (typeof element['data'][obkey] == 'object') {
-                temparr[obkey] = JSON.stringify(res_data);
-              } else {
-                temparr[obkey] = res_data;
-              }
-            } else {
-              temparr[TempWithoutLegal[j]] = 'NA';
-              tempPassObject[TempWithoutLegal[j]] = 'NA';
-            }
-          } else {
-            temparr[TempWithoutLegal[j]] = 'NA';
-            tempPassObject[TempWithoutLegal[j]] = 'NA';
-          }
-        }
-
-        tempSearchArr.push(temparr);
-        tempPassArr.push(tempPassObject);
-      });
-
-      this.wellDetails = tempPassArr;
-    }
+  removeCondition(index: number) {
+    this.filtersElements.splice(index, 1);
   }
 }
+

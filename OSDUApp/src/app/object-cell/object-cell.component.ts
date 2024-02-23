@@ -14,8 +14,6 @@ export class ObjectCellComponent {
 
   stringified = '';
 
-  private static readonly maxLength = 50;
-
   constructor(private dialog: MatDialog) {}
 
   openDialog() {

@@ -27,8 +27,6 @@ export class UserAutocompleteComponent {
       map((join) => {
         const azureUsers = join.azureUsers ?? ([] as AzureUser[]);
         const azureApps = join.azureApps ?? ([] as AzureUser[]);
-        console.log(azureUsers);
-        console.log(azureApps);
         return [...azureUsers, ...azureApps];
       })
     );

@@ -2,7 +2,9 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -13,7 +15,7 @@ import { addProperty } from '../edit-object.helper';
   selector: 'app-add-field',
   templateUrl: './add-field.component.html',
 })
-export class AddFieldComponent {
+export class AddFieldComponent implements OnChanges {
   @Input() missingValues: Array<string> = [];
   @Input() objectProperties: any;
   @Input() definitions: any;
@@ -24,6 +26,14 @@ export class AddFieldComponent {
   selectedField = null;
 
   constructor(private dialog: MatDialog) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes.missingValues) return;
+
+    this.missingValues = this.missingValues.slice().sort((a, b) => {
+      return a.localeCompare(b, undefined, { sensitivity: 'base' });
+    });
+  }
 
   add() {
     this.dialog

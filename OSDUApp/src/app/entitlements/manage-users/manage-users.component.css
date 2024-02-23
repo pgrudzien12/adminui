@@ -59,7 +59,6 @@ th {
   cursor: pointer;
 }
 
-
 button:disabled {
   background-color: grey !important;
   border-color: grey !important;
@@ -70,4 +69,3 @@ button:disabled {
   display: flex;
   gap: 10px;
 }
-

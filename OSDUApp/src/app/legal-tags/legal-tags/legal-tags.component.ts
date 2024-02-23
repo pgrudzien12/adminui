@@ -103,7 +103,6 @@ export class LegalTagsComponent implements OnInit {
       (err) => {
         this.spinner.hide();
         this.error_Message_Div = err;
-        console.log(err);
       }
     );
   }
@@ -149,7 +148,6 @@ export class LegalTagsComponent implements OnInit {
       (err) => {
         this.spinner.hide();
         alert(err);
-        console.log(err);
       }
     );
   }
@@ -233,7 +231,7 @@ export class LegalTagsComponent implements OnInit {
               }
               that.spinner.hide();
             },
-            (err) => {
+            () => {
               that.spinner.hide();
 
               swal.fire(
@@ -241,7 +239,6 @@ export class LegalTagsComponent implements OnInit {
                   'Sorry. User is not authorized to perform this action'
                 )
               );
-              console.log(err);
             }
           );
         }
@@ -294,13 +291,6 @@ export class LegalTagsComponent implements OnInit {
         this.istoggle = !this.istoggle;
       }
     }
-  }
-
-  onItemSelect(item: any) {
-    console.log(item);
-  }
-  onSelectAll(items: any) {
-    console.log(items);
   }
 
   download() {

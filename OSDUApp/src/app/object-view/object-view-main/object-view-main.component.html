@@ -1,4 +1,4 @@
-<section style="background-color: white; padding: 20px">
+<mat-card class="mb-2">
   <div class="d-flex justify-content-between flex-warp align-items-center">
     <div class="d-flex flex-row search-container mr-2 align-items-center">
       <mat-form-field appearance="outline" class="flex-full">
@@ -108,23 +108,22 @@
       *ngIf="!objectID"
     ></app-empty-state>
   </mat-card>
+</mat-card>
 
-  <ng-container *ngIf="objectID">
-    <app-edit-object-container
-      label="Attributes"
-      icon="data_object"
-      *ngIf="objectJson"
-    >
-      <app-display-attributes
-        [object]="objectJson.data"
-      ></app-display-attributes>
-    </app-edit-object-container>
+<ng-container *ngIf="objectID">
+  <app-edit-object-container
+    label="Attributes"
+    icon="data_object"
+    *ngIf="objectJson"
+  >
+    <app-display-attributes [object]="objectJson.data"></app-display-attributes>
+  </app-edit-object-container>
 
-    <app-edit-object-container label="Meta data" icon="sell" *ngIf="metadata">
-      <app-display-attributes [object]="metadata"></app-display-attributes>
-    </app-edit-object-container>
+  <app-edit-object-container label="Meta data" icon="sell" *ngIf="metadata">
+    <app-display-attributes [object]="metadata"></app-display-attributes>
+  </app-edit-object-container>
 
-    <!-- <app-edit-object-container
+  <app-edit-object-container
     label="Associated objects"
     icon="link"
     *ngIf="objectIDWithoutVersion && !isReferenceData"
@@ -132,145 +131,128 @@
     <app-associated-objects
       [objectIDWithoutVersion]="objectIDWithoutVersion"
     ></app-associated-objects>
-  </app-edit-object-container> -->
+  </app-edit-object-container>
 
-    <app-edit-object-container
-      label="Versions"
-      icon="history"
-      *ngIf="objectIDWithoutVersion && !isReferenceData"
-    >
-      <ul class="nav nav-pills nav-justified">
-        <li
-          class="nav-item"
+  <app-edit-object-container
+    label="Versions"
+    icon="history"
+    *ngIf="objectIDWithoutVersion && !isReferenceData"
+  >
+    <app-object-versions [object]="objectJson"></app-object-versions>
+  </app-edit-object-container>
+
+  <app-edit-object-container
+    [expanded]="true"
+    label="Versionning"
+    icon="difference"
+    *ngIf="objectIDWithoutVersion && !isReferenceData"
+  >
+    <p>
+      A detailed report of changes between versions. Please select a version to
+      compare :
+    </p>
+
+    <div class="button-bar" style="display: flex">
+      <select
+        name="choice-versionning"
+        id="choice-versionning"
+        (change)="getVersionOfObject($event.target.value)"
+        [(ngModel)]="versioningSelectedVersion"
+      >
+        <option
           *ngFor="let in of counter(listVersions.length); let i = index"
+          [attr.data-hidden]="listVersions[i] === this.objectVersionView"
+          [value]="listVersions[i]"
         >
-          <a
-            class="nav-link editUserhref"
-            [class.active]="listVersions[i] === this.objectVersionView"
-            (click)="
-              searchObjects(this.objectIDWithoutVersion + ':' + listVersions[i])
-            "
-            data-toggle="tab"
-            >{{ listVersions[i] }}<br />{{
-              this.cmnSrvc.getDateFromVersion(listVersions[i] / 1000)
-            }}</a
-          >
-        </li>
-      </ul>
-    </app-edit-object-container>
+          {{ listVersions[i] }}&nbsp;&nbsp;{{
+            this.cmnSrvc.getDateFromVersion(listVersions[i] / 1000)
+          }}
+        </option>
+      </select>
 
-    <app-edit-object-container
-      [expanded]="true"
-      label="Versionning"
-      icon="difference"
-      *ngIf="objectIDWithoutVersion && !isReferenceData"
-    >
-      <p>
-        A detailed report of changes between versions. Please select a version
-        to compare :
-      </p>
-
-      <div class="button-bar" style="display: flex">
-        <select
-          name="choice-versionning"
-          id="choice-versionning"
-          (change)="getVersionOfObject($event.target.value)"
-          [(ngModel)]="versioningSelectedVersion"
+      <div class="app-container-body-compareBtn">
+        <button
+          mat-raised-button
+          color="warn"
+          (click)="compare()"
+          [disabled]="this.versioningSelectedVersion === undefined"
         >
-          <option
-            *ngFor="let in of counter(listVersions.length); let i = index"
-            [attr.data-hidden]="listVersions[i] === this.objectVersionView"
-            [value]="listVersions[i]"
-          >
-            {{ listVersions[i] }}&nbsp;&nbsp;{{
-              this.cmnSrvc.getDateFromVersion(listVersions[i] / 1000)
+          Click to get comparison between versions
+        </button>
+      </div>
+    </div>
+
+    <br />
+    <div>
+      <mat-card
+        *ngIf="diffReport && this.viewVersioning"
+        class="app-container-body-diffCard"
+      >
+        <div class="app-container-body-diffCount">
+          <div class="app-container-body-diffCount-box">
+            <div
+              class="app-container-body-diffCount-box-label"
+              style="color: gainsboro"
+            >
+              Total Difference Count : &nbsp;
+              {{ diffReport.totalDiffCount }}
+            </div>
+          </div>
+          <div class="app-container-body-diffCount-box missing">
+            <div
+              class="app-container-body-diffCount-box-label"
+              style="color: green"
+            >
+              Missing Properties : &nbsp; {{ diffReport.missingProperties }}
+            </div>
+          </div>
+          <div class="app-container-body-diffCount-box unequal">
+            <div
+              class="app-container-body-diffCount-box-label"
+              style="color: cyan"
+            >
+              Unequal Values : &nbsp; {{ diffReport.unequalValues }}
+            </div>
+          </div>
+          <div class="app-container-body-diffCount-box incorrect">
+            <div
+              class="app-container-body-diffCount-box-label"
+              style="color: red"
+            >
+              Incorrect Types : &nbsp; {{ diffReport.incorrectTypes }}
+            </div>
+          </div>
+        </div>
+        <div class="title-versions">
+          <div class="title-version1">
+            Current object : {{ this.objectVersionView }}&nbsp;&nbsp;{{
+              this.cmnSrvc.getDateFromVersion(this.objectVersionView / 1000)
             }}
-          </option>
-        </select>
-
-        <div class="app-container-body-compareBtn">
-          <button
-            mat-raised-button
-            color="warn"
-            (click)="compare()"
-            [disabled]="this.versioningSelectedVersion === undefined"
-          >
-            Click to get comparison between versions
-          </button>
-        </div>
-      </div>
-
-      <br />
-      <div>
-        <mat-card
-          *ngIf="diffReport && this.viewVersioning"
-          class="app-container-body-diffCard"
-        >
-          <div class="app-container-body-diffCount">
-            <div class="app-container-body-diffCount-box">
-              <div
-                class="app-container-body-diffCount-box-label"
-                style="color: gainsboro"
-              >
-                Total Difference Count : &nbsp;
-                {{ diffReport.totalDiffCount }}
-              </div>
-            </div>
-            <div class="app-container-body-diffCount-box missing">
-              <div
-                class="app-container-body-diffCount-box-label"
-                style="color: green"
-              >
-                Missing Properties : &nbsp; {{ diffReport.missingProperties }}
-              </div>
-            </div>
-            <div class="app-container-body-diffCount-box unequal">
-              <div
-                class="app-container-body-diffCount-box-label"
-                style="color: cyan"
-              >
-                Unequal Values : &nbsp; {{ diffReport.unequalValues }}
-              </div>
-            </div>
-            <div class="app-container-body-diffCount-box incorrect">
-              <div
-                class="app-container-body-diffCount-box-label"
-                style="color: red"
-              >
-                Incorrect Types : &nbsp; {{ diffReport.incorrectTypes }}
-              </div>
-            </div>
           </div>
-          <div class="title-versions">
-            <div class="title-version1">
-              Current object : {{ this.objectVersionView }}&nbsp;&nbsp;{{
-                this.cmnSrvc.getDateFromVersion(this.objectVersionView / 1000)
-              }}
-            </div>
-            <div class="title-version2">
-              Selected object :
-              {{ this.versioningSelectedVersionClick }}&nbsp;&nbsp;{{
-                this.cmnSrvc.getDateFromVersion(
-                  this.versioningSelectedVersionClick / 1000
-                )
-              }}
-            </div>
-            <div class="title-version2">Object with current modifications</div>
+          <div class="title-version2">
+            Selected object :
+            {{ this.versioningSelectedVersionClick }}&nbsp;&nbsp;{{
+              this.cmnSrvc.getDateFromVersion(
+                this.versioningSelectedVersionClick / 1000
+              )
+            }}
           </div>
-          <br />
-        </mat-card>
-
-        <div class="app-container-body-comparison">
-          <app-json-comparison
-            [hidden]="!this.viewVersioning"
-            [leftTree]="objectJson"
-            [rightTree]="objectJsonToCompare"
-            [hideInitialStep]="true"
-            [hideReport]="true"
-            (differenceReport)="differenceReport($event)"
-          ></app-json-comparison>
+          <div class="title-version2">Object with current modifications</div>
         </div>
+        <br />
+      </mat-card>
+
+      <div class="app-container-body-comparison">
+        <app-json-comparison
+          [hidden]="!this.viewVersioning"
+          [leftTree]="objectJson"
+          [rightTree]="objectJsonToCompare"
+          [hideInitialStep]="true"
+          [hideReport]="true"
+          (differenceReport)="differenceReport($event)"
+        ></app-json-comparison>
       </div>
-    </app-edit-object-container>
-  </ng-container>
-</section>
+    </div>
+  </app-edit-object-container>
+</ng-container>
+

@@ -75,14 +75,12 @@ export class AddACLComponent {
             (err) => {
               swal.fire(Helper.errorSweetAlertConfig(err));
               this.spinner.hide();
-              console.log(err);
             }
           );
         },
         (err) => {
           swal.fire(Helper.errorSweetAlertConfig(err));
           this.spinner.hide();
-          console.log(err);
         }
       );
   }
@@ -95,7 +93,8 @@ export class AddACLComponent {
           .filter((group) => group.startsWith('data.'));
       },
       (err) => {
-        console.log(err);
+        swal.fire(Helper.errorSweetAlertConfig(err));
+        this.spinner.hide();
       }
     );
   }

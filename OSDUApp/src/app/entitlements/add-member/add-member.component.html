@@ -51,9 +51,6 @@
 
 <div mat-dialog-actions>
   <div class="add-member-buttons-container">
-    <button mat-raised-button color="secondary" [mat-dialog-close]="false">
-      Cancel
-    </button>
     <button
       mat-raised-button
       color="primary"
@@ -61,6 +58,9 @@
       (click)="requestSubmit()"
     >
       Add member
+    </button>
+    <button mat-raised-button color="secondary" [mat-dialog-close]="false">
+      Cancel
     </button>
   </div>
 </div>

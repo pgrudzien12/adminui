@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SchemaProperty } from 'src/app/models/schema-property.model';
 import { debounceTime } from 'rxjs/operators';
+import { Constants } from 'src/app/common/constants.service';
 
 @Component({
   selector: 'app-edit-object-property-string',
@@ -15,13 +16,11 @@ export class EditObjectPropertyStringComponent implements OnInit {
 
   @Output() valueChange = new EventEmitter<string>();
 
-  private readonly debounceTime = 1500;
-
   formControl = new FormControl();
 
   ngOnInit(): void {
     this.formControl.valueChanges
-      .pipe(debounceTime(this.debounceTime))
+      .pipe(debounceTime(Constants.debounceTime))
       .subscribe((value) => {
         this.value = value;
         this.valueChange.emit(value);

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
+import { Constants } from 'src/app/common/constants.service';
 import { SchemaProperty } from 'src/app/models/schema-property.model';
 
 @Component({
@@ -17,11 +18,9 @@ export class EditObjectPropertyNumberComponent implements OnInit {
 
   formControl = new FormControl();
 
-  private readonly debounceTime = 1500;
-
   ngOnInit(): void {
     this.formControl.valueChanges
-      .pipe(debounceTime(this.debounceTime))
+      .pipe(debounceTime(Constants.debounceTime))
       .subscribe((value) => {
         this.valueChange.emit(value);
       });

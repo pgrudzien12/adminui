@@ -9,6 +9,7 @@ import swal from 'sweetalert2';
 import { from, Observable, of } from 'rxjs';
 import { OsduMember } from 'src/app/models/osdu-member.model';
 import { map, switchMap } from 'rxjs/operators';
+import { Constants } from 'src/app/common/constants.service';
 
 @Component({
   selector: 'app-add-member',
@@ -119,7 +120,7 @@ export class AddMemberComponent {
 
   private checkForUserInUserGroups(): Observable<boolean> {
     return this.restService
-      .getMembersOfEntitlementGroups(Helper.userGroup)
+      .getMembersOfEntitlementGroups(Constants.userGroup)
       .pipe(
         map((res: any) => {
           const members = <OsduMember[]>res.members;

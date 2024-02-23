@@ -1,0 +1,36 @@
+<button
+  mat-icon-button
+  color="warn"
+  matTooltip="Remove from this datagroup"
+  [disabled]="objects.length === 0"
+  (click)="openDialog()"
+>
+  <mat-icon>person_remove</mat-icon>
+</button>
+
+<ng-template #dialogTemplate>
+  <h1 mat-dialog-title>Remove objects from {{ datagroup.email }}</h1>
+
+  <div mat-dialog-content>
+    <span
+      >Are you sure you want to delete from this dataroup this list of objects
+      ?</span
+    >
+
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor="let object of objects">
+        <mat-icon color="primary" matListItemIcon class="mr-2"
+          >data_object</mat-icon
+        >{{ object.id }}</mat-list-item
+      >
+    </mat-list>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="warn" (click)="launchDelete()">
+      <mat-icon>person_remove</mat-icon>Yes
+    </button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="false">
+      <mat-icon>cancel</mat-icon> No
+    </button>
+  </div>
+</ng-template>

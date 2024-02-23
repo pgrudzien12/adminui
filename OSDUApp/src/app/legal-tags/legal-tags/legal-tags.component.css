@@ -176,7 +176,6 @@ p.tool-tip__info.tooltip_right {
   max-width: 80px;
 }
 
-
 #myInput {
   width: 300px;
   display: inline-block;
@@ -206,8 +205,8 @@ p.tool-tip__info.tooltip_right {
 }
 
 .filter-section .multiselect-dropdown .dropdown-btn .selected-item:hover {
-  box-shadow: none!important;
-  background-color: #069!important;
+  box-shadow: none !important;
+  background-color: #069 !important;
 }
 
 .filter-button-container {
@@ -218,4 +217,3 @@ p.tool-tip__info.tooltip_right {
 .filter-control {
   flex-grow: 1;
 }
-

@@ -1,7 +1,7 @@
 import { environment, scopeProctedURLs } from 'src/environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -42,6 +42,10 @@ import { DrawerItemComponent } from './drawer-item/drawer-item.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DrawerComponent } from './drawer/drawer.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AclModule } from './acl/acl.module';
+import { MonitoringService } from './common/monitoring.service';
+import { ErrorHandlerService } from './common/error-handler.service';
 
 @NgModule({
   declarations: [
@@ -67,10 +71,12 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatIconModule,
     MatButtonModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
     MatSidenavModule,
     MatExpansionModule,
     MatMenuModule,
     MatTooltipModule,
+    AclModule,
     ReactiveFormsModule,
     MatCheckboxModule,
     MsalModule.forRoot(
@@ -107,6 +113,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
       useClass: MsalInterceptor,
       multi: true,
     },
+
+    { provide: MonitoringService, useClass: MonitoringService },
+    { provide: ErrorHandler, useClass: ErrorHandlerService },
     MsalService,
     MsalGuard,
     MsalBroadcastService,

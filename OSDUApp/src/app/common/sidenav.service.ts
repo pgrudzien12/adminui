@@ -10,9 +10,13 @@ export class SidenavService {
   private _isOpened = false;
 
   public toggleSideNav() {
-    this._isOpened = !this._isOpened;
+    this.sideNavState$.next(!this._isOpened);
+  }
 
-    this.sideNavState$.next(this._isOpened);
+  constructor() {
+    this.sideNavState$.subscribe((isOpened) => {
+      this._isOpened = isOpened;
+    });
   }
 
   get isOpened() {

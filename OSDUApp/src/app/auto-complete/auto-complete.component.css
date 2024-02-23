@@ -1,11 +1,11 @@
 .mat-option-complex-text {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding: 10px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px 0px;
 }
 
 .mat-option-complex-text span {
-    opacity: 0.5;
-    font-size: 12px;
+  opacity: 0.5;
+  font-size: 12px;
 }

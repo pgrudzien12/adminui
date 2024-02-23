@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ExternalDataSourceComponent } from './external-data-source/external-data-source.component';
 import { EdsDatajobComponent } from './eds-datajob/eds-datajob.component';
 import { ExternaleMainComponent } from './externale-main/externale-main.component';
+import { RoutesService } from '../common/routes.service';
 
 const routes: Routes = [
   {
@@ -13,7 +14,7 @@ const routes: Routes = [
       {
         path: 'source',
         component: ExternalDataSourceComponent,
-        data: { title: 'External Source Registration' },
+        data: { title: RoutesService.PAGE_TITLES.externalDataSource },
       },
       { path: 'DataJob', component: EdsDatajobComponent },
     ],

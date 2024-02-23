@@ -64,6 +64,10 @@ import { EditPropertyDateComponent } from './edit-object/edit-property-date/edit
 import { MatSortModule } from '@angular/material/sort';
 import { DisplayAttributesComponent } from './display-attributes/display-attributes.component';
 import { MatTreeModule } from '@angular/material/tree';
+import { EditObjectPropertyBooleanComponent } from './edit-object/edit-object-property-boolean/edit-object-property-boolean.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { EditObjectPropertyReferencedComponent } from './edit-object/edit-object-property-referenced/edit-object-property-referenced.component';
+import { ObjectVersionsComponent } from './object-versions/object-versions.component';
 
 @NgModule({
   declarations: [
@@ -93,6 +97,9 @@ import { MatTreeModule } from '@angular/material/tree';
     OneOfSelectComponent,
     EditPropertyDateComponent,
     DisplayAttributesComponent,
+    EditObjectPropertyBooleanComponent,
+    EditObjectPropertyReferencedComponent,
+    ObjectVersionsComponent,
   ],
   imports: [
     CommonModule,
@@ -122,6 +129,8 @@ import { MatTreeModule } from '@angular/material/tree';
     MatDialogModule,
     MatChipsModule,
     MatTreeModule,
+    MatAutocompleteModule,
+    MatCheckboxModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
     AppCommonModule,

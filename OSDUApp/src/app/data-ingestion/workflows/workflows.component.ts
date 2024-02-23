@@ -40,12 +40,10 @@ export class WorkflowsComponent implements OnInit {
         this.workFlowList = result;
         this.fullWorkFlowList = result;
         this.cmnSrvc.workFlowNameList = result.map((x) => x.workflowName);
-        console.log(result);
       },
       (err) => {
         this.error_Message_Div = err;
         this.spinner.hide();
-        console.log(err);
       }
     );
   }
@@ -95,18 +93,15 @@ export class WorkflowsComponent implements OnInit {
   deleteFunc(workflowname) {
     this.spinner.show();
     this.restService.deleteWorkflowNAme(workflowname).subscribe(
-      (result) => {
+      () => {
         this.spinner.hide();
         this.workFlowList = this.workFlowList.filter(
           (x) => x.workflowName != workflowname
         );
-
-        console.log(result);
       },
       (err) => {
         this.error_Message_Div = err;
         this.spinner.hide();
-        console.log(err);
       }
     );
   }

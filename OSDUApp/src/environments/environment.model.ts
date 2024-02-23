@@ -1,4 +1,7 @@
 interface AppSettings {
+  appInsights: {
+    instrumentationKey: string;
+  };
   common: {
     entitlement_host: string;
     legal_host: string;

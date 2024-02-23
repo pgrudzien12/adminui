@@ -90,10 +90,8 @@ export class EdsDatajobComponent implements OnInit {
 
     if (format.test(val)) {
       iserror = true;
-      //return true;
     } else {
       iserror = false;
-      // return false;
     }
     if (type == 'source') {
       this.isSrcNameError = iserror;
@@ -117,9 +115,8 @@ export class EdsDatajobComponent implements OnInit {
         this.cmnSrvc.externalDataSources = result['results'];
         this.ngRegSource = this.connectedSourceId;
       },
-      (err) => {
+      () => {
         this.spinner.hide();
-        console.log(err);
       }
     );
   }
@@ -148,9 +145,8 @@ export class EdsDatajobComponent implements OnInit {
           this.resetForm('job');
         }
       },
-      (err) => {
+      () => {
         this.spinner.hide();
-        console.log(err);
       }
     );
   }
@@ -186,7 +182,6 @@ export class EdsDatajobComponent implements OnInit {
       this.ngSelectedJobID = id;
       this.EDSWorkFlowList = [];
     } else {
-      //  tempList.push(eds_datajob)
       tempList = this.EDSDataJobFullList.filter((x) => x.id == val)[0];
       this.selectedDataFlowDetail = tempList;
       this.ngSelectedJobID = this.selectedDataFlowDetail['id'];
@@ -281,23 +276,10 @@ export class EdsDatajobComponent implements OnInit {
       this.isError = true;
       this.errorMessge = 'Please enter all the required fields';
     } else {
-      // let wfcount=0;
-      // let tagvlues=this.EDSWorkFlowList.map(x=>x.Tag);
-      // if(tagvlues.toString().toLowerCase().includes("fetch") && tagvlues.toString().toLowerCase().includes("delivery")){
-      //   wfcount+=1;
-      // }
-
-      // if(wfcount==0){
-      //   this.isError=true;
-      //   this.isSuccess=false;
-      //   this.errorMessge="A data job should contain atleast a Fetch and a Delivery Work Flow."
-      // }
-      // else{
       this.isError = false;
       DataJobResult = this.selectedDataFlowDetail;
       DataJobResult['data'] = {
         Name: this.ngSelectedJobName,
-        // "ConnectedSourceRegistryEntryID": this.ngSelectedJobID,
         ActiveIndicator: this.ngJobActive,
         FetchKind: this.ngSelectedFetchKind,
         Filter: this.ngFetchFilter,
@@ -307,60 +289,11 @@ export class EdsDatajobComponent implements OnInit {
       DataJobResult['ID'] = this.ngSelectedJobID;
       this.DataJobFinalResult = DataJobResult;
       this.ngFinalJobActive = this.ngJobActive;
-      //this.SourceRegDetail=this.sourceRegFinalResult;
       Object.keys(this.DataJobFinalResult['data']['Workflows'][0]).forEach(
         (element) => {
           this.WorkFlowPreviewHeader.push(element);
         }
       );
-
-      const data = {
-        runId: this.ngSelectedJobName.replace(/ /g, '_') + '-' + this.newGuid(),
-        executionContext: {
-          acl: environment.settings.eds.acl,
-          legal: environment.settings.eds.legal,
-          Payload: environment.settings.eds.Payload,
-          manifest: {
-            kind: 'osdu:wks:Manifest:1.0.0',
-            MasterData: [
-              {
-                id: this.ngSelectedJobID,
-                kind: 'osdu:wks:master-data--ConnectedSourceDataJob:1.0.0',
-                data: {
-                  Name: this.ngSelectedJobName,
-                  ConnectedSourceRegistryEntryID: this.ngRegSource,
-                  ActiveIndicator: this.ngJobActive,
-                  FetchKind: this.ngSelectedFetchKind,
-                  Filter: this.ngFetchFilter,
-                  ConnectedSourceDataPartitionID:
-                    this.ngSelectedSourcePartition,
-                  ScheduleUTC: this.ngSelectedUTC,
-                  OnIngestionPartitionID: this.ngSelectedIngestionPartition,
-                  OnIngestionLegalTags: environment.settings.eds.legal,
-                  OnIngestionAcl: environment.settings.eds.acl,
-                  Workflows: this.EDSWorkFlowList,
-                  //  [
-                  //     {
-                  //         "Tag": "FETCH",
-                  //         "Handler": "eds_ingest",
-                  //         "SecuritySchemeName":"OAuth2_PasswordCredentials",
-                  //         "Url": "https://api-demo3.mykdm.com/osdu-eds/v1/query"
-                  //     }
-                  // ]
-                },
-                acl: environment.settings.eds.acl,
-                legal: environment.settings.eds.legal,
-              },
-            ],
-          },
-        },
-      };
-
-      console.log(data);
-
-      // this.isPreview=true;
-      // this.stepper.next()
-      // }
     }
   }
 
@@ -369,13 +302,10 @@ export class EdsDatajobComponent implements OnInit {
     this.connectedSourceId = this.ngRegSource;
     this.getConnectionSourceDataJob();
     this.isViewDataJob = true;
-
-    // this.openModalEdit('edit',this.ngDataJob);
   }
 
   previous() {
     this.router.navigate(['/EDS/source']);
-    // this.stepper.previous()
   }
 
   resetForm(type) {

@@ -57,9 +57,8 @@ export class EditLegalTagsComponent implements OnInit {
         }
         this.spinner.hide();
       },
-      (err) => {
+      () => {
         this.spinner.hide();
-        console.log(err);
       }
     );
   }

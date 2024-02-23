@@ -5,6 +5,7 @@ import { Helper } from 'src/app/common/helper.service';
 import { SelectDownloadComponent } from '../select-download/select-download.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RestAPILayerService } from 'src/app/common/rest-apilayer.service';
+import { ConnectorService } from 'src/app/common/connector.service';
 
 @Component({
   selector: 'app-associated-objects',
@@ -57,7 +58,7 @@ export class AssociatedObjectsComponent implements OnChanges {
     this.tabAssociatedIndexFiles = undefined;
     this.buildTabWithAssociastedObjectsData_done = false;
     this.buildTabObjectFilesAssociated_done = false;
-    this.restService.getAssociatedObjects(objId).subscribe(
+    this.connectorService.getAssociatedObjects(objId).subscribe(
       (listAssociatedObjs) => {
         this.attributeCounterLink = 0;
 
@@ -89,7 +90,7 @@ export class AssociatedObjectsComponent implements OnChanges {
     this.tabAssociatedIndexFiles = undefined;
     this.buildTabWithAssociastedObjectsData_done = false;
     this.buildTabObjectFilesAssociated_done = false;
-    this.restService.getAllAssociatedObjects(objId).subscribe(
+    this.connectorService.getAllAssociatedObjects(objId).subscribe(
       (listAssociatedObjs) => {
         this.attributeCounterLink = 0;
 
@@ -113,7 +114,6 @@ export class AssociatedObjectsComponent implements OnChanges {
       },
       (err) => {
         swal.fire(Helper.errorSweetAlertConfig(err));
-        console.log(err);
       }
     );
   }
@@ -233,7 +233,8 @@ export class AssociatedObjectsComponent implements OnChanges {
   constructor(
     private modalService: NgbModal,
     private restService: RestAPILayerService,
-    private cmnSrvc: CommonService
+    private cmnSrvc: CommonService,
+    private connectorService: ConnectorService
   ) {}
 
   ngOnChanges(): void {

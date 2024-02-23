@@ -17,6 +17,7 @@ export class EditObjectPropertyComponent {
   @Input() valueName: string;
   @Input() readonly = false;
   @Input() expanded = false;
+  @Input() displayDelete = true;
   @Output() valueChange = new EventEmitter<any>();
 
   valueChanged(event: any) {
@@ -29,7 +30,8 @@ export class EditObjectPropertyComponent {
       (this.property && this.property.type === 'string') ||
       this.property.type === 'number' ||
       this.property.type === 'array' ||
-      this.property.type == 'object'
+      this.property.type == 'object' ||
+      (this.property !== undefined && this.property.type == 'boolean')
     );
   }
 

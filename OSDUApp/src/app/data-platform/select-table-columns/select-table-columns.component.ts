@@ -6,6 +6,8 @@ import {
   EventEmitter,
   ViewChild,
   ElementRef,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -14,14 +16,14 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Helper } from 'src/app/common/helper.service';
+import { Constants } from 'src/app/common/constants.service';
 
 @Component({
   selector: 'app-select-table-columns',
   templateUrl: './select-table-columns.component.html',
 })
-export class SelectTableColumnsComponent implements OnInit {
-  private readonly mandatoryColumns = Helper.objectMandatoryColumns;
+export class SelectTableColumnsComponent implements OnInit, OnChanges {
+  private readonly mandatoryColumns = Constants.objectMandatoryColumns;
 
   displayedColumns: string[] = [...this.mandatoryColumns];
 
@@ -35,7 +37,7 @@ export class SelectTableColumnsComponent implements OnInit {
 
   @ViewChild('colInput') colInput: ElementRef<HTMLInputElement>;
 
-  displayInput = false;
+  displayInput = true;
 
   filteredCols: Observable<string[]>;
 
@@ -44,9 +46,7 @@ export class SelectTableColumnsComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute) {
     this.filteredCols = this.colCtrl.valueChanges.pipe(
       startWith(null),
-      map((col: string | null) =>
-        col ? this.filter(col) : this.allColumns.slice()
-      )
+      map((col: string | null) => this.filter(col))
     );
   }
 
@@ -82,11 +82,13 @@ export class SelectTableColumnsComponent implements OnInit {
   }
 
   private filter(filter: string) {
-    return this.allColumns.filter(
-      (col) =>
-        !this.displayedColumns.includes(col) &&
-        col.toLocaleLowerCase().includes(filter.toLowerCase())
-    );
+    return filter
+      ? this.allColumns.filter(
+          (col) =>
+            !this.displayedColumns.includes(col) &&
+            col.toLocaleLowerCase().includes(filter.toLowerCase())
+        )
+      : this.allColumns.filter((col) => !this.displayedColumns.includes(col));
   }
 
   private meregeParams() {
@@ -113,5 +115,15 @@ export class SelectTableColumnsComponent implements OnInit {
       this.displayedColumns = JSON.parse(param);
       this.displayedColumnsChange.emit(this.displayedColumns);
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes.allColumns) return;
+
+    this.displayedColumns = this.displayedColumns.filter((el) =>
+      this.allColumns.find((all) => all === el)
+    );
+
+    this.displayedColumnsChange.emit(this.displayedColumns);
   }
 }

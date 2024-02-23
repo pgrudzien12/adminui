@@ -1,0 +1,14 @@
+<div class="d-flex flex-gap">
+  <mat-checkbox
+    [disabled]="readonly"
+    [checked]="value"
+    (change)="checkChange($event)"
+    >{{ valueName }}</mat-checkbox
+  >
+  <mat-icon
+    [matTooltip]="property.description"
+    *ngIf="property.description"
+    color="primary"
+    >info</mat-icon
+  >
+</div>

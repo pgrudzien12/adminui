@@ -170,7 +170,8 @@ export class ObjectViewMainComponent implements OnInit {
   }
 
   downloadJsonObject() {
-    const blob = new Blob([JSON.stringify(this.objectJson)], {
+    const jsonSpace = 2;
+    const blob = new Blob([JSON.stringify(this.objectJson, null, jsonSpace)], {
       type: 'application/json',
     });
     saveAs(blob, this.objectID + '.json');
@@ -257,7 +258,6 @@ export class ObjectViewMainComponent implements OnInit {
       (err) => {
         swal.fire(Helper.errorSweetAlertConfig(err));
         this.spinner.hide();
-        console.log(err);
       }
     );
   }

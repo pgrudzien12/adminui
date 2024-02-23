@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from 'src/app/common/common.service';
 import { RestAPILayerService } from 'src/app/common/rest-apilayer.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { Helper } from 'src/app/common/helper.service';
+import { ConnectorService } from 'src/app/common/connector.service';
 @Component({
   selector: 'app-ref-data-main',
   templateUrl: './ref-data-main.component.html',
@@ -25,10 +26,10 @@ export class RefDataMainComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private modalService: NgbModal,
     public cmnSrvc: CommonService,
     private restService: RestAPILayerService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private connectorService: ConnectorService
   ) {
     this.modalOptions = {
       backdrop: 'static',
@@ -47,7 +48,6 @@ export class RefDataMainComponent implements OnInit {
       );
     }
     this.searchReferenceRequest = this.cmnSrvc.referenceQuery;
-    console.log(this.searchReferenceRequest);
     if (this.searchReferenceRequest != undefined) {
       this.getObjectsByKind(this.searchReferenceRequest);
     } else {
@@ -78,8 +78,6 @@ export class RefDataMainComponent implements OnInit {
         } else {
           this.errorMessage = err;
         }
-
-        console.log(err);
       }
     );
   }
@@ -98,9 +96,8 @@ export class RefDataMainComponent implements OnInit {
 
   getObjectsByKind(kind) {
     this.cmnSrvc.referenceQuery = kind;
-    this.restService.getObjectsByKind(kind).subscribe(
+    this.connectorService.getObjectsByKind(kind).subscribe(
       (resultSearchQuery) => {
-        console.log(resultSearchQuery);
         this.resultRefSearchQuery = resultSearchQuery['results'];
         this.resultRefSearchQueryFilter = resultSearchQuery['results'];
         this.resultRefSearchQueryCount = resultSearchQuery['results'].length;
@@ -110,7 +107,6 @@ export class RefDataMainComponent implements OnInit {
       (err) => {
         swal.fire(Helper.errorSweetAlertConfig(err));
         this.spinner.hide();
-        console.log(err);
       }
     );
   }
