@@ -213,10 +213,10 @@ export class RestAPILayerService {
     );
   }
 
-  addMemberToPrivilegeGroup(emailmember, privilegelevel) {
+  addMemberToPrivilegeGroup(emailmember, privilegelevel, role) {
     const data = {
       email: emailmember,
-      role: 'MEMBER',
+      role: role,
     };
     if (privilegelevel == 'editor') {
       return this.addMemberGroup(
@@ -225,10 +225,17 @@ export class RestAPILayerService {
           environment.settings.data_partition +
           '.dataservices.energy'
       );
-    } else {
+    } else if (privilegelevel == 'viewer') {
       return this.addMemberGroup(
         data,
         'users.datalake.viewers@' +
+          environment.settings.data_partition +
+          '.dataservices.energy'
+      );
+    } else {
+      return this.addMemberGroup(
+        data,
+        'users.datalake.admins@' +
           environment.settings.data_partition +
           '.dataservices.energy'
       );

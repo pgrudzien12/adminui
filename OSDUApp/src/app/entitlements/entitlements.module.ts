@@ -33,6 +33,7 @@ import { MatCardModule } from '@angular/material/card';
 import { UserMembershipsComponent } from './user-memberships/user-memberships.component';
 import { EditUserRoleComponent } from './edit-user-role/edit-user-role.component';
 import { GroupListComponent } from './group-list/group-list.component';
+import { AddGroupComponent } from './add-group/add-group.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
@@ -55,6 +56,7 @@ import { MatSortModule } from '@angular/material/sort';
     UserMembershipsComponent,
     EditUserRoleComponent,
     GroupListComponent,
+    AddGroupComponent,
   ],
   imports: [
     CommonModule,

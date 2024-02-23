@@ -102,6 +102,7 @@ export const roleList = [
 export const privilegeLevel = [
   { id: 1, name: 'viewer' },
   { id: 2, name: 'editor' },
+  { id: 3, name: 'admin' },
 ];
 export const eds_OSDUPlatformImplementation = [
   'Full OSDU Platform',
@@ -288,3 +289,6 @@ export const eds_datajob = {
     ],
   },
 };
+
+//to fetch wellbore name from NameAliases array object(osdu:wks:master-data--Wellbore)
+export const wellboreAliasName = 'WellboreName';

@@ -153,3 +153,7 @@ th {
 .flex-full {
   flex: 1;
 }
+
+.filter-btn {
+  height: fit-content;
+}

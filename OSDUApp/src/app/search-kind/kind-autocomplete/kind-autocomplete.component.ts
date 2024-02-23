@@ -23,10 +23,20 @@ export class KindAutocompleteComponent {
   }
 
   refreshedList$(filter: string): Observable<OsduKind[]> {
-    if (!filter || typeof filter !== 'string') return of(this.kindList);
+    if (!filter || typeof filter !== 'string')
+      return of(
+        this.populateKindListWithNoVersion(this.kindList).sort(
+          this.sortOsduKindList
+        )
+      );
+
+    const filteredArray = this.kindList.filter((k) =>
+      k.schemaIdentity.id.toLowerCase().includes(filter.toLowerCase())
+    );
+
     return of(
-      this.kindList.filter((k) =>
-        k.schemaIdentity.id.toLowerCase().includes(filter.toLowerCase())
+      this.populateKindListWithNoVersion(filteredArray).sort(
+        this.sortOsduKindList
       )
     );
   }
@@ -43,5 +53,42 @@ export class KindAutocompleteComponent {
 
   displayFn(element: OsduKind) {
     return element ? Helper.displayOsduKind(element) : '';
+  }
+
+  populateKindListWithNoVersion(osduKindList: OsduKind[]): OsduKind[] {
+    const kindSet = new Set();
+
+    osduKindList.forEach((kind) => {
+      const kindSplitArray = kind.schemaIdentity.id.split(':');
+      kindSplitArray.pop();
+      const idWithoutVersion = `${kindSplitArray.join(':')}:*`;
+      kindSet.add(idWithoutVersion);
+    });
+
+    const kindArrayNoVersion: OsduKind[] = Array.from(kindSet).map(
+      (id: string) => {
+        return {
+          createdBy: 'adminUi',
+          dateCreated: '',
+          schemaIdentity: {
+            id,
+            authority: '',
+            entityType: '',
+            schemaVersionMajor: 0,
+            schemaVersionMinor: 0,
+            schemaVersionPatch: 0,
+            source: '',
+          },
+          scope: '',
+          status: '',
+        };
+      }
+    );
+
+    return [...osduKindList, ...kindArrayNoVersion];
+  }
+
+  sortOsduKindList(a: OsduKind, b: OsduKind) {
+    return a.schemaIdentity.id.localeCompare(b.schemaIdentity.id);
   }
 }

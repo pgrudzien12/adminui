@@ -108,6 +108,13 @@ export class Constants {
           openInTab: false,
           children: [],
         },
+        {
+          icon: 'merge',
+          label: 'Well & wellbore data',
+          value: '/join-data',
+          openInTab: false,
+          children: [],
+        },
       ],
     },
   ];
@@ -121,5 +128,9 @@ export class Constants {
   static readonly maxOSDULimit = 1000;
 
   static readonly requestDefaultLimit = 100;
+
+  static readonly filtersElementStorageKey = 'filtersElements';
+
+  static readonly followingOperatorsStorageKey = 'followingOperators';
 }
 

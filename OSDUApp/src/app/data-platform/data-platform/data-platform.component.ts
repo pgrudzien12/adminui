@@ -8,6 +8,7 @@ import { DataPlatformFilterData } from '../models/data-platform-filter-data.mode
 import { DataPlatformFilterElement } from '../models/data-platform-filter-element.model';
 import { Helper } from 'src/app/common/helper.service';
 import { Constants } from 'src/app/common/constants.service';
+import { CommonService } from 'src/app/common/common.service';
 
 const defaultFiltersElements = [
   {
@@ -33,6 +34,7 @@ export class DataPlatformComponent implements OnInit {
   @Input() canSelect: (osduObject: OsduObject) => boolean = () => true;
 
   objectList: OsduObject[] = [];
+  queryString = null;
 
   limit = Constants.requestDefaultLimit;
   length = 0;
@@ -47,12 +49,15 @@ export class DataPlatformComponent implements OnInit {
 
   storageKindList = [];
   isUserOwned: boolean = false;
+  kindData: { queryData: any; selectedStorageKindId: string };
+  selectedField: string = '';
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private restService: RestAPILayerService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private cmnSrvc: CommonService
   ) {}
 
   ngOnInit(): void {
@@ -121,11 +126,22 @@ export class DataPlatformComponent implements OnInit {
   private getSearchResults(data: DataPlatformFilterData) {
     this.spinner.show();
     data.queryAsOwner = this.isUserOwned;
-
     this.restService.getDataFromSearch(data).subscribe(
       (result) => {
         this.spinner.hide();
         this.objectList = result['results'];
+        this.cmnSrvc.queryData = {
+          objectLength: this.objectList.length,
+          query: this.queryString,
+          limit: this.limit,
+          queryAsOwner: this.isUserOwned,
+        };
+        this.kindData = {
+          queryData: this.cmnSrvc.queryData,
+          selectedStorageKindId: this.cmnSrvc.selectedStorageKindId,
+        };
+        localStorage.setItem('searchKindData', JSON.stringify(this.kindData));
+        localStorage.setItem('isQueryNavigate', 'false');
       },
       () => {
         this.spinner.hide();
@@ -168,5 +184,30 @@ export class DataPlatformComponent implements OnInit {
 
   userOwnedSearch() {
     this.launchSearch();
+  }
+
+  navigateToMap() {
+    localStorage.setItem(
+      Constants.filtersElementStorageKey,
+      JSON.stringify(this.filtersElements)
+    );
+
+    localStorage.setItem(
+      Constants.followingOperatorsStorageKey,
+      JSON.stringify(this.followingOperators)
+    );
+
+    this.router.navigate(['/map']);
+  }
+
+  ngOnDestroy(): void {
+    localStorage.removeItem('isNavigateFromMergeData');
+  }
+
+  get canDisplayMap() {
+    return (
+      this.objectList.length > 0 &&
+      this.baseQuery?.kind.includes('master-data--Well:*')
+    );
   }
 }
