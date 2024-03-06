@@ -16,6 +16,7 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
+    cd OSDUApp
     npm install
     npm install -g @angular/cli@13.3.9
     ng build --environment production
